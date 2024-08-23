@@ -11,7 +11,7 @@ export default class RegisterModal extends Component {
 
         this.customStyles = {
             content: {
-                top: "50%",
+                top: "45%",
                 left: "50%",
                 right: "auto",
                 marginRight: "-50%",

@@ -9,6 +9,7 @@ import Store from "./pages/store";
 import NoMatch from "./pages/no-match";
 import LoginModal from "./modals/login-modal";
 import RegisterModal from "./modals/register-modal";
+import Footer from './footer/footer';
 
 
 export default class App extends Component {
@@ -133,11 +134,9 @@ export default class App extends Component {
               openLoginModal={this.openLoginModal}
               handleSuccessfulRegister={this.handleSuccessfulRegister}
             />
+             <Footer />
           </div>
-
-
         </Router>
-
       </div>
     );
   }

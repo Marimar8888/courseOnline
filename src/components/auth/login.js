@@ -111,7 +111,6 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-
         <div className='title-login'>
           <h2>INICIA SESIÓN EN STUDY ONLINE</h2>
         </div>

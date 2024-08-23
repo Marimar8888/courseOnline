@@ -105,7 +105,6 @@ export default class Register extends Component {
     render() {
         return (
             <div>
-
                 <div className='title-login'>
                     <h2>REGISTRATE Y EMPIEZA A APRENDER</h2>
                 </div>

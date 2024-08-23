@@ -1,7 +1,8 @@
 .nav-wrapper {
   display: flex;
   justify-content: space-between;
-  padding: 30px;
+  width: 90vw;
+  padding: 20px 50px;
 
   .right-side {
     a {
@@ -28,6 +29,7 @@
     padding: 15px;
     text-transform: uppercase;
     font-size: 0.9rem;
+    border-radius: 5%;
 
     &:hover {
       background-color: #faf8f8;

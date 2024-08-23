@@ -1,0 +1,126 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    box-sizing: border-box;
+    width: 90vw;
+    margin: 0 auto;
+  }
+  
+  .home-carrousell-image-wrapper {
+    display: flex;
+    width: 100%;
+    height: 500px; 
+    transition: transform 0.5s ease-in-out;
+    position: relative; 
+  
+  }
+  
+  .home-carrousell-image {
+    height: 500px; 
+    background-color: #ccc; 
+    width: 100%;
+    margin: 0 auto;
+  
+      img{
+        width: 100%;
+        height: 100%;
+       
+      }
+  }
+  
+  .home-section-course-wrapper {
+    background-color: #fff; 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .home-section-course-text {
+    margin-bottom: 20px;
+  }
+  
+  .home-section-course-selector {
+    display: flex;
+    gap: 10px; 
+    font-size: 1rem;
+    color: #000; 
+     
+    p {
+      margin: 0;
+      padding: 10px;
+      border: 0px solid #ddd;
+      color: $midiumgrey;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.5s ease-in-out;
+         
+      &:hover {
+        color: black;
+        font-style: bold;
+      }
+    }
+  }
+  
+  .home-section-course-carrousel {
+    background-color: #f9f9f9; 
+    height: 300px; 
+    width: 100%;
+    justify-items: center;
+  }
+  
+  .store-section-categories-wrapper {
+    background-color: #fff; 
+    padding: 20px;
+    width: 90%;
+   
+  }
+  
+  .home-section-categories-text {
+    margin-bottom: 20px;
+    padding-left: 110px;
+  }
+  
+  .home-section-categories-links-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 10px; 
+    justify-items: center; 
+    padding: 0 60px;
+  }
+  
+  .home-section-categories-links-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 200px;
+  }
+  
+  .home-section-categories-links-image-button {
+  
+    background-color: #e4dede;
+    width: 100%; 
+    height: 180px;
+    padding: 22px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background-color 0.3s;
+   
+    &:hover {
+      background-color: #d0d0d0; 
+    }
+  
+     img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; 
+    }
+  }
+  
+  .home-section-categories-links-image-text {
+    padding: 10px;
+    text-align: center;
+    color: #000; 
+  }
+  
