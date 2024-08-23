@@ -3,7 +3,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter } from "react-router";
 import { NavLink } from "react-router-dom";
 
-const NavBarComponent  = (props) => {
+const NavBarContainer  = (props) => {
+
+  if (typeof props.openModal !== 'function') {
+    console.error('openModal is not defined or not a function');
+    return null;
+}
+const handleSignOut = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user_name'); 
+  props.history.push("/");
+  props.handleSuccessfulLogout();
+};
+
+const userName = localStorage.getItem('user_name');
  
   return (
     <div className="nav-wrapper">
@@ -22,11 +35,17 @@ const NavBarComponent  = (props) => {
       </div>
     </div>
     <div className="right-side">
-      <a  className="nav-icon">
-        <FontAwesomeIcon icon="sign-out-alt" />
-        </a>
+    {userName ? userName : ""}
+        {props.loggedInStatus === "LOGGED_IN" ? (
+          <a onClick={handleSignOut}>
+            <FontAwesomeIcon icon="sign-out-alt" />
+          </a>) : (
+            <a onClick={props.openModal} className="nav-icon">
+              <FontAwesomeIcon icon="door-open" />
+            </a>
+          )} 
     </div>
   </div>
   );
 }
-export default withRouter(NavBarComponent)
+export default withRouter(NavBarContainer)

@@ -1,0 +1,56 @@
+.title-login {
+    text-align: center
+}
+
+.auth-form-wrapper{
+    @include input-element;
+    @include base-grid;
+    gap: 21px;
+    padding: 42px;
+    overflow: hidden;
+    
+    .form-group{
+        display: flex;
+
+        svg {
+            font-size: 2em;
+            color: $blue;
+            margin-right: 15px;
+        }
+    }
+
+    .links-login-modal-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .link-forgot-pass {
+            color: $blue;
+            font-weight: 700;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: 0.5 ease-in-out;
+
+            &:hover {
+                color: $dark-blue;
+            }
+        }
+
+        .link-register {
+            .register-link {
+                color: $blue;
+                font-weight: 700;
+                font-size: 1.2em;
+                padding-left: 10px;
+                cursor: pointer;
+                transition: 0.5 ease-in-out;
+                
+                &:hover {
+                    color: $dark-blue;
+                }
+            }
+        }
+    }
+}
+
