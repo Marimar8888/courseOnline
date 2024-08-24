@@ -10,6 +10,7 @@ import NoMatch from "./pages/no-match";
 import LoginModal from "./modals/login-modal";
 import RegisterModal from "./modals/register-modal";
 import Footer from './footer/footer';
+import StoreContainer from './store/store-container';
 
 
 export default class App extends Component {
@@ -119,7 +120,7 @@ export default class App extends Component {
               <Route 
                 path="/store/:slug" 
                 render={props => (
-                  <Store {...props} loggedInStatus={this.state.loggedInStatus}/>
+                  <StoreContainer {...props} loggedInStatus={this.state.loggedInStatus}/>
                 )} 
               />
               <Route path="/about" component={About} />
