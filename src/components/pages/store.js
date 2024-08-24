@@ -1,11 +1,42 @@
-import React from 'react';
+import React, {Component} from 'react';
+import axios from "axios";
+import { API_URL } from '../utils/constant';
 
-export default function () {
-  return (
-    <div className="content-page-wrapper">
+class Store extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      categoryId: this.props.match.params.slug
+    };
+  }
 
-        <h1>Store</h1>
+  getCourseItem() {
+    axios
+      .get(
+        `${API_URL}/portfolio_blogs/${
+          this.state.categoryId
+        }`
+      )
+      .then(response => {
+        this.setState({
+          blogItem: response.data.portfolio_blog
+        });
+      })
+      .catch(error => {
+        console.log("getBlogItem error", error);
+      });
+  }
 
-    </div>
-  )
+  render(){
+    return (
+      <div className="content-page-wrapper">
+  
+          <h1>Store</h1>
+  
+      </div>
+    )
+  }
 }
+
+export default Store;
+

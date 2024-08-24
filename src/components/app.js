@@ -116,7 +116,12 @@ export default class App extends Component {
             />
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/store" component={Store} />
+              <Route 
+                path="/store/:slug" 
+                render={props => (
+                  <Store {...props} loggedInStatus={this.state.loggedInStatus}/>
+                )} 
+              />
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
               <Route component={NoMatch} />
