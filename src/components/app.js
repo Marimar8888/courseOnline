@@ -11,6 +11,7 @@ import LoginModal from "./modals/login-modal";
 import RegisterModal from "./modals/register-modal";
 import Footer from './footer/footer';
 import StoreContainer from './store/store-container';
+import Dashboard from './pages/dashboard';
 
 
 export default class App extends Component {
@@ -117,14 +118,21 @@ export default class App extends Component {
             />
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route 
-                path="/store/:slug" 
+              <Route
+                path="/store/:slug"
                 render={props => (
-                  <StoreContainer {...props} loggedInStatus={this.state.loggedInStatus}/>
-                )} 
+                  <StoreContainer {...props} loggedInStatus={this.state.loggedInStatus} />
+                )}
+              />
+              <Route
+                path="/store"
+                render={props => (
+                  <StoreContainer {...props} loggedInStatus={this.state.loggedInStatus} />
+                )}
               />
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
+              <Route path="/dashboard" component={Dashboard} />
               <Route component={NoMatch} />
             </Switch>
             <LoginModal
@@ -140,7 +148,7 @@ export default class App extends Component {
               openLoginModal={this.openLoginModal}
               handleSuccessfulRegister={this.handleSuccessfulRegister}
             />
-             <Footer />
+            <Footer />
           </div>
         </Router>
       </div>

@@ -33,6 +33,9 @@ const userName = localStorage.getItem('user_name');
       <div className="nav-link-wrapper">
         <NavLink to="/contact" activeClassName="nav-link-active">Contact</NavLink>
       </div>
+      <div className="nav-link-wrapper">
+        <NavLink to="/dashboard" activeClassName="nav-link-active">Dashboard</NavLink>
+      </div>
     </div>
     <div className="right-side">
     {userName ? userName : ""}

@@ -7,13 +7,44 @@ class StoreContainer extends Component {
         super(props);
         this.state = {
             courses: [],
-            categoryId: this.props.match.params.slug,
+            categoryId: this.props.match.params.slug || null,
             categoryName: ""
         };
     }
 
     componentDidMount() {
-        this.getCategoryItem();
+        this.loadCourses();
+    }
+
+    componentDidUpdate(prevProps){
+        if (this.props.match.params.slug !== prevProps.match.params.slug) {
+            this.setState({
+                    categoryId: this.props.match.params.slug || null 
+                },
+                this.getAllCourses 
+            );
+        }
+    }
+
+    loadCourses = () => {
+        if (this.state.categoryId) {
+            this.getCategoryItem();
+        }else{
+            this.getAllCourses();
+        }
+    }
+
+    getAllCourses() {
+        axios
+            .get(
+                `${API_URL}/courses`
+            )
+            .then(response => {
+                this.setState({
+                    courses: response.data,
+                    categoryName: "All Courses"
+                })
+            })
     }
 
     getCategoryItem() {
@@ -24,7 +55,8 @@ class StoreContainer extends Component {
             .then(response => {
                 this.setState({ 
                     categoryId: response.data.categories_id,
-                    categoryName: response.data.categories_name
+                    categoryName: response.data.categories_name,
+                    courses: []
                 }, () => {
                     this.getCourseByCategory();
                 });
@@ -41,9 +73,8 @@ class StoreContainer extends Component {
             )
             .then(response => {
                 this.setState({
-                    courses: response.data
+                    courses: response.data,
                 });
-                console.log('courses', this.state.courses);
             })
             .catch(error =>{
                 console.log('getCourseByCategory error', error);
@@ -61,7 +92,7 @@ class StoreContainer extends Component {
                             <img 
                                 src={course.courses_image} 
                                 alt={course.courses_title} 
-                                style={{ maxWidth: '40%', height: 'auto' }}
+                                style={{ maxWidth: '30%', height: 'auto' }}
                             />
                             <p>{course.courses_content}</p>
                         </div>
