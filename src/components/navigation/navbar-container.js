@@ -4,11 +4,19 @@ import { withRouter } from "react-router";
 import { NavLink } from "react-router-dom";
 
 const NavBarContainer  = (props) => {
-
   if (typeof props.openModal !== 'function') {
     console.error('openModal is not defined or not a function');
     return null;
 }
+
+const dynamicLink = (route, linkText) => {
+  return(
+    <div className="nav-link-wrapper">
+      <NavLink to={route} activeClassName="nav-link-active">{linkText}</NavLink>
+    </div>
+  );
+};
+
 const handleSignOut = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user_name'); 
@@ -33,9 +41,7 @@ const userName = localStorage.getItem('user_name');
       <div className="nav-link-wrapper">
         <NavLink to="/contact" activeClassName="nav-link-active">Contact</NavLink>
       </div>
-      <div className="nav-link-wrapper">
-        <NavLink to="/dashboard" activeClassName="nav-link-active">Dashboard</NavLink>
-      </div>
+      {props.loggedInStatus === "LOGGED_IN" ? (dynamicLink("/dashboard", "Dashboard")) : null }
     </div>
     <div className="right-side">
     {userName ? userName : ""}

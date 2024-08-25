@@ -106,6 +106,14 @@ export default class App extends Component {
   componentDidMount() {
     this.checkLoginStatus();
   }
+
+  authorizedPages() {
+    return [
+      <Route key="dashboard" path="/dashboard" component={Dashboard}/>,
+    
+    ];
+  }
+
   render() {
     return (
       <div className="container">
@@ -133,6 +141,7 @@ export default class App extends Component {
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
               <Route path="/dashboard" component={Dashboard} />
+              {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedPages()) : null}
               <Route component={NoMatch} />
             </Switch>
             <LoginModal
