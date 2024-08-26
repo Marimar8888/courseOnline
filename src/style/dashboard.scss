@@ -1,0 +1,52 @@
+.dashboard-container-wrapper{
+    display: flex;
+    flex-direction: column;
+
+    background-color: $lightgrey; 
+
+  .dashboard-container  {
+    justify-content: center;
+    margin: 50px auto; 
+    width: 60%;
+    min-height: 500px;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+
+    .dashboard-menu{
+      display: flex;
+      justify-content: left;
+      border-bottom: 1px solid lightgray;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+
+        &:hover {
+          color: $dark-blue;
+        }
+
+        &.active-link {
+          color: $blue;
+          
+        }
+        
+      }
+      
+    }
+    .dashboard-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background-color: #ffffff;
+    }
+  }
+
+}

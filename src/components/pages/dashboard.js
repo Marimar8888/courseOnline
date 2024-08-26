@@ -3,7 +3,7 @@ import DashboardContainer from '../dashboard/dashboard-container'
 
 export default function () {
   return (
-    <div>
+    <div className='dashboard-container-wrapper'>
       <DashboardContainer/>
     </div>
   )
