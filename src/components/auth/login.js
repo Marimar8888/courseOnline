@@ -55,7 +55,6 @@ export default class Login extends Component {
           if (this.isMountedComponent) {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('user_name', response.data.user_name);
-            console.log("Token de login:", response);
             this.props.handleSuccessfulAuth();
           }
         } else {

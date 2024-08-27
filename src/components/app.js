@@ -72,7 +72,6 @@ class App extends Component {
     this.setState({
       loggedInStatus: "LOGGED_IN"
     }, () => {
-      console.log("Logged in status:", this.state.loggedInStatus);
       this.checkLoginStatus();
       this.closeModal();
     });
@@ -92,7 +91,6 @@ class App extends Component {
 
   checkTokenValidity() {
     const token = localStorage.getItem("token");
-    console.log("token en  checkTokenValidity():",token)
    
     if (token) {
       axios.get(`${API_URL}/get_verify_token`, {
@@ -102,25 +100,20 @@ class App extends Component {
       })
       .then(response => {
         if (response.status === 200) {
-          console.log("respuesta 200 verificación", response);
           this.setState({ loggedInStatus: "LOGGED_IN" });
         } else {
-          console.log("respuesta 401 verificación", response);
           localStorage.removeItem("token");
           this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
           this.openLoginModal();
         }
       })
       .catch(error => {
-        console.log("error al verificar el token", error);
         localStorage.removeItem("token");
         this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
         this.openLoginModal();
       });
     } else {
-      console.log("no existe el token");
       this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
-      this.openLoginModal();
     }
   }
 
