@@ -109,8 +109,8 @@ export default class App extends Component {
 
   authorizedPages() {
     return [
-      <Route key="dashboard" path="/dashboard" component={Dashboard}/>,
-    
+      <Route key="dashboard" path="/dashboard" component={Dashboard} />,
+
     ];
   }
 
@@ -118,6 +118,8 @@ export default class App extends Component {
     return (
       <div className="container">
         <Router>
+
+
           <div>
             <NavBarContainer
               loggedInStatus={this.state.loggedInStatus}
@@ -158,6 +160,8 @@ export default class App extends Component {
               handleSuccessfulRegister={this.handleSuccessfulRegister}
             />
             <Footer />
+
+
           </div>
         </Router>
       </div>
