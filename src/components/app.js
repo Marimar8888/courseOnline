@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, withRouter  } from "react-router-dom";
+import { API_URL } from './utils/constant';
+import axios from 'axios';
+
 import NavBarContainer from './navigation/navbar-container';
 import Home from "./pages/home";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 import Icons from "./helpers/icons";
-import Store from "./pages/store";
 import NoMatch from "./pages/no-match";
 import LoginModal from "./modals/login-modal";
 import RegisterModal from "./modals/register-modal";
@@ -14,7 +16,7 @@ import StoreContainer from './store/store-container';
 import Dashboard from './pages/dashboard';
 
 
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     Icons();
@@ -88,6 +90,39 @@ export default class App extends Component {
     });
   }
 
+  checkTokenValidity() {
+    const token = localStorage.getItem("token");
+    console.log("token en  checkTokenValidity():",token)
+   
+    if (token) {
+      axios.get(`${API_URL}/get_verify_token`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (response.status === 200) {
+          console.log("respuesta 200 verificación", response);
+          this.setState({ loggedInStatus: "LOGGED_IN" });
+        } else {
+          console.log("respuesta 401 verificación", response);
+          localStorage.removeItem("token");
+          this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
+          this.openLoginModal();
+        }
+      })
+      .catch(error => {
+        console.log("error al verificar el token", error);
+        localStorage.removeItem("token");
+        this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
+        this.openLoginModal();
+      });
+    } else {
+      console.log("no existe el token");
+      this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
+      this.openLoginModal();
+    }
+  }
 
   checkLoginStatus() {
     const token = localStorage.getItem("token");
@@ -118,13 +153,12 @@ export default class App extends Component {
     return (
       <div className="container">
         <Router>
-
-
           <div>
             <NavBarContainer
               loggedInStatus={this.state.loggedInStatus}
               handleSuccessfulLogout={this.handleSuccessfulLogout}
               openModal={this.openModal}
+              checkTokenValidity={this.checkTokenValidity.bind(this)}
             />
             <Switch>
               <Route exact path="/" component={Home} />
@@ -160,11 +194,10 @@ export default class App extends Component {
               handleSuccessfulRegister={this.handleSuccessfulRegister}
             />
             <Footer />
-
-
           </div>
         </Router>
       </div>
     );
   }
 }
+export default withRouter(App);

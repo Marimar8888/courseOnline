@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter, NavLink } from "react-router-dom";
 
@@ -7,6 +7,9 @@ const NavBarContainer = (props) => {
     console.error('openModal is not defined or not a function');
     return null;
   }
+  useEffect(() => {
+    props.checkTokenValidity();
+  }, [props.location]);
 
   const dynamicLink = (route, linkText) => {
     return (
