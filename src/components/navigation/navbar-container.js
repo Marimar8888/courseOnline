@@ -45,7 +45,7 @@ const NavBarContainer = (props) => {
           <div className="nav-link-wrapper">
             <NavLink to="/contact" activeClassName="nav-link-active">Contact</NavLink>
           </div>
-          {props.loggedInStatus === "LOGGED_IN" ? (dynamicLink("/dashboard", "Dashboard")) : null}
+          {props.loggedInStatus === "LOGGED_IN" ? (dynamicLink("/dashboard", "Panel de control")) : null}
       </div>
       <div className="right-side">
         {userName ? userName : ""}

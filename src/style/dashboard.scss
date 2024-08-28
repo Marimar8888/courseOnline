@@ -1,7 +1,6 @@
 .dashboard-container-wrapper{
     display: flex;
     flex-direction: column;
-
     background-color: $lightgrey; 
 
   .dashboard-container  {
@@ -13,7 +12,8 @@
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
-
+   
+    
     .dashboard-menu{
       display: flex;
       justify-content: left;
@@ -32,20 +32,29 @@
         }
 
         &.active-link {
-          color: $blue;
-          
+          color: $blue; 
         }
-        
       }
-      
+      .btn-create-professor {
+        margin-left: auto;
+      }
     }
     .dashboard-content {
-      flex: 1;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      justify-content: left;
       padding: 20px;
       background-color: #ffffff;
+
+      .no-roles-message{
+        font-size: 1.3em;
+        padding: 21px;
+        color: $warning;
+        font-weight: 700;
+        width: 70%;
+        margin: 0 auto;
+
+      }
+  
     }
   }
 

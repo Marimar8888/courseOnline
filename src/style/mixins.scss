@@ -44,3 +44,56 @@
     display: grid;
     gap: 21px;
 }
+
+@mixin form-group-name($columns: 3) {
+    @if $columns == 2 {
+      display: grid;
+      grid-template-columns: 4fr 2fr;
+      gap: 21px;
+    } @else {
+      display: grid;
+      grid-template-columns: 2fr 4fr 2fr;
+      gap: 21px;
+    }
+  }
+
+@mixin form-group-address-card {
+    display: grid;
+    grid-template-columns: 3fr 1.3fr 0.7fr; 
+    gap:21px;
+} 
+
+@mixin form-group-card {
+    display: grid;
+    grid-template-columns: 3fr 1.5fr 0.5fr;  
+    gap:21px;
+} 
+
+@mixin dashboard-courses-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 21px;
+}
+
+@mixin dashboard-process {
+    width: 100%;
+    background: linear-gradient(135deg, $light-orange-start, $light-orange-end);
+    border-radius: 5%;
+}
+
+@mixin dashboard-completed {
+    width: 100%;
+    background: linear-gradient(135deg, $light-green-start, $light-green-end);
+    border-radius: 5%;
+}
+
+@mixin dashboard-favorites {
+    width: 100%;
+    background: linear-gradient(135deg, $blue-start, $blue-end);
+    border-radius: 5%;
+}
+
+
+
+
+
