@@ -7,7 +7,8 @@ const StudentContainer = ({ studentData  }) => {
   if(!studentData) {
     return <p>Cargando datos del estudiante...</p>
   }
-  const { students_first_name, students_last_name, courses } = studentData;
+  const { students_first_name, students_last_name, students_dni, students_address, students_city, students_postal, students_number_card, 
+          students_exp_date, students_cvc, courses } = studentData;
   return (
     <div className="dashboard-dates">
       <div className="dashboard-dates-title">
@@ -37,7 +38,7 @@ const StudentContainer = ({ studentData  }) => {
           type="text"
           name="DNI"
           placeholder="DNI"
-        // value={this.state.name}
+          value={students_dni || ""}
         // onChange={this.handleChange}
         />
       </div>
@@ -48,7 +49,7 @@ const StudentContainer = ({ studentData  }) => {
               type="text"
               name="address"
               placeholder="Dirección"
-            // value={this.state.email}
+              value={students_address || ""}
             // onChange={this.handleChange}
             />
           </div>
@@ -57,7 +58,7 @@ const StudentContainer = ({ studentData  }) => {
               type="text"
               name="city"
               placeholder="Ciudad"
-            // value={this.state.email}
+              value={students_city || ""}
             // onChange={this.handleChange}
             />
           </div>
@@ -66,7 +67,7 @@ const StudentContainer = ({ studentData  }) => {
               type="number"
               name="postal"
               placeholder="Código Postal"
-            // value={this.state.email}
+              value={students_postal || ""}
             // onChange={this.handleChange}
             />
           </div>
@@ -74,19 +75,19 @@ const StudentContainer = ({ studentData  }) => {
         <div className='dashboard-form-group-card'>
           <div className="form-group">
             <input
-              type="number"
+              type="text"
               name="card"
               placeholder="Nº tarjeta"
-            // value={this.state.email}
+              value={students_number_card || ""}
             // onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
-              type="date"
+              type="text"
               name="date"
               placeholder="Vencimiento"
-            // value={this.state.email}
+              value={students_exp_date || ""}
             // onChange={this.handleChange}
             />
           </div>
@@ -95,7 +96,7 @@ const StudentContainer = ({ studentData  }) => {
               type="number"
               name="CVC"
               placeholder="CVC"
-            // value={this.state.email}
+              value={students_cvc || ""}
             // onChange={this.handleChange}
             />
           </div>
