@@ -2,7 +2,12 @@ import React from 'react';
 
 import DashboardBills from './dashboard-bills';
 
-const StudentContainer = ({ data, courses }) => {
+const StudentContainer = ({ studentData  }) => {
+
+  if(!studentData) {
+    return <p>Cargando datos del estudiante...</p>
+  }
+  const { students_first_name, students_last_name, courses } = studentData;
   return (
     <div className="dashboard-dates">
       <div className="dashboard-dates-title">
@@ -14,7 +19,7 @@ const StudentContainer = ({ data, courses }) => {
             type="text"
             name="name"
             placeholder="Nombre"
-          // value={this.state.name}
+            value={students_first_name || ""}
           // onChange={this.handleChange}
           />
         </div>
@@ -23,7 +28,7 @@ const StudentContainer = ({ data, courses }) => {
           type="text"
           name="surname"
           placeholder="Apellidos"
-        // value={this.state.name}
+          value={students_last_name || ""}
         // onChange={this.handleChange}
         />
       </div>
