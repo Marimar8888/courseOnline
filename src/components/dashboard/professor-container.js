@@ -2,7 +2,12 @@ import React from 'react';
 
 import DashboardBills from './dashboard-bills';
 
-const ProfessorContainer = ({ data, courses, centers }) => {
+const ProfessorContainer = ({ professorData }) => {
+  if(!professorData) {
+    return <p>Cargando datos del profesor...</p>
+  }
+  const { professors_first_name, professors_last_name, professors_email, professors_dni, professors_address, professors_city, professors_postal, professors_number_card, 
+    professors_exp_date, professors_cvc, courses } = professorData;
   return (
     <div className="dashboard-dates">
       <div className="dashboard-dates-title">
@@ -14,7 +19,7 @@ const ProfessorContainer = ({ data, courses, centers }) => {
             type="text"
             name="name"
             placeholder="Nombre"
-          // value={this.state.name}
+            value={professors_first_name || ""}
           // onChange={this.handleChange}
           />
         </div>
@@ -23,7 +28,7 @@ const ProfessorContainer = ({ data, courses, centers }) => {
             type="text"
             name="surname"
             placeholder="Apellidos"
-          // value={this.state.name}
+            value={professors_last_name || ""}
           // onChange={this.handleChange}
           />
         </div>
@@ -32,7 +37,7 @@ const ProfessorContainer = ({ data, courses, centers }) => {
             type="text"
             name="DNI"
             placeholder="DNI"
-          // value={this.state.name}
+            value={professors_dni || ""}
           // onChange={this.handleChange}
           />
         </div>
@@ -43,7 +48,7 @@ const ProfessorContainer = ({ data, courses, centers }) => {
             type="text"
             name="address"
             placeholder="Dirección"
-          // value={this.state.email}
+            value={professors_address || ""}
           // onChange={this.handleChange}
           />
         </div>
@@ -52,7 +57,7 @@ const ProfessorContainer = ({ data, courses, centers }) => {
             type="text"
             name="city"
             placeholder="Ciudad"
-          // value={this.state.email}
+            value={professors_city || ""}
           // onChange={this.handleChange}
           />
         </div>
@@ -61,7 +66,7 @@ const ProfessorContainer = ({ data, courses, centers }) => {
             type="number"
             name="postal"
             placeholder="Código Postal"
-          // value={this.state.email}
+            value={professors_postal || ""}
           // onChange={this.handleChange}
           />
         </div>
@@ -72,16 +77,16 @@ const ProfessorContainer = ({ data, courses, centers }) => {
             type="number"
             name="card"
             placeholder="Nº tarjeta"
-          // value={this.state.email}
+            value={professors_number_card || ""}
           // onChange={this.handleChange}
           />
         </div>
         <div className="form-group">
           <input
-            type="date"
+            type="text"
             name="date"
             placeholder="Vencimiento"
-          // value={this.state.email}
+            value={professors_exp_date || ""}
           // onChange={this.handleChange}
           />
         </div>
@@ -90,7 +95,7 @@ const ProfessorContainer = ({ data, courses, centers }) => {
             type="number"
             name="CVC"
             placeholder="CVC"
-          // value={this.state.email}
+            value={professors_cvc || ""}
           // onChange={this.handleChange}
           />
         </div>

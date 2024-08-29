@@ -19,7 +19,6 @@ class DashboardContainer extends Component {
       centersData: null,
     };
     this.getUserId = this.getUserId.bind(this);
-
   }
 
   componentDidMount() {
@@ -37,7 +36,6 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
-        console.log("response fechStudentData", response.data);
         this.setState({
           studentData: response.data
         })
@@ -46,28 +44,76 @@ class DashboardContainer extends Component {
       .catch(error => {
         console.log("error fechStudentData", error)
       })
-
   }
 
   fechProfessorData(professorId) {
     const token = localStorage.getItem("token");
-    // axios
-    //   .get(
-    //     `${API_URL}/student/${professorId}`,
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`
-    //       }
-    //     })
-    //     .then(response => {
-    //       console.log("response fechProfessorData", response.data)
-    //     }) 
-  }
+    axios
+      .get(
+        `${API_URL}/professor/${professorId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      .then(response => {
+        console.log("response fechProfessorData", response.data);
+        this.setState({
+          professorData: response.data
+        })
+        console.log("professorData:", this.state.professorData);
+      })
+      .catch(error => {
+        console.log("error fechProfessorData", error)
+      })
 
-  fechaCentersData(UserId) {
+  }
+  fechCenterData(centerId) {
     const token = localStorage.getItem("token");
+    //TODO
+    //Puede recibir varios centros 
 
   }
+
+  getCenterId(userId) {
+    const token = localStorage.getItem("token");
+    axios
+      .get(
+        `${API_URL}/studycenter/user_id/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          console.log("response studyCenters_id in getCenterId:", response.data.studyCenters_id);
+          const centerId = response.data.studyCenters_id;
+          this.fechCenterData(professorId);
+        })
+        .catch(error => {
+          console.log("error getCenterId", error);
+        })
+  }
+
+  getProfessorId(userId) {
+    const token = localStorage.getItem("token");
+    axios
+      .get(
+        `${API_URL}/professor/user_id/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      .then(response => {
+        const professorId = response.data.professors_id;
+        this.fechProfessorData(professorId);
+      })
+      .catch(error => {
+        console.log("error getProfessorId", error)
+      })
+  }
+
 
   getStudentId(userId) {
     const token = localStorage.getItem("token");
@@ -84,15 +130,15 @@ class DashboardContainer extends Component {
         this.fechStudentData(studentId);
       })
       .catch(error => {
-        console.log("error fechStudentData", error)
+        console.log("error getStudentId", error)
       })
   }
 
-  getUserRols() {
+  getUserRols(userId) {
     const token = localStorage.getItem("token");
     axios
       .get(
-        `${API_URL}/user/${this.state.userId}`,
+        `${API_URL}/user/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -125,14 +171,14 @@ class DashboardContainer extends Component {
           })
           this.getUserRols(this.state.userId);
           this.getStudentId(this.state.userId);
-          this.fechProfessorData(this.state.userId);
-          this.fechaCentersData(this.state.userId);
+          this.getProfessorId(this.state.userId);
+          this.getCenterId(this.state.userId);
         } else {
           console.log("No Authorization");
         }
       })
       .catch(error => {
-        console.log("error in UserRols:", error);
+        console.log("error in getUserId:", error);
       })
   }
 
@@ -142,6 +188,9 @@ class DashboardContainer extends Component {
     const rolesIds = userRols.map(role => role.rols_id);
 
     const { studentData } = this.state;
+    const { professorData } = this.state;
+
+     
 
     const hasRole2 = rolesIds.includes(2);
     const hasRole3 = rolesIds.includes(3);
@@ -168,13 +217,16 @@ class DashboardContainer extends Component {
         <div className="dashboard-content">
           <Switch>
             {hasRole2 && (
-              <Route 
-                exact path="/dashboard" 
-                render={() => <StudentContainer studentData={studentData} />} 
+              <Route
+                exact path="/dashboard"
+                render={() => <StudentContainer studentData={studentData} />}
               />
             )}
             {hasRole3 && (
-              <Route exact path="/dashboard/professor" component={ProfessorContainer} />
+              <Route
+                exact path="/dashboard/professor"
+                render={() => <ProfessorContainer professorData={professorData} />}
+              />
             )}
             {hasRole4 && (
               <Route exact path="/dashboard/center" component={CenterContainer} />
