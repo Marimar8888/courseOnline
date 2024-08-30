@@ -15,6 +15,10 @@ import Footer from './footer/footer';
 import StoreContainer from './store/store-container';
 import Dashboard from './pages/dashboard';
 import Courses from './pages/courses';
+import Professors from './pages/professors';
+import Centers from "./pages/centers";
+import Students from "./pages/students";
+
 
 
 class App extends Component {
@@ -139,7 +143,18 @@ class App extends Component {
   authorizedPages() {
     return [
       <Route key="dashboard" path="/dashboard" component={Dashboard} />,
-      <Route key="courses" path="/courses" component={Courses} />
+      <Route key="courses" path="/courses/:slug" render={props => (
+        <Courses {...props} />
+      )} />,
+      <Route key="students" path="/students/:slug" render={props => (
+        <Students {...props} />
+      )} />,
+      <Route key="centers" path="/centers/:slug" render={props => (
+        <Centers {...props} />
+      )} />,
+      <Route key="professors" path="/professors/:slug" render={props => (
+        <Professors {...props} />
+      )} />
     ];
   }
 
@@ -171,7 +186,10 @@ class App extends Component {
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
               <Route path="/dashboard" component={Dashboard} />
-              <Route path="/courses" component={Courses} />
+              <Route path="/courses/:slug" component={Courses} />
+              <Route path="/students/:slug" component={Students} />
+              <Route path="/centers/:slug" component={Centers} />
+              <Route path="/professors/:slug" component={Professors} />
               {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedPages()) : null}
                <Route component={NoMatch} />
             </Switch>

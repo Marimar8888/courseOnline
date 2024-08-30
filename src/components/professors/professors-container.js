@@ -3,16 +3,16 @@ import React, { Component } from 'react';
 // import { API_URL } from '../utils/constant';
 
 
-class CourseContainer extends Component {
+class ProfessorsContainer extends Component {
     constructor(props){
         super(props);
     }
 
     render() {
         return (
-            <div>Course Container</div>
+            <div>Professors Container</div>
         )
     }
 }
 
-export default CourseContainer;
+export default ProfessorsContainer;

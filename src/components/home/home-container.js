@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import CarouselImages from './carrousel/home-carrousel';
 import { withRouter } from 'react-router-dom';
 
