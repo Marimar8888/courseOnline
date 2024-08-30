@@ -17,6 +17,7 @@ class DashboardContainer extends Component {
       studentData: null,
       professorData: null,
       centersData: null,
+      courses: null
     };
     this.getUserId = this.getUserId.bind(this);
   }
@@ -68,14 +69,8 @@ class DashboardContainer extends Component {
       })
 
   }
-  fechCenterData(centerId) {
-    const token = localStorage.getItem("token");
-    //TODO
-    //Puede recibir varios centros 
 
-  }
-
-  getCenterId(userId) {
+  getCenters(userId) {
     const token = localStorage.getItem("token");
     axios
       .get(
@@ -85,14 +80,13 @@ class DashboardContainer extends Component {
             Authorization: `Bearer ${token}`
           }
         })
-        .then(response => {
-          console.log("response studyCenters_id in getCenterId:", response.data.studyCenters_id);
-          const centerId = response.data.studyCenters_id;
-          this.fechCenterData(professorId);
-        })
-        .catch(error => {
-          console.log("error getCenterId", error);
-        })
+      .then(response => {
+        console.log("response centers in getCenters:", response.data);
+        this.setState({ centersData: response.data });
+      })
+      .catch(error => {
+        console.log("error getCenters", error);
+      })
   }
 
   getProfessorId(userId) {
@@ -172,7 +166,7 @@ class DashboardContainer extends Component {
           this.getUserRols(this.state.userId);
           this.getStudentId(this.state.userId);
           this.getProfessorId(this.state.userId);
-          this.getCenterId(this.state.userId);
+          this.getCenters(this.state.userId);
         } else {
           console.log("No Authorization");
         }
@@ -189,8 +183,7 @@ class DashboardContainer extends Component {
 
     const { studentData } = this.state;
     const { professorData } = this.state;
-
-     
+    const { centersData } = this.state;
 
     const hasRole2 = rolesIds.includes(2);
     const hasRole3 = rolesIds.includes(3);
@@ -225,11 +218,15 @@ class DashboardContainer extends Component {
             {hasRole3 && (
               <Route
                 exact path="/dashboard/professor"
-                render={() => <ProfessorContainer professorData={professorData} />}
+                render={() => <ProfessorContainer professorData={professorData}
+                />}
               />
             )}
             {hasRole4 && (
-              <Route exact path="/dashboard/center" component={CenterContainer} />
+              <Route
+                exact path="/dashboard/center"
+                render={() => <CenterContainer centersData={centersData} />}
+              />
             )}
             {(!hasRole2 && !hasRole3 && !hasRole4) && (
               <div className="no-roles-message">

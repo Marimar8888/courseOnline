@@ -3,88 +3,26 @@ import React from 'react';
 import DashboardBills from './dashboard-bills';
 
 
-const CenterContainer = ({ data, professors, centers }) => {
+const CenterContainer = ({ centersData }) => {
+  if(!CenterContainer) {
+    console.log("Center Data:", centersData);
+    return <p>Cargando datos del profesor...</p>
+  }
+  const totalCenters = centersData ? centersData.length : 0;
+  console.log("totalCenters", totalCenters);
   return (
     <div className="dashboard-dates">
-    <div className="dashboard-dates-title">
-      <h3>Datos</h3>
-    </div>
-    <div className='dashboard-form-group-name-center'>
-      <div className="form-group">
-        <input
-          type="text"
-          name="name"
-          placeholder="Nombre"
-        // value={this.state.name}
-        // onChange={this.handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <input
-          type="text"
-          name="CIF"
-          placeholder="CIF"
-        // value={this.state.name}
-        // onChange={this.handleChange}
-        />
-      </div>
-  </div>
-  <div className='dashboard-form-group-address'>
-    <div className="form-group">
-          <input
-            type="text"
-            name="address"
-            placeholder="Dirección"
-          // value={this.state.email}
-          // onChange={this.handleChange}
-          />
+      <div className="dashboard-courses">
+        <div className="dashboard-dates-title">
+          <h3>Centros de Estudio</h3>
         </div>
-        <div className="form-group">
-          <input
-            type="text"
-            name="city"
-            placeholder="Ciudad"
-          // value={this.state.email}
-          // onChange={this.handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="number"
-            name="postal"
-            placeholder="Código Postal"
-          // value={this.state.email}
-          // onChange={this.handleChange}
-          />
-        </div>
-      </div>
-      <div className='dashboard-form-group-card'>
-        <div className="form-group">
-          <input
-            type="number"
-            name="card"
-            placeholder="Nº tarjeta"
-          // value={this.state.email}
-          // onChange={this.handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="date"
-            name="date"
-            placeholder="Vencimiento"
-          // value={this.state.email}
-          // onChange={this.handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="number"
-            name="CVC"
-            placeholder="CVC"
-          // value={this.state.email}
-          // onChange={this.handleChange}
-          />
+        <div className="dashboard-courses-content">
+          <div className='dashboard-course-process'>En activo</div>
+          <div className='dashboard-course-completed'>De baja</div>
+          <div className='dashboard-course-favorites'>
+            <p>Nº total:</p>
+            <p>{totalCenters}</p>
+          </div>
         </div>
       </div>
       <div className="dashboard-courses">
@@ -119,7 +57,7 @@ const CenterContainer = ({ data, professors, centers }) => {
       </div>
       <div className="dashboard-bills">
         <h3>Facturas</h3>
-        <DashboardBills/>
+        <DashboardBills />
 
       </div>
     </div>

@@ -4,14 +4,33 @@ import DashboardBills from './dashboard-bills';
 
 const ProfessorContainer = ({ professorData }) => {
   if(!professorData) {
+    console.log("Professor Data:", professorData);
     return <p>Cargando datos del profesor...</p>
   }
   const { professors_first_name, professors_last_name, professors_email, professors_dni, professors_address, professors_city, professors_postal, professors_number_card, 
     professors_exp_date, professors_cvc, courses } = professorData;
+    const totalCourses = courses ? courses.length : 0;
+
+  // handleCourses = () => {
+  //   //this.props.history.push(`/courses/${type}`);
+  //   this.props.history.push(`/courses`);
+  // }
+
+  // handleStudents = (type) => {
+  //   this.props.history.push(`/students/${type}`);
+  // }
+  
+  // handleCenters = (type) => {
+  //   this.props.history.push(`/centers/${type}`);
+  // }
+  
   return (
     <div className="dashboard-dates">
       <div className="dashboard-dates-title">
         <h3>Datos</h3>
+      </div>
+      <div>
+          <h3>Nombre, apellidos y dni</h3>
       </div>
       <div className='dashboard-form-group-name'>
         <div className="form-group">
@@ -42,6 +61,9 @@ const ProfessorContainer = ({ professorData }) => {
           />
         </div>
       </div>
+      <div>
+        <h3>Domicilio</h3>
+      </div>
       <div className='dashboard-form-group-address'>
         <div className="form-group">
           <input
@@ -70,6 +92,9 @@ const ProfessorContainer = ({ professorData }) => {
           // onChange={this.handleChange}
           />
         </div>
+      </div>
+      <div>
+        <h3>Datos bancarios</h3>
       </div>
       <div className='dashboard-form-group-card'>
         <div className="form-group">
@@ -107,7 +132,10 @@ const ProfessorContainer = ({ professorData }) => {
         <div className="dashboard-courses-content">
           <div className='dashboard-course-process'>En curso...</div>
           <div className='dashboard-course-completed'>Finalizados...</div>
-          <div className='dashboard-course-favorites'>Favoritos...</div>
+          <div className='dashboard-course-all' >
+            <p>Nº Total</p>
+            <p>{totalCourses}</p>
+          </div>
         </div>
       </div>
       <div className="dashboard-courses">

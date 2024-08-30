@@ -14,6 +14,7 @@ import RegisterModal from "./modals/register-modal";
 import Footer from './footer/footer';
 import StoreContainer from './store/store-container';
 import Dashboard from './pages/dashboard';
+import Courses from './pages/courses';
 
 
 class App extends Component {
@@ -138,7 +139,7 @@ class App extends Component {
   authorizedPages() {
     return [
       <Route key="dashboard" path="/dashboard" component={Dashboard} />,
-
+      <Route key="courses" path="/courses" component={Courses} />
     ];
   }
 
@@ -170,8 +171,9 @@ class App extends Component {
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
               <Route path="/dashboard" component={Dashboard} />
+              <Route path="/courses" component={Courses} />
               {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedPages()) : null}
-              <Route component={NoMatch} />
+               <Route component={NoMatch} />
             </Switch>
             <LoginModal
               isOpen={this.state.isModalOpen}
