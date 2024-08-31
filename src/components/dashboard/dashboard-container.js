@@ -30,17 +30,18 @@ class DashboardContainer extends Component {
     const token = localStorage.getItem("token");
     axios
       .get(
-        `${API_URL}/student/${studentId}`,
+        `${API_URL}/courses/student/${studentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
       .then(response => {
+        console.log("getStudentData", response.data);
+
         this.setState({
           studentData: response.data
         })
-        console.log("studentData:", this.state.studentData);
       })
       .catch(error => {
         console.log("error fechStudentData", error)
@@ -58,11 +59,9 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
-        console.log("response fechProfessorData", response.data);
         this.setState({
           professorData: response.data
         })
-        console.log("professorData:", this.state.professorData);
       })
       .catch(error => {
         console.log("error fechProfessorData", error)
@@ -81,7 +80,6 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
-        console.log("response centers in getCenters:", response.data);
         this.setState({ centersData: response.data });
       })
       .catch(error => {

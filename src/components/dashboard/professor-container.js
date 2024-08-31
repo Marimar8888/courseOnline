@@ -14,7 +14,12 @@ class ProfessorContainer extends Component {
   }
 
     handleCoursesClick = (type) => {
-      this.props.history.push(`/courses/${type}`);
+      const { courses } = this.props.professorData;
+      this.props.history.push({
+        pathname: `/courses/${type}`,
+        state: {courses}
+      });
+
     }
 
     handleStudentsClick = (type) => {
@@ -156,8 +161,14 @@ class ProfessorContainer extends Component {
             <h3>Cursos</h3>
           </div>
           <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(1)}>En curso...</div>
-            <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(2)} >Finalizados...</div>
+            <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(1)}>
+              <p>Nº en curso</p>
+              <p>{totalCourses}</p>
+            </div>
+            <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(2)} >
+              <p>Nº Finalizados</p>
+              <p>{totalCourses}</p>
+            </div>
             <div className='dashboard-course-all' onClick={() => this.handleCoursesClick(3)}>
               <p>Nº Total</p>
               <p>{totalCourses}</p>

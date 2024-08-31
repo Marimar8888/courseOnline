@@ -7,13 +7,50 @@ class StudentContainer extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      courses: this.props.courses || []
+    };
 
     this.handleCoursesClick = this.handleCoursesClick.bind(this);
+    this.filterCoursesByEnrollmentStatus = this.filterCoursesByEnrollmentStatus.bind(this);
+    this.getAllCourses = this.getAllCourses.bind(this);
   }
 
+  filterCoursesByEnrollmentStatus = (courses, status) => {
+    return courses.filter(course => course.enrollments_finalized === status);
+  };
+
+  getAllCourses = (courses) => {
+    return courses;
+  };
+
   handleCoursesClick = (type) => {
-    this.props.history.push(`/courses/${type}`);
+    const { courses } = this.props.studentData;
+   
+    let filteredCourses = [];
+    switch(type) {
+      case 1:
+        filteredCourses = this.filterCoursesByEnrollmentStatus(courses, false);
+        break;
+      case 2:
+        filteredCourses = this.filterCoursesByEnrollmentStatus(courses, true);
+        break;
+      case 4:
+        filteredCourses = this.getAllCourses(courses);
+        break;
+      default:
+        filteredCourses = []; 
+        break;
+    }
+
+    this.setState({ courses: filteredCourses }, () => {
+      this.props.history.push({
+        pathname: `/courses/${type}`,
+        state: { courses: this.state.courses }
+      });
+    });
   }
+
 
   render() {
 
@@ -26,6 +63,7 @@ class StudentContainer extends Component {
     const { 
       students_first_name, 
       students_last_name, 
+      students_email,
       students_dni, 
       students_address, 
       students_city, 
@@ -36,6 +74,8 @@ class StudentContainer extends Component {
       courses 
     } = studentData;
 
+    const coursesFinalized = courses ? (courses.filter(course => course.enrollments_finalized === true)).length : 0;
+    const unfinishedCourses = courses ? (courses.filter(course => course.enrollments_finalized === false)).length : 0;
     const totalCourses = courses ? courses.length : 0;
 
     return (
@@ -142,9 +182,18 @@ class StudentContainer extends Component {
             <h3>Cursos</h3>
           </div>
           <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(1)}>En curso...</div>
-            <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(2)}>Finalizados...</div>
-            <div className='dashboard-course-favorites' onClick={() => this.handleCoursesClick(4)}>Favoritos...</div>
+          <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(1)}>
+              <p>En curso</p>
+              <p>{unfinishedCourses}</p>
+            </div>
+            <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(2)} >
+              <p>Finalizados</p>
+              <p>{coursesFinalized}</p>
+            </div>
+            <div className='dashboard-course-favorites' onClick={() => this.handleCoursesClick(4)}>
+              <p>Favoritos</p>
+              <p>{totalCourses}</p>
+            </div>
           </div>
         </div>
         <div className="dashboard-bills">

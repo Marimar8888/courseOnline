@@ -14,7 +14,11 @@ class CenterContainer extends Component {
   }
 
   handleCentersClick = (type) => {
-    this.props.history.push(`/centers/${type}`);
+    const { courses } = this.props.centersData;
+    this.props.history.push({
+      pathname: `/courses/${type}`,
+      state: {courses}
+    });
   }
 
   handleCoursesClick = (type) => {
@@ -31,14 +35,13 @@ class CenterContainer extends Component {
 
   render() {
 
-    const { CentersData } = this.props;
+    const { centersData } = this.props;
 
-    if (!CenterContainer) {
-      console.log("Center Data:", centersData);
-      return <p>Cargando datos del profesor...</p>
+    if (!centersData) {
+      return <p>Cargando datos del centros...</p>
     }
 
-    // const totalCenters = centersData ? centersData.length : 0;
+    const totalCenters = centersData ? centersData.length : 0;
 
     return (
       <div className="dashboard-dates" >
@@ -47,11 +50,17 @@ class CenterContainer extends Component {
             <h3>Centros de Estudio</h3>
           </div>
           <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleCentersClick(1)}>En activo</div>
-            <div className='dashboard-course-completed'  onClick={() => this.handleCentersClick(2)}>De baja</div>
+            <div className='dashboard-course-process' onClick={() => this.handleCentersClick(1)}>
+              <p>En activo:</p>
+              <p>{totalCenters}</p>  
+            </div>
+            <div className='dashboard-course-completed'  onClick={() => this.handleCentersClick(2)}>
+              <p>De baja:</p>
+              <p>{totalCenters}</p>
+            </div>
             <div className='dashboard-course-favorites' onClick={() => this.handleCentersClick(3)}>
-              <p>Nº total:</p>
-              <p></p>
+              <p>Total:</p>
+              <p>{totalCenters}</p>
             </div>
           </div>
         </div>
