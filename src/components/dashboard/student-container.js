@@ -55,7 +55,6 @@ class StudentContainer extends Component {
   render() {
 
     const { studentData } = this.props;
-    console.log("studentData:", studentData);
     if (!studentData) {
       return <p>Cargando datos del estudiante...</p>
     }
@@ -75,7 +74,7 @@ class StudentContainer extends Component {
       }, 
       courses 
     } = studentData;
-    console.log("students_first_name:", students_first_name)
+
     const coursesFinalized = courses ? (courses.filter(course => course.enrollments_finalized === true)).length : 0;
     const unfinishedCourses = courses ? (courses.filter(course => course.enrollments_finalized === false)).length : 0;
     const totalCourses = courses ? courses.length : 0;

@@ -16,7 +16,6 @@ class CourseContainer extends Component {
 
     render() {
         const { courses } = this.state;
-        console.log("courseContainer:", courses);
         return (
             <div>
                 <h2>Course Container</h2>
