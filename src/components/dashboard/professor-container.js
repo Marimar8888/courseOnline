@@ -89,8 +89,9 @@ class ProfessorContainer extends Component {
 
     return (
       <div className="dashboard-dates">
-        <div className="dashboard-dates-title">
-          <h3>Datos</h3>
+        <div class="dashboard-dates-header">
+          <h2>Datos</h2>
+          <button class="btn-save" disabled>GUARDAR</button>
         </div>
         <div>
           <h3>Nombre, apellidos y dni</h3>

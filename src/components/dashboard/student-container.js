@@ -26,9 +26,9 @@ class StudentContainer extends Component {
 
   handleCoursesClick = (type) => {
     const { courses } = this.props.studentData;
-   
+
     let filteredCourses = [];
-    switch(type) {
+    switch (type) {
       case 1:
         filteredCourses = this.filterCoursesByEnrollmentStatus(courses, false);
         break;
@@ -39,7 +39,7 @@ class StudentContainer extends Component {
         filteredCourses = this.getAllCourses(courses);
         break;
       default:
-        filteredCourses = []; 
+        filteredCourses = [];
         break;
     }
 
@@ -59,20 +59,20 @@ class StudentContainer extends Component {
       return <p>Cargando datos del estudiante...</p>
     }
 
-    const { 
+    const {
       student: {
-        students_first_name, 
-        students_last_name, 
+        students_first_name,
+        students_last_name,
         students_email,
-        students_dni, 
-        students_address, 
-        students_city, 
-        students_postal, 
+        students_dni,
+        students_address,
+        students_city,
+        students_postal,
         students_number_card,
-        students_exp_date, 
-        students_cvc 
-      }, 
-      courses 
+        students_exp_date,
+        students_cvc
+      },
+      courses
     } = studentData;
 
     const coursesFinalized = courses ? (courses.filter(course => course.enrollments_finalized === true)).length : 0;
@@ -82,7 +82,10 @@ class StudentContainer extends Component {
     return (
       <div className="dashboard-dates">
         <div className="dashboard-dates-title">
-          <h2>Datos</h2>
+          <div class="dashboard-dates-header">
+            <h2>Datos</h2>
+            <button class="btn-save" disabled>GUARDAR</button>
+          </div>
           <h3>Nombre, apellidos y dni</h3>
         </div>
         <div className='dashboard-form-group-name'>
@@ -192,7 +195,7 @@ class StudentContainer extends Component {
             <h3>Cursos</h3>
           </div>
           <div className="dashboard-courses-content">
-          <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(1)}>
+            <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(1)}>
               <p>En curso</p>
               <p>{unfinishedCourses}</p>
             </div>

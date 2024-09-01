@@ -7,6 +7,20 @@
         margin: 0;
     }
 
+    .dashboard-dates-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px; 
+    
+        h2 {
+          margin: 0;
+        }
+        .btn-save {
+            @include btn-save;
+        }
+    }
+
     .dashboard-dates-title h3{
             margin: 0;
     }

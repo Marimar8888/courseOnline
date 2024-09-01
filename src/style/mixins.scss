@@ -1,3 +1,19 @@
+@mixin btn-save {
+    @include base-btn;
+    background-color:$mediumgrey; 
+    cursor: not-allowed;
+    border-radius: 5%;
+         
+    &:hover {
+        background-color: $grey; 
+      }
+
+    &:not(:disabled) {
+     @include base-btn();
+      cursor: pointer; 
+    }
+}
+
 @mixin base-btn {
     cursor:pointer;
     height: 42px;
@@ -10,7 +26,6 @@
 
     &:active, &:focus {
         outline: none;
-
     }
 
     &:hover{
