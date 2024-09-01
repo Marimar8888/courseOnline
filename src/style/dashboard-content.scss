@@ -20,11 +20,11 @@
     }
 
     .dashboard-form-group-address {
-        @include form-group-address-card();
+        @include form-group-address();
     }
 
     .dashboard-form-group-card {
-       @include form-group-address-card();
+       @include form-group-card();
     }
 }
 

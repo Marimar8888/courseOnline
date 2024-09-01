@@ -57,9 +57,9 @@
     }
   }
 
-@mixin form-group-address-card {
+@mixin form-group-address {
     display: grid;
-    grid-template-columns: 3fr 1.3fr 0.7fr; 
+    grid-template-columns: 2.6fr 0.6fr 0.6fr 1.2fr; 
     gap:21px;
 } 
 

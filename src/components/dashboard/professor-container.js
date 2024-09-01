@@ -66,7 +66,6 @@ class ProfessorContainer extends Component {
     const { professorData } = this.props;
 
     if (!professorData) {
-      console.log("Professor Data:", professorData);
       return <p>Cargando datos del profesor...</p>
     }
 
@@ -151,8 +150,17 @@ class ProfessorContainer extends Component {
             <input
               type="number"
               name="postal"
-              placeholder="Código Postal"
+              placeholder="Cod Postal"
               value={professors_postal || ""}
+            // onChange={this.handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={professors_email || ""}
             // onChange={this.handleChange}
             />
           </div>

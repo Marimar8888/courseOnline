@@ -55,25 +55,27 @@ class StudentContainer extends Component {
   render() {
 
     const { studentData } = this.props;
-
+    console.log("studentData:", studentData);
     if (!studentData) {
       return <p>Cargando datos del estudiante...</p>
     }
 
     const { 
-      students_first_name, 
-      students_last_name, 
-      students_email,
-      students_dni, 
-      students_address, 
-      students_city, 
-      students_postal, 
-      students_number_card,
-      students_exp_date, 
-      students_cvc, 
+      student: {
+        students_first_name, 
+        students_last_name, 
+        students_email,
+        students_dni, 
+        students_address, 
+        students_city, 
+        students_postal, 
+        students_number_card,
+        students_exp_date, 
+        students_cvc 
+      }, 
       courses 
     } = studentData;
-
+    console.log("students_first_name:", students_first_name)
     const coursesFinalized = courses ? (courses.filter(course => course.enrollments_finalized === true)).length : 0;
     const unfinishedCourses = courses ? (courses.filter(course => course.enrollments_finalized === false)).length : 0;
     const totalCourses = courses ? courses.length : 0;
@@ -139,8 +141,17 @@ class StudentContainer extends Component {
             <input
               type="number"
               name="postal"
-              placeholder="Código Postal"
+              placeholder="Cod Postal"
               value={students_postal || ""}
+            // onChange={this.handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={students_email || ""}
             // onChange={this.handleChange}
             />
           </div>
