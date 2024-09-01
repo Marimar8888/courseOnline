@@ -6,29 +6,60 @@ import DashboardBills from './dashboard-bills';
 class ProfessorContainer extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      courses: this.props.courses || []
+    };
 
     this.handleCoursesClick = this.handleCoursesClick.bind(this);
     this.handleStudentsClick = this.handleStudentsClick.bind(this);
     this.handleCentersClick = this.handleCentersClick.bind(this);
-    
-  }
+    this.filterCoursesByEnrollmentStatus = this.filterCoursesByEnrollmentStatus.bind(this);
+    this.getAllCourses = this.getAllCourses.bind(this);
 
-    handleCoursesClick = (type) => {
-      const { courses } = this.props.professorData;
+  }
+  filterCoursesByEnrollmentStatus = (courses, status) => {   
+    return courses.filter(course => course.courses_active === status);
+  };
+
+
+  getAllCourses = (courses) => {
+    return courses;
+  };
+
+  handleCoursesClick = (type) => {
+    const { courses } = this.props.professorData;
+
+    let filteredCourses = [];
+    switch (type) {
+      case 3:
+        filteredCourses = this.getAllCourses(courses);
+        break;
+      case 5:
+        filteredCourses = this.filterCoursesByEnrollmentStatus(courses, true);
+        break;
+      case 6:
+        filteredCourses = this.filterCoursesByEnrollmentStatus(courses, false);
+        break;
+      default:
+        filteredCourses = [];
+        break;
+    }
+    this.setState({ courses: filteredCourses }, () => {
       this.props.history.push({
         pathname: `/courses/${type}`,
-        state: {courses}
+        state: { courses: this.state.courses }
       });
+    });
 
-    }
+  }
 
-    handleStudentsClick = (type) => {
-      this.props.history.push(`/students/${type}`);
-    }
+  handleStudentsClick = (type) => {
+    this.props.history.push(`/students/${type}`);
+  }
 
-    handleCentersClick = (type) => {
-      this.props.history.push(`/centers/${type}`);
-    }
+  handleCentersClick = (type) => {
+    this.props.history.push(`/centers/${type}`);
+  }
 
   render() {
 
@@ -39,22 +70,24 @@ class ProfessorContainer extends Component {
       return <p>Cargando datos del profesor...</p>
     }
 
-    const { 
-      professors_first_name, 
-      professors_last_name, 
-      professors_email, 
-      professors_dni, 
-      professors_address, 
-      professors_city, 
-      professors_postal, 
+    const {
+      professors_first_name,
+      professors_last_name,
+      professors_email,
+      professors_dni,
+      professors_address,
+      professors_city,
+      professors_postal,
       professors_number_card,
-      professors_exp_date, 
-      professors_cvc, 
-      courses 
+      professors_exp_date,
+      professors_cvc,
+      courses
     } = professorData;
 
     const totalCourses = courses ? courses.length : 0;
-  
+    const coursesActive = courses ? (courses.filter(course => course.courses_active === true)).length : 0;
+    const coursesInactive = courses ? (courses.filter(course => course.courses_active === false)).length : 0;
+
     return (
       <div className="dashboard-dates">
         <div className="dashboard-dates-title">
@@ -161,13 +194,13 @@ class ProfessorContainer extends Component {
             <h3>Cursos</h3>
           </div>
           <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(1)}>
-              <p>Nº en curso</p>
-              <p>{totalCourses}</p>
+            <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(5)}>
+              <p>Activos</p>
+              <p>{coursesActive}</p>
             </div>
-            <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(2)} >
-              <p>Nº Finalizados</p>
-              <p>{totalCourses}</p>
+            <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(6)} >
+              <p>Inactivos</p>
+              <p>{coursesInactive}</p>
             </div>
             <div className='dashboard-course-all' onClick={() => this.handleCoursesClick(3)}>
               <p>Nº Total</p>
@@ -181,8 +214,8 @@ class ProfessorContainer extends Component {
           </div>
           <div className="dashboard-courses-content">
             <div className='dashboard-course-process' onClick={() => this.handleStudentsClick(1)}>En curso...</div>
-            <div className='dashboard-course-completed'  onClick={() => this.handleStudentsClick(2)}>Finalizados...</div>
-            <div className='dashboard-course-favorites'  onClick={() => this.handleStudentsClick(3)}>Todos...</div>
+            <div className='dashboard-course-completed' onClick={() => this.handleStudentsClick(2)}>Finalizados...</div>
+            <div className='dashboard-course-favorites' onClick={() => this.handleStudentsClick(3)}>Todos...</div>
           </div>
         </div>
         <div className="dashboard-courses">
