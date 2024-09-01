@@ -37,7 +37,7 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
-        console.log("getStudentData", response.data);
+        console.log("fechStudentData", response.data);
 
         this.setState({
           studentData: response.data
@@ -59,6 +59,7 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
+        console.log("fechProfessorData", response.data);
         this.setState({
           professorData: response.data
         })

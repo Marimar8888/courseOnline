@@ -25,14 +25,14 @@ class CourseContainer extends Component {
                         {courses.map(course => {
                             console.log("Rendering course:", course);
                             return(
-                                <div key={course.course_id}>
-                                    <h2>{course.course_title}</h2>
+                                <div key={course.courses_id}>
+                                    <h2>{course.courses_title}</h2>
                                     <img 
-                                        src={course.course_image} 
-                                        alt={course.course_title} 
+                                        src={course.courses_image} 
+                                        alt={course.courses_title} 
                                         style={{ maxWidth: '30%', height: 'auto' }}
                                     />
-                                    <p>{course.course_content}</p>
+                                    <p>{course.courses_content}</p>
                                 </div>
                             );
                         })}

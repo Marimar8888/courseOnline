@@ -96,6 +96,7 @@ class App extends Component {
 
   checkTokenValidity() {
     const token = localStorage.getItem("token");
+    const userName = localStorage.getItem('user_name');
    
     if (token) {
       axios.get(`${API_URL}/get_verify_token`, {
@@ -108,12 +109,15 @@ class App extends Component {
           this.setState({ loggedInStatus: "LOGGED_IN" });
         } else {
           localStorage.removeItem("token");
+          localStorage.removeItem("userName");
+
           this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
           this.openLoginModal();
         }
       })
       .catch(error => {
         localStorage.removeItem("token");
+        localStorage.removeItem("userName");
         this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
         this.openLoginModal();
       });
