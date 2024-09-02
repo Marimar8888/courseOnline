@@ -10,7 +10,7 @@ import CenterContainer from './center-container';
 class DashboardContainer extends Component {
   constructor() {
     super();
-    
+
     this.state = {
       userId: "",
       userRols: [],
@@ -21,6 +21,8 @@ class DashboardContainer extends Component {
     };
     this.getUserId = this.getUserId.bind(this);
     this.updateProfessorData = this.updateProfessorData.bind(this);
+    this.updateStudentData = this.updateStudentData.bind(this);
+
   }
   
   componentDidMount() {
@@ -29,6 +31,10 @@ class DashboardContainer extends Component {
 
   updateProfessorData(professorId){
     this.fechProfessorData(professorId);
+  }
+
+  updateStudentData(studentId){
+    this.fechStudentData(studentId);
   }
 
   fechStudentData(studentId) {
@@ -216,7 +222,7 @@ class DashboardContainer extends Component {
                 // render={() => <StudentContainer studentData={studentData} />}
                 render={(props) => {
                   const { computedMatch, ...restProps } = props;
-                  return <StudentContainer {...restProps} studentData={studentData} />
+                  return <StudentContainer {...restProps} studentData={studentData} updateStudentData={this.updateStudentData}/>
                 }}
               />
             )}

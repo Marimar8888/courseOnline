@@ -25,7 +25,6 @@ class StudentContainer extends Component {
       courses: [],
       isButtonEnabled: false,
     };
-
     this.initialState = { ...this.state };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +34,6 @@ class StudentContainer extends Component {
   }
 
   componentDidMount() {
-   
     const { studentData } = this.props;
     if (studentData && studentData.student) {
       this.setState({
@@ -123,22 +121,39 @@ class StudentContainer extends Component {
       console.error('Student ID is missing');
       return;
     }
-  
+
     axios
       ({
         method: "patch",
         url: `${API_URL}/student/${studentId}`,
-        data: formData,       
+        data: formData,
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       })
       .then(response => {
-        console.log("response handleSubmit", response);
+        this.setState({
+          students_first_name: response.data.students_first_name,
+          students_last_name: response.data.students_last_name,
+          students_email: response.data.students_email,
+          students_dni: response.data.students_dni,
+          students_address: response.data.students_address,
+          students_city: response.data.students_city,
+          students_postal: response.data.students_postal,
+          students_number_card: response.data.students_number_card,
+          students_exp_date: response.data.students_exp_date,
+          students_cvc: response.data.students_cvc,
+          isButtonEnabled: false,
+        });
+        if (this.props.updateStudentData) {
+          this.props.updateStudentData(this.state.students_id);
+        }
       })
       .catch(error => {
         console.log("error handleSubmit", error);
       })
+
+
   }
 
   handleChange = (event) => {
