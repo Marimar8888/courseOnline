@@ -145,7 +145,8 @@ class App extends Component {
 
   authorizedPages() {
     return [
-      <Route key="dashboard" path="/dashboard" component={Dashboard} />,
+      <Route key="dashboard" path="/dashboard" component={Dashboard} 
+      />,
       <Route key="courses" path="/courses/:slug" render={props => (
         <Courses {...props} />
       )} />,

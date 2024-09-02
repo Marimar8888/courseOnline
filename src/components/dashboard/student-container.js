@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from "axios";
+import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
 import DashboardBills from './dashboard-bills';
@@ -7,7 +9,9 @@ class StudentContainer extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
+      students_id: "",
       students_first_name: "",
       students_last_name: "",
       students_email: "",
@@ -21,16 +25,21 @@ class StudentContainer extends Component {
       courses: [],
       isButtonEnabled: false,
     };
+
+    this.initialState = { ...this.state };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCoursesClick = this.handleCoursesClick.bind(this);
     this.filterCoursesByEnrollmentStatus = this.filterCoursesByEnrollmentStatus.bind(this);
     this.getAllCourses = this.getAllCourses.bind(this);
   }
 
   componentDidMount() {
+   
     const { studentData } = this.props;
     if (studentData && studentData.student) {
       this.setState({
+        students_id: studentData.student.students_id,
         students_first_name: studentData.student.students_first_name,
         students_last_name: studentData.student.students_last_name,
         students_email: studentData.student.students_email,
@@ -52,6 +61,7 @@ class StudentContainer extends Component {
       const { studentData } = this.props;
       if (studentData && studentData.student) {
         this.setState({
+          students_id: studentData.student.students_id,
           students_first_name: studentData.student.students_first_name,
           students_last_name: studentData.student.students_last_name,
           students_email: studentData.student.students_email,
@@ -103,6 +113,34 @@ class StudentContainer extends Component {
     });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    const studentId = this.state.students_id;
+    const formData = this.buildForm();
+
+    if (!studentId) {
+      console.error('Student ID is missing');
+      return;
+    }
+  
+    axios
+      ({
+        method: "patch",
+        url: `${API_URL}/student/${studentId}`,
+        data: formData,       
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then(response => {
+        console.log("response handleSubmit", response);
+      })
+      .catch(error => {
+        console.log("error handleSubmit", error);
+      })
+  }
+
   handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({
@@ -111,8 +149,35 @@ class StudentContainer extends Component {
     });
   };
 
-  render() {
 
+
+  buildForm() {
+    let studentFormData = new FormData();
+
+    const fields = [
+      "students_first_name",
+      "students_last_name",
+      "students_email",
+      "students_dni",
+      "students_address",
+      "students_city",
+      "students_postal",
+      "students_number_card",
+      "students_exp_date",
+      "students_cvc",
+      "students_user_id"
+    ];
+
+    fields.forEach(field => {
+      if (this.state[field] !== this.initialState[field]) {
+        studentFormData.append(field, this.state[field]);
+      }
+    });
+
+    return studentFormData;
+  }
+
+  render() {
     const { studentData } = this.props;
     if (!studentData) {
       return <p>Cargando datos del estudiante...</p>
@@ -125,8 +190,8 @@ class StudentContainer extends Component {
     const totalCourses = courses ? courses.length : 0;
 
     return (
-      <div className="dashboard-dates">
-        <div class="dashboard-dates-header">
+      <form onSubmit={this.handleSubmit} className="dashboard-dates">
+        <div className="dashboard-dates-header">
           <h2>Datos</h2>
           <button
             className={`btn-save ${this.state.isButtonEnabled ? 'btn' : ''}`}
@@ -192,7 +257,7 @@ class StudentContainer extends Component {
           <div className="form-group">
             <input
               type="number"
-              name="stidents_postal"
+              name="students_postal"
               placeholder="Cod Postal"
               value={this.state.students_postal || ""}
               onChange={this.handleChange}
@@ -263,7 +328,7 @@ class StudentContainer extends Component {
           <h3>Facturas</h3>
           <DashboardBills />
         </div>
-      </div>
+      </form>
     );
   }
 }

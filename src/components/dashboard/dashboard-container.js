@@ -7,7 +7,6 @@ import StudentContainer from './student-container';
 import ProfessorContainer from './professor-container';
 import CenterContainer from './center-container';
 
-
 class DashboardContainer extends Component {
   constructor() {
     super();
@@ -20,10 +19,15 @@ class DashboardContainer extends Component {
       courses: null
     };
     this.getUserId = this.getUserId.bind(this);
+    this.updateProfessorData = this.updateProfessorData.bind(this);
   }
-
+  
   componentDidMount() {
     this.getUserId();
+  }
+
+  updateProfessorData(professorId){
+    this.fechProfessorData(professorId);
   }
 
   fechStudentData(studentId) {
@@ -50,7 +54,7 @@ class DashboardContainer extends Component {
     const token = localStorage.getItem("token");
     axios
       .get(
-        `${API_URL}/professor/${professorId}`,
+        `${API_URL}/all_dates/professor/${professorId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -211,7 +215,7 @@ class DashboardContainer extends Component {
                 // render={() => <StudentContainer studentData={studentData} />}
                 render={(props) => {
                   const { computedMatch, ...restProps } = props;
-                  return <StudentContainer {...restProps} studentData={studentData} />;
+                  return <StudentContainer {...restProps} studentData={studentData} />
                 }}
               />
             )}
@@ -221,7 +225,7 @@ class DashboardContainer extends Component {
                 // render={() => <ProfessorContainer professorData={professorData} />}
                 render={(props) => {
                   const { computedMatch, ...restProps } = props;
-                  return <ProfessorContainer {...restProps} professorData={professorData} />;
+                  return <ProfessorContainer {...restProps} professorData={professorData} updateProfessorData={this.updateProfessorData}/>
                 }}
               />
             )}
@@ -231,7 +235,7 @@ class DashboardContainer extends Component {
                 // render={() => <CenterContainer centersData={centersData} />} />
                 render={(props) => {
                   const { computedMatch, ...restProps } = props;
-                  return <CenterContainer {...restProps} centersData={centersData} />;
+                  return <CenterContainer {...restProps} centersData={centersData} />
                 }}
               />
             )}
