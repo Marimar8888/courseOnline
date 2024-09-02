@@ -8,12 +8,64 @@ class StudentContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      courses: this.props.courses || []
+      students_first_name: "",
+      students_last_name: "",
+      students_email: "",
+      students_dni: "",
+      students_address: "",
+      students_city: "",
+      students_postal: "",
+      students_number_card: "",
+      students_exp_date: "",
+      students_cvc: "",
+      courses: [],
+      isButtonEnabled: false,
     };
-
+    this.handleChange = this.handleChange.bind(this);
     this.handleCoursesClick = this.handleCoursesClick.bind(this);
     this.filterCoursesByEnrollmentStatus = this.filterCoursesByEnrollmentStatus.bind(this);
     this.getAllCourses = this.getAllCourses.bind(this);
+  }
+
+  componentDidMount() {
+    const { studentData } = this.props;
+    if (studentData && studentData.student) {
+      this.setState({
+        students_first_name: studentData.student.students_first_name,
+        students_last_name: studentData.student.students_last_name,
+        students_email: studentData.student.students_email,
+        students_dni: studentData.student.students_dni,
+        students_address: studentData.student.students_address,
+        students_city: studentData.student.students_city,
+        students_postal: studentData.student.students_postal,
+        students_number_card: studentData.student.students_number_card,
+        students_exp_date: studentData.student.students_exp_date,
+        students_cvc: studentData.student.students_cvc,
+        courses: studentData.courses || [],
+        isButtonEnabled: false,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.studentData !== prevProps.studentData) {
+      const { studentData } = this.props;
+      if (studentData && studentData.student) {
+        this.setState({
+          students_first_name: studentData.student.students_first_name,
+          students_last_name: studentData.student.students_last_name,
+          students_email: studentData.student.students_email,
+          students_dni: studentData.student.students_dni,
+          students_address: studentData.student.students_address,
+          students_city: studentData.student.students_city,
+          students_postal: studentData.student.students_postal,
+          students_number_card: studentData.student.students_number_card,
+          students_exp_date: studentData.student.students_exp_date,
+          students_cvc: studentData.student.students_cvc,
+          courses: studentData.courses || [],
+        });
+      }
+    }
   }
 
   filterCoursesByEnrollmentStatus = (courses, status) => {
@@ -51,6 +103,13 @@ class StudentContainer extends Component {
     });
   }
 
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+      isButtonEnabled: true,
+    });
+  };
 
   render() {
 
@@ -59,21 +118,7 @@ class StudentContainer extends Component {
       return <p>Cargando datos del estudiante...</p>
     }
 
-    const {
-      student: {
-        students_first_name,
-        students_last_name,
-        students_email,
-        students_dni,
-        students_address,
-        students_city,
-        students_postal,
-        students_number_card,
-        students_exp_date,
-        students_cvc
-      },
-      courses
-    } = studentData;
+    const { courses } = this.state;
 
     const coursesFinalized = courses ? (courses.filter(course => course.enrollments_finalized === true)).length : 0;
     const unfinishedCourses = courses ? (courses.filter(course => course.enrollments_finalized === false)).length : 0;
@@ -81,39 +126,44 @@ class StudentContainer extends Component {
 
     return (
       <div className="dashboard-dates">
-        <div className="dashboard-dates-title">
-          <div class="dashboard-dates-header">
-            <h2>Datos</h2>
-            <button class="btn-save" disabled>GUARDAR</button>
-          </div>
+        <div class="dashboard-dates-header">
+          <h2>Datos</h2>
+          <button
+            className={`btn-save ${this.state.isButtonEnabled ? 'btn' : ''}`}
+            disabled={!this.state.isButtonEnabled}
+          >
+            GUARDAR
+          </button>
+        </div>
+        <div>
           <h3>Nombre, apellidos y dni</h3>
         </div>
         <div className='dashboard-form-group-name'>
           <div className="form-group">
             <input
               type="text"
-              name="name"
+              name="students_first_name"
               placeholder="Nombre"
-              value={students_first_name || ""}
-            // onChange={this.handleChange}
+              value={this.state.students_first_name || ""}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="text"
-              name="surname"
+              name="students_last_name"
               placeholder="Apellidos"
-              value={students_last_name || ""}
-            // onChange={this.handleChange}
+              value={this.state.students_last_name || ""}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="text"
-              name="DNI"
+              name="students_dni"
               placeholder="DNI"
-              value={students_dni || ""}
-            // onChange={this.handleChange}
+              value={this.state.students_dni || ""}
+              onChange={this.handleChange}
             />
           </div>
         </div>
@@ -124,37 +174,37 @@ class StudentContainer extends Component {
           <div className="form-group">
             <input
               type="text"
-              name="address"
+              name="students_address"
               placeholder="Dirección"
-              value={students_address || ""}
-            // onChange={this.handleChange}
+              value={this.state.students_address || ""}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="text"
-              name="city"
+              name="students_city"
               placeholder="Ciudad"
-              value={students_city || ""}
-            // onChange={this.handleChange}
+              value={this.state.students_city || ""}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="number"
-              name="postal"
+              name="stidents_postal"
               placeholder="Cod Postal"
-              value={students_postal || ""}
-            // onChange={this.handleChange}
+              value={this.state.students_postal || ""}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="email"
-              name="email"
+              name="students_email"
               placeholder="Email"
-              value={students_email || ""}
-            // onChange={this.handleChange}
+              value={this.state.students_email || ""}
+              onChange={this.handleChange}
             />
           </div>
         </div>
@@ -165,28 +215,28 @@ class StudentContainer extends Component {
           <div className="form-group">
             <input
               type="text"
-              name="card"
+              name="students_number_card "
               placeholder="Nº tarjeta"
-              value={students_number_card || ""}
-            // onChange={this.handleChange}
+              value={this.state.students_number_card || ""}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="text"
-              name="date"
+              name="students_exp_date"
               placeholder="Vencimiento"
-              value={students_exp_date || ""}
-            // onChange={this.handleChange}
+              value={this.state.students_exp_date || ""}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="number"
-              name="CVC"
+              name="students_cvc"
               placeholder="CVC"
-              value={students_cvc || ""}
-            // onChange={this.handleChange}
+              value={this.state.students_cvc || ""}
+              onChange={this.handleChange}
             />
           </div>
         </div>

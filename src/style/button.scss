@@ -1,3 +1,7 @@
 .btn {
     @include base-btn();
 }
+
+.btn-save {
+    @include btn-save();
+}

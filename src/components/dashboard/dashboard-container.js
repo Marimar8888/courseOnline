@@ -208,20 +208,31 @@ class DashboardContainer extends Component {
             {hasRole2 && (
               <Route
                 exact path="/dashboard"
-                render={() => <StudentContainer studentData={studentData} />}
+                // render={() => <StudentContainer studentData={studentData} />}
+                render={(props) => {
+                  const { computedMatch, ...restProps } = props;
+                  return <StudentContainer {...restProps} studentData={studentData} />;
+                }}
               />
             )}
             {hasRole3 && (
               <Route
                 exact path="/dashboard/professor"
-                render={() => <ProfessorContainer professorData={professorData}
-                />}
+                // render={() => <ProfessorContainer professorData={professorData} />}
+                render={(props) => {
+                  const { computedMatch, ...restProps } = props;
+                  return <ProfessorContainer {...restProps} professorData={professorData} />;
+                }}
               />
             )}
             {hasRole4 && (
               <Route
                 exact path="/dashboard/center"
-                render={() => <CenterContainer centersData={centersData} />}
+                // render={() => <CenterContainer centersData={centersData} />} />
+                render={(props) => {
+                  const { computedMatch, ...restProps } = props;
+                  return <CenterContainer {...restProps} centersData={centersData} />;
+                }}
               />
             )}
             {(!hasRole2 && !hasRole3 && !hasRole4) && (
