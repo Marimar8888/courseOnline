@@ -10,6 +10,7 @@ import CenterContainer from './center-container';
 class DashboardContainer extends Component {
   constructor() {
     super();
+    
     this.state = {
       userId: "",
       userRols: [],
