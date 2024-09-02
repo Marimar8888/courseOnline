@@ -211,7 +211,7 @@ class DashboardContainer extends Component {
                 // render={() => <StudentContainer studentData={studentData} />}
                 render={(props) => {
                   const { computedMatch, ...restProps } = props;
-                  return <StudentContainer {...restProps} studentData={studentData} />;
+                  return <StudentContainer {...restProps} studentData={studentData} />
                 }}
               />
             )}
@@ -221,7 +221,7 @@ class DashboardContainer extends Component {
                 // render={() => <ProfessorContainer professorData={professorData} />}
                 render={(props) => {
                   const { computedMatch, ...restProps } = props;
-                  return <ProfessorContainer {...restProps} professorData={professorData} />;
+                  return <ProfessorContainer {...restProps} professorData={professorData} />
                 }}
               />
             )}
@@ -231,7 +231,7 @@ class DashboardContainer extends Component {
                 // render={() => <CenterContainer centersData={centersData} />} />
                 render={(props) => {
                   const { computedMatch, ...restProps } = props;
-                  return <CenterContainer {...restProps} centersData={centersData} />;
+                  return <CenterContainer {...restProps} centersData={centersData} />
                 }}
               />
             )}
