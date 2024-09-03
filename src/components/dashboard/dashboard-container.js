@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NavLink, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, NavLink, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../utils/constant';
 
@@ -20,6 +20,7 @@ class DashboardContainer extends Component {
       courses: null
     };
     this.getUserId = this.getUserId.bind(this);
+    this.getUserRols = this.getUserRols.bind(this);
     this.updateProfessorData = this.updateProfessorData.bind(this);
     this.updateStudentData = this.updateStudentData.bind(this);
 
@@ -148,30 +149,32 @@ class DashboardContainer extends Component {
       .then(response => {
         this.setState({
           userRols: response.data.rols
-        })
-        if(response.data.rols.length > 1){
-          switch (userRols.rols_id) {
-            case 2:
-              this.getStudentId(this.state.userId);
-              break;
-            case 3:
-              this.getProfessorId(this.state.userId);
-              break;
-            case 4:
-              this.getCenters(this.state.userId);
-              break;
-            default:
-              console.log("error rols");
-              break;
+        }, () => {
+          const { userRols } = this.state;
+          if (userRols.length > 1) {
+            userRols.forEach(rol => {
+              switch (rol.rols_id) {
+                case 2:
+                  this.getStudentId(userId);
+                  break;
+                case 3:
+                  this.getProfessorId(userId);
+                  break;
+                case 4:
+                  this.getCenters(userId);
+                  break;
+                default:
+                  break;
+              }
+            });
+          } else {
+            console.log("User has no roles");
           }
-        }else {
-          console.log("User not rols");
-        }
-        
+        });
       })
       .catch(error => {
         console.log("error in getUserRols:", error);
-      })
+      });
   }
 
   getUserId() {
@@ -218,7 +221,7 @@ class DashboardContainer extends Component {
     const hasRole4 = rolesIds.includes(4);
 
     return (
-      <div id="dashboard-container" className="dashboard-container">
+      <div id="dashboard-container" className="dashboard-container" >
         <div className="dashboard-menu">
           {hasRole2 && (
             <NavLink exact to="/dashboard" activeClassName="active-link">Estudiante</NavLink>
@@ -234,38 +237,35 @@ class DashboardContainer extends Component {
               <button className="btn">Crear Nuevo Profesor</button>
             </div>
           )}
+          {hasRole3 && !hasRole4 && (
+            <div className='btn-create-professor'>
+              <button className="btn">Crear Nuevo Centro</button>
+            </div>
+          )}
+          {hasRole3 && hasRole4 && (
+            <div className='btn-create-professor'>
+              <button className="btn">Crear Nuevo Centro</button>
+            </div>
+          )}
+
         </div>
         <div className="dashboard-content">
-          <Switch>
+          <Route>
+
             {hasRole2 && (
               <Route
                 exact path="/dashboard"
-                // render={() => <StudentContainer studentData={studentData} />}
-                render={(props) => {
-                  const { computedMatch, ...restProps } = props;
-                  return <StudentContainer {...restProps} studentData={studentData} updateStudentData={this.updateStudentData} />
-                }}
-              />
+                render={() => <StudentContainer studentData={studentData} updateStudentData={this.updateStudentData} />} />
             )}
             {hasRole3 && (
               <Route
                 exact path="/dashboard/professor"
-                // render={() => <ProfessorContainer professorData={professorData} />}
-                render={(props) => {
-                  const { computedMatch, ...restProps } = props;
-                  return <ProfessorContainer {...restProps} professorData={professorData} updateProfessorData={this.updateProfessorData} />
-                }}
-              />
+                render={() => <ProfessorContainer professorData={professorData} updateProfessorData={this.updateProfessorData} />} />
             )}
             {hasRole4 && (
               <Route
                 exact path="/dashboard/center"
-                // render={() => <CenterContainer centersData={centersData} />} />
-                render={(props) => {
-                  const { computedMatch, ...restProps } = props;
-                  return <CenterContainer {...restProps} centersData={centersData} />
-                }}
-              />
+                render={() => <CenterContainer centersData={centersData} />} />
             )}
             {(!hasRole2 && !hasRole3 && !hasRole4) && (
               <div className="no-roles-message">
@@ -280,7 +280,8 @@ class DashboardContainer extends Component {
                 </ul>
               </div>
             )}
-          </Switch>
+
+          </Route>
         </div>
       </div>
     )
