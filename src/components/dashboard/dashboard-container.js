@@ -24,16 +24,16 @@ class DashboardContainer extends Component {
     this.updateStudentData = this.updateStudentData.bind(this);
 
   }
-  
+
   componentDidMount() {
     this.getUserId();
   }
 
-  updateProfessorData(professorId){
+  updateProfessorData(professorId) {
     this.fechProfessorData(professorId);
   }
 
-  updateStudentData(studentId){
+  updateStudentData(studentId) {
     this.fechStudentData(studentId);
   }
 
@@ -149,6 +149,25 @@ class DashboardContainer extends Component {
         this.setState({
           userRols: response.data.rols
         })
+        if(response.data.rols.length > 1){
+          switch (userRols.rols_id) {
+            case 2:
+              this.getStudentId(this.state.userId);
+              break;
+            case 3:
+              this.getProfessorId(this.state.userId);
+              break;
+            case 4:
+              this.getCenters(this.state.userId);
+              break;
+            default:
+              console.log("error rols");
+              break;
+          }
+        }else {
+          console.log("User not rols");
+        }
+        
       })
       .catch(error => {
         console.log("error in getUserRols:", error);
@@ -171,15 +190,17 @@ class DashboardContainer extends Component {
             userId: response.data.users_id
           })
           this.getUserRols(this.state.userId);
-          this.getStudentId(this.state.userId);
-          this.getProfessorId(this.state.userId);
-          this.getCenters(this.state.userId);
         } else {
           console.log("No Authorization");
         }
       })
       .catch(error => {
-        console.log("error in getUserId:", error);
+        if (error.response) {
+          console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
+          console.log(error.response.data);
+        } else {
+          console.log("Network or other error:", error.message);
+        }
       })
   }
 
@@ -222,7 +243,7 @@ class DashboardContainer extends Component {
                 // render={() => <StudentContainer studentData={studentData} />}
                 render={(props) => {
                   const { computedMatch, ...restProps } = props;
-                  return <StudentContainer {...restProps} studentData={studentData} updateStudentData={this.updateStudentData}/>
+                  return <StudentContainer {...restProps} studentData={studentData} updateStudentData={this.updateStudentData} />
                 }}
               />
             )}
@@ -232,7 +253,7 @@ class DashboardContainer extends Component {
                 // render={() => <ProfessorContainer professorData={professorData} />}
                 render={(props) => {
                   const { computedMatch, ...restProps } = props;
-                  return <ProfessorContainer {...restProps} professorData={professorData} updateProfessorData={this.updateProfessorData}/>
+                  return <ProfessorContainer {...restProps} professorData={professorData} updateProfessorData={this.updateProfessorData} />
                 }}
               />
             )}
