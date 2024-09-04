@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NavLink, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../utils/constant';
 
@@ -17,23 +17,42 @@ class DashboardContainer extends Component {
       studentData: null,
       professorData: null,
       centersData: null,
-      courses: null
+      courses: null,
+      showProfessorContainer: false,
+      showCenterContainer: false
+ 
     };
     this.getUserId = this.getUserId.bind(this);
+    this.getUserRols = this.getUserRols.bind(this);
     this.updateProfessorData = this.updateProfessorData.bind(this);
     this.updateStudentData = this.updateStudentData.bind(this);
+    this.handleCreateProfessor = this.handleCreateProfessor.bind(this);
+    this.handleCreateCenter = this.handleCreateCenter.bind(this);
 
   }
-  
+
   componentDidMount() {
     this.getUserId();
   }
 
-  updateProfessorData(professorId){
+  handleCreateCenter() {
+    this.setState({
+      showCenterContainer: true
+    });
+
+  }
+
+  handleCreateProfessor() {
+    this.setState({
+      showProfessorContainer: true
+    });
+  }
+
+  updateProfessorData(professorId) {
     this.fechProfessorData(professorId);
   }
 
-  updateStudentData(studentId){
+  updateStudentData(studentId) {
     this.fechStudentData(studentId);
   }
 
@@ -148,11 +167,32 @@ class DashboardContainer extends Component {
       .then(response => {
         this.setState({
           userRols: response.data.rols
-        })
+        }, () => {
+          const { userRols } = this.state;
+          if (userRols.length > 1) {
+            userRols.forEach(rol => {
+              switch (rol.rols_id) {
+                case 2:
+                  this.getStudentId(userId);
+                  break;
+                case 3:
+                  this.getProfessorId(userId);
+                  break;
+                case 4:
+                  this.getCenters(userId);
+                  break;
+                default:
+                  break;
+              }
+            });
+          } else {
+            console.log("User has no roles");
+          }
+        });
       })
       .catch(error => {
         console.log("error in getUserRols:", error);
-      })
+      });
   }
 
   getUserId() {
@@ -171,98 +211,108 @@ class DashboardContainer extends Component {
             userId: response.data.users_id
           })
           this.getUserRols(this.state.userId);
-          this.getStudentId(this.state.userId);
-          this.getProfessorId(this.state.userId);
-          this.getCenters(this.state.userId);
         } else {
           console.log("No Authorization");
         }
       })
       .catch(error => {
-        console.log("error in getUserId:", error);
+        if (error.response) {
+          console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
+          console.log(error.response.data);
+        } else {
+          console.log("Network or other error:", error.message);
+        }
       })
   }
 
 
   render() {
-    const { userRols } = this.state;
+    const { userRols, studentData, professorData, centersData, showProfessorContainer, showCenterContainer } = this.state;
     const rolesIds = userRols.map(role => role.rols_id);
-
-    const { studentData } = this.state;
-    const { professorData } = this.state;
-    const { centersData } = this.state;
 
     const hasRole2 = rolesIds.includes(2);
     const hasRole3 = rolesIds.includes(3);
     const hasRole4 = rolesIds.includes(4);
 
     return (
-      <div id="dashboard-container" className="dashboard-container">
-        <div className="dashboard-menu">
-          {hasRole2 && (
-            <NavLink exact to="/dashboard" activeClassName="active-link">Estudiante</NavLink>
-          )}
-          {hasRole3 && (
-            <NavLink to="/dashboard/professor" activeClassName="active-link">Profesor</NavLink>
-          )}
-          {hasRole4 && (
-            <NavLink to="/dashboard/center" activeClassName="active-link">Centro de Estudios</NavLink>
-          )}
-          {!hasRole3 && (
-            <div className='btn-create-professor'>
-              <button className="btn">Crear Nuevo Profesor</button>
-            </div>
-          )}
-        </div>
-        <div className="dashboard-content">
-          <Switch>
+      <Router>
+        <div id="dashboard-container" className="dashboard-container" >
+          <div className="dashboard-menu">
             {hasRole2 && (
-              <Route
-                exact path="/dashboard"
-                // render={() => <StudentContainer studentData={studentData} />}
-                render={(props) => {
-                  const { computedMatch, ...restProps } = props;
-                  return <StudentContainer {...restProps} studentData={studentData} updateStudentData={this.updateStudentData}/>
-                }}
-              />
+              <NavLink exact to="/dashboard" activeClassName="active-link">Estudiante</NavLink>
             )}
             {hasRole3 && (
-              <Route
-                exact path="/dashboard/professor"
-                // render={() => <ProfessorContainer professorData={professorData} />}
-                render={(props) => {
-                  const { computedMatch, ...restProps } = props;
-                  return <ProfessorContainer {...restProps} professorData={professorData} updateProfessorData={this.updateProfessorData}/>
-                }}
-              />
+              <NavLink to="/dashboard/professor" activeClassName="active-link">Profesor</NavLink>
             )}
             {hasRole4 && (
-              <Route
-                exact path="/dashboard/center"
-                // render={() => <CenterContainer centersData={centersData} />} />
-                render={(props) => {
-                  const { computedMatch, ...restProps } = props;
-                  return <CenterContainer {...restProps} centersData={centersData} />
-                }}
-              />
+              <NavLink to="/dashboard/center" activeClassName="active-link">Centro de Estudios</NavLink>
             )}
-            {(!hasRole2 && !hasRole3 && !hasRole4) && (
-              <div className="no-roles-message">
-                <p>1º.- Si deseas publicar tus cursos, primero debes darte de alta como profesor.</p>
-                <p>2º.- Si lo que quieres impartir el curso a través de un centro de estudios, una vez crees el profesor tienes dos opciones:</p>
-                <ul>
-                  <li>
-                    A través de un centro de estudios ya registrado en la plataforma. Deberás ponerte en contacto con el centro para que te acepten como profesor. Una vez ambas partes estáis de acuerdo, deberás darte de alta como profesor de dicho centro. El centro deberá aceptar dicha solicitud a través de la plataforma. </li>
-                  <li>
-                    A través de un centro de estudios propio, deberás crear el centro de estudios.
-                  </li>
-                </ul>
+            {!hasRole3 && (
+              <div className='btn-create-professor'>
+                <button className="btn" onClick={this.handleCreateProfessor}>Crear Nuevo Profesor</button>
               </div>
             )}
-          </Switch>
+            {hasRole3 && (
+              <div className='btn-create-professor'>
+                <button className="btn">Crear Nuevo Centro</button>
+              </div>
+            )}
+          </div>
+          <div className="dashboard-content">
+            {showProfessorContainer ? (
+              <ProfessorContainer userId={this.state.userId} getUserRols={this.getUserRols}/>
+            ) : (
+              <React.Fragment>
+                {hasRole2 && (
+                  <Route
+                    exact
+                    path="/dashboard"
+                    render={() => <StudentContainer studentData={studentData} updateStudentData={this.updateStudentData} />}
+                  />
+                )}
+
+                {!hasRole2 && hasRole3 && (
+                  <Route
+                    exact
+                    path="/dashboard"
+                    render={() => <ProfessorContainer professorData={professorData} updateProfessorData={this.updateProfessorData} userId={this.state.userId}/>}
+                  />
+                )}
+
+                {hasRole3 && (
+                  <Route
+                    exact
+                    path="/dashboard/professor"
+                    render={() => <ProfessorContainer professorData={professorData} updateProfessorData={this.updateProfessorData} userId={this.state.userId} />}
+                  />
+                )}
+
+                {hasRole4 && (
+                  <Route
+                    exact
+                    path="/dashboard/center"
+                    render={() => <CenterContainer centersData={centersData}  />}
+                  />
+                )}
+                {(!hasRole2 && !hasRole3 && !hasRole4) && (
+                  <div className="no-roles-message">
+                    <p>1º.- Si deseas publicar tus cursos, primero debes darte de alta como profesor.</p>
+                    <p>2º.- Si lo que quieres impartir el curso a través de un centro de estudios, una vez crees el profesor tienes dos opciones:</p>
+                    <ul>
+                      <li>
+                        A través de un centro de estudios ya registrado en la plataforma. Deberás ponerte en contacto con el centro para que te acepten como profesor. Una vez ambas partes estáis de acuerdo, deberás darte de alta como profesor de dicho centro. El centro deberá aceptar dicha solicitud a través de la plataforma. </li>
+                      <li>
+                        A través de un centro de estudios propio, deberás crear el centro de estudios.
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </React.Fragment>
+            )}
+          </div>
         </div>
-      </div>
-    )
+      </Router>
+    );
   }
 }
 export default DashboardContainer;
