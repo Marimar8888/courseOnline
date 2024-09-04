@@ -260,7 +260,7 @@ class DashboardContainer extends Component {
           </div>
           <div className="dashboard-content">
             {showProfessorContainer ? (
-              <ProfessorContainer userId={this.state.userId}/>
+              <ProfessorContainer userId={this.state.userId} getUserRols={this.getUserRols}/>
             ) : (
               <React.Fragment>
                 {hasRole2 && (

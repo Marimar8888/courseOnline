@@ -152,6 +152,7 @@ class ProfessorContainer extends Component {
       .then(response => {
         console.log("handleSubmit response", response.data);
         const isNewProfessor = this.state.createMode;
+        console.log("handleSubmit isNewProfessor:", isNewProfessor);
 
         this.setState({
           professors_first_name: response.data.professors_first_name,
@@ -172,9 +173,17 @@ class ProfessorContainer extends Component {
         this.initialState = { ...this.state };
         console.log("handleSubmit response professors_id", this.state.professors_id);
         //this.props.updateProfessorData(this.state.professors_id);
+        this.setState({
+          professors_id: response.data.professors_id,
+          apiUrl: `${API_URL}/professor/${response.data.professors_id}`,
+          apiAction: "patch",
+          createMode: false,
+          isButtonEnabled: false,
+        });
 
         if (isNewProfessor) {
           this.props.history.push(`/dashboard/professor`);
+          this.props.getUserRols(this.props.userId)
         }
       })
       .catch(error => {
