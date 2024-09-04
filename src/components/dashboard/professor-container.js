@@ -23,8 +23,10 @@ class ProfessorContainer extends Component {
       professors_cvc: "",
       courses: [],
       students: [],
+      apiUrl: `${API_URL}/professor/`,
+      apiAction: "post",
       isButtonEnabled: false,
-      createMode: true  
+      createMode: true
     };
     this.initialState = { ...this.state };
     this.handleChange = this.handleChange.bind(this);
@@ -54,6 +56,8 @@ class ProfessorContainer extends Component {
         professors_cvc: professorData.professor.professors_cvc,
         courses: professorData.courses || [],
         students: professorData.students || [],
+        apiUrl: `${API_URL}/professor/${this.state.professors_id}`,
+        apiAction: "patch",
         isButtonEnabled: false,
         createMode: false
       });
@@ -64,7 +68,7 @@ class ProfessorContainer extends Component {
     if (this.props.professorData !== prevProps.professorData) {
       const { professorData } = this.props;
 
-      if (professorData && professorData.professor) {
+      if (professorData.professor) {
         this.setState({
           professors_id: professorData.professor.professors_id,
           professors_first_name: professorData.professor.professors_first_name,
@@ -80,6 +84,9 @@ class ProfessorContainer extends Component {
           professors_cvc: professorData.professor.professors_cvc,
           courses: professorData.courses || [],
           students: professorData.students || [],
+          apiUrl: `${API_URL}/professor/${professorData.professor.professors_id}`,
+          apiAction: "patch",
+          isButtonEnabled: false,
           createMode: false
         });
       }
@@ -132,24 +139,14 @@ class ProfessorContainer extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    const professorId = this.state.professors_id;
-    //const formData = this.buildForm();
-    let method = this.state.createMode ? "post" : "patch";
-    let url = this.state.createMode ? `${API_URL}/professor/` : `${API_URL}/professor/${professorId}`;
-
-    console.log("handleSubmit createMode", this.state.createMode);
-    console.log("handleSubmit url", url);
-    console.log("handleSubmit method", method);
-    console.log("handleSubmit professorId", this.state.professors_id);
 
     axios
       ({
-        method: method,
-        url: url,
+        method: this.state.apiAction,
+        url: this.state.apiUrl,
         data: this.buildForm(),
         headers: {
-          'Authorization': `Bearer ${token}`, 
-          // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         }
       })
       .then(response => {
@@ -172,10 +169,11 @@ class ProfessorContainer extends Component {
           isButtonEnabled: false,
         });
 
+
         this.initialState = { ...this.state };
         console.log("handleSubmit response professors_id", this.state.professors_id);
         this.props.updateProfessorData(this.state.professors_id);
-      
+
         if (isNewProfessor) {
           this.props.history.push(`/dashboard/professor`);
         }
@@ -183,6 +181,11 @@ class ProfessorContainer extends Component {
       .catch(error => {
         console.log("error handleSubmit", error);
       })
+    console.log("handleSubmit createMode", this.state.createMode);
+    console.log("handleSubmit url", this.state.apiUrl);
+    console.log("handleSubmit method", this.state.apiAction);
+    console.log("handleSubmit professorId", this.state.professors_id);
+
   }
 
   handleChange = (event) => {
@@ -209,17 +212,22 @@ class ProfessorContainer extends Component {
       "professors_cvc"
     ];
 
+    // fields.forEach(field => {
+    //   if (this.state.createMode) {
+    //     // Si es createMode (POST), incluir todos los campos que tienen algún valor
+    //     if (this.state[field]) {
+    //       professorFormData.append(field, this.state[field]);
+    //     }
+    //   } else {
+    //     // Si no es createMode (PATCH), solo incluir los campos que han cambiado
+    //     if (this.state[field] !== this.initialState[field]) {
+    //       professorFormData.append(field, this.state[field]);
+    //     }
+    //   }
+    // });
     fields.forEach(field => {
-      if (this.state.createMode) {
-        // Si es createMode (POST), incluir todos los campos que tienen algún valor
-        if (this.state[field]) {
-          professorFormData.append(field, this.state[field]);
-        }
-      } else {
-        // Si no es createMode (PATCH), solo incluir los campos que han cambiado
-        if (this.state[field] !== this.initialState[field]) {
-          professorFormData.append(field, this.state[field]);
-        }
+      if (this.state[field] !== this.initialState[field]) {
+        professorFormData.append(field, this.state[field]);
       }
     });
 

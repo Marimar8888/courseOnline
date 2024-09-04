@@ -128,7 +128,7 @@ class StudentContainer extends Component {
         url: `${API_URL}/student/${studentId}`,
         data: formData,
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         }
       })
       .then(response => {
