@@ -23,7 +23,7 @@ class ProfessorContainer extends Component {
       professors_cvc: "",
       courses: [],
       students: [],
-      apiUrl: `${API_URL}/professor/`,
+      apiUrl: `${API_URL}/professor`,
       apiAction: "post",
       isButtonEnabled: false,
       createMode: true
@@ -169,10 +169,9 @@ class ProfessorContainer extends Component {
           isButtonEnabled: false,
         });
 
-
         this.initialState = { ...this.state };
         console.log("handleSubmit response professors_id", this.state.professors_id);
-        this.props.updateProfessorData(this.state.professors_id);
+        //this.props.updateProfessorData(this.state.professors_id);
 
         if (isNewProfessor) {
           this.props.history.push(`/dashboard/professor`);
@@ -212,34 +211,17 @@ class ProfessorContainer extends Component {
       "professors_cvc"
     ];
 
-    // fields.forEach(field => {
-    //   if (this.state.createMode) {
-    //     // Si es createMode (POST), incluir todos los campos que tienen algún valor
-    //     if (this.state[field]) {
-    //       professorFormData.append(field, this.state[field]);
-    //     }
-    //   } else {
-    //     // Si no es createMode (PATCH), solo incluir los campos que han cambiado
-    //     if (this.state[field] !== this.initialState[field]) {
-    //       professorFormData.append(field, this.state[field]);
-    //     }
-    //   }
-    // });
     fields.forEach(field => {
-      if (this.state[field] !== this.initialState[field]) {
-        professorFormData.append(field, this.state[field]);
+      if (this.state.createMode) {
+        if (this.state[field]) {
+          professorFormData.append(field, this.state[field]);
+        }
+      } else {
+        if (this.state[field] !== this.initialState[field]) {
+          professorFormData.append(field, this.state[field]);
+        }
       }
     });
-
-
-    // fields.forEach(field => {
-    //   if (this.state["professors_user_id"]) {
-    //     professorFormData.append(field, this.state[field] || "");
-    //   } else if (this.state[field] !== this.initialState[field]) {
-    //     professorFormData.append(field, this.state[field] || "");
-    //   }
-
-    // });
 
     for (let pair of professorFormData.entries()) {
       console.log(pair[0] + ': ' + pair[1]);
