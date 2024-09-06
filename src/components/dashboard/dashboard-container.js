@@ -4,7 +4,7 @@ import axios from 'axios';
 import { API_URL } from '../utils/constant';
 
 import StudentContainer from './student-container';
-import ProfessorContainer from './professor-container';
+import Professor from './dashboard-professor';
 import CenterContainer from './center-container';
 
 class DashboardContainer extends Component {
@@ -87,6 +87,7 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
+        console.log("Datos del profesor actualizados:", response.data); 
         this.setState({
           professorData: response.data
         })
@@ -242,7 +243,13 @@ class DashboardContainer extends Component {
               <NavLink exact to="/dashboard" activeClassName="active-link">Estudiante</NavLink>
             )}
             {hasRole3 && (
+<<<<<<< HEAD
               <NavLink to="/dashboard/professor" activeClassName="active-link">Profesor</NavLink>
+=======
+              <Route
+                exact path="/dashboard/professor"
+                render={() => <Professor professorData={professorData} updateProfessorData={this.updateProfessorData}  />} />
+>>>>>>> temp
             )}
             {hasRole4 && (
               <NavLink to="/dashboard/center" activeClassName="active-link">Centro de Estudios</NavLink>

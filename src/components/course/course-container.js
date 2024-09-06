@@ -22,7 +22,6 @@ class CourseContainer extends Component {
                 {courses.length > 0 ? (
                     <ul>
                         {courses.map(course => {
-                            console.log("Rendering course:", course);
                             return(
                                 <div key={course.courses_id}>
                                     <h2>{course.courses_title}</h2>

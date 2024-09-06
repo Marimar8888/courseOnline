@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CentersContainer from '../centers/centers-container';
+import CentersContainer from '../center-container';
 
 export default function () {
   return (

@@ -14,10 +14,10 @@ import RegisterModal from "./modals/register-modal";
 import Footer from './footer/footer';
 import StoreContainer from './store/store-container';
 import Dashboard from './pages/dashboard';
-import Courses from './pages/courses';
-import Professors from './pages/professors';
-import Centers from "./pages/centers";
-import Students from "./pages/students";
+import Courses from './dashboard/pages/courses';
+import Centers from "./dashboard/pages/centers";
+import Students from "./dashboard/pages/students";
+import Professors from './dashboard/pages/professors';
 
 
 
