@@ -69,6 +69,7 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
+        console.log("Datos del profesor actualizados:", response.data); 
         this.setState({
           professorData: response.data
         })
@@ -260,7 +261,7 @@ class DashboardContainer extends Component {
             {hasRole3 && (
               <Route
                 exact path="/dashboard/professor"
-                render={() => <Professor professorData={professorData} updateProfessorData={this.updateProfessorData} />} />
+                render={() => <Professor professorData={professorData} updateProfessorData={this.updateProfessorData}  />} />
             )}
             {hasRole4 && (
               <Route
