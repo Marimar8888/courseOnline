@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import DashboardBills from './dashboard-bills';
 
-class ProfessorContainer extends Component {
+class Professor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -379,4 +379,4 @@ class ProfessorContainer extends Component {
   }
 }
 
-export default withRouter(ProfessorContainer);
+export default withRouter(Professor);

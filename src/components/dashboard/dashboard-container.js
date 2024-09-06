@@ -4,7 +4,7 @@ import axios from 'axios';
 import { API_URL } from '../utils/constant';
 
 import StudentContainer from './student-container';
-import ProfessorContainer from './professor-container';
+import Professor from './dashboard-professor';
 import CenterContainer from './center-container';
 
 class DashboardContainer extends Component {
@@ -260,7 +260,7 @@ class DashboardContainer extends Component {
             {hasRole3 && (
               <Route
                 exact path="/dashboard/professor"
-                render={() => <ProfessorContainer professorData={professorData} updateProfessorData={this.updateProfessorData} />} />
+                render={() => <Professor professorData={professorData} updateProfessorData={this.updateProfessorData} />} />
             )}
             {hasRole4 && (
               <Route
