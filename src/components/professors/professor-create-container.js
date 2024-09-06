@@ -92,7 +92,7 @@ class ProfessorCreateContainer extends Component {
     return (
       <form onSubmit={this.handleSubmit} className="dashboard-dates">
         <div className="dashboard-dates-header">
-          <h2>Crear Nuevo Profesor</h2>
+          <h2>Datos</h2>
           <button
             className={`btn-save ${this.state.isButtonEnabled ? 'btn' : ''}`}
             disabled={!this.state.isButtonEnabled}
@@ -132,8 +132,10 @@ class ProfessorCreateContainer extends Component {
             />
           </div>
         </div>
-        <div className="dashboard-address">
-          <h3>Dirección</h3>
+        <div>
+          <h3>Domicilio</h3>
+        </div>
+        <div className='dashboard-form-group-address'>
           <div className="form-group">
             <input
               type="text"
@@ -161,9 +163,20 @@ class ProfessorCreateContainer extends Component {
               onChange={this.handleChange}
             />
           </div>
+          <div className="form-group">
+            <input
+              type="email"
+              name="professors_email"
+              placeholder="Email"
+              value={this.state.professors_email || ""}
+              onChange={this.handleChange}
+            />
+          </div>
         </div>
-        <div className="dashboard-payment">
+        <div>
           <h3>Datos de pago</h3>
+        </div>
+        <div className='dashboard-form-group-card'>
           <div className="form-group">
             <input
               type="text"

@@ -36,7 +36,7 @@ class ProfessorEditContainer extends Component {
 
   componentDidMount() {
     const { professorData } = this.props;
-    
+
     if (professorData) {
       this.setState({
         professors_id: professorData.professor.professors_id,
@@ -155,7 +155,7 @@ class ProfessorEditContainer extends Component {
           professors_number_card: response.data.professors_number_card,
           professors_exp_date: response.data.professors_exp_date,
           professors_cvc: response.data.professors_cvc,
-          isButtonEnabled: false,  
+          isButtonEnabled: false,
         });
 
         this.initialState = { ...this.state };
@@ -257,8 +257,10 @@ class ProfessorEditContainer extends Component {
             />
           </div>
         </div>
-        <div className="dashboard-address">
-          <h3>Dirección</h3>
+        <div>
+          <h3>Domicilio</h3>
+        </div>
+        <div className='dashboard-form-group-address'>
           <div className="form-group">
             <input
               type="text"
@@ -286,9 +288,20 @@ class ProfessorEditContainer extends Component {
               onChange={this.handleChange}
             />
           </div>
+          <div className="form-group">
+            <input
+              type="email"
+              name="professors_email"
+              placeholder="Email"
+              value={this.state.professors_email || ""}
+              onChange={this.handleChange}
+            />
+          </div>
         </div>
-        <div className="dashboard-payment">
+        <div>
           <h3>Datos de pago</h3>
+        </div>
+        <div className='dashboard-form-group-card'>
           <div className="form-group">
             <input
               type="text"

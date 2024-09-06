@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, NavLink, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, NavLink, Route } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../utils/constant';
 
@@ -23,11 +23,18 @@ class DashboardContainer extends Component {
     this.getUserRols = this.getUserRols.bind(this);
     this.updateProfessorData = this.updateProfessorData.bind(this);
     this.updateStudentData = this.updateStudentData.bind(this);
+    this.handleCreateProfessor = this.handleCreateProfessor.bind(this);
 
   }
 
   componentDidMount() {
     this.getUserId();
+  }
+
+  handleCreateProfessor() {
+    this.setState({
+      professorData: null
+    });
   }
 
   updateProfessorData(professorId) {
@@ -69,7 +76,7 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
-        console.log("Datos del profesor actualizados:", response.data); 
+        console.log("Datos del profesor actualizados:", response.data);
         this.setState({
           professorData: response.data
         })
@@ -210,19 +217,15 @@ class DashboardContainer extends Component {
 
 
   render() {
-    const { userRols } = this.state;
+    const { userRols, studentData, professorData, centersData, showProfessorContainer, userId } = this.state;
     const rolesIds = userRols.map(role => role.rols_id);
 
-    const { studentData } = this.state;
-    const { professorData } = this.state;
-    const { centersData } = this.state;
-
-    const hasRole2 = rolesIds.includes(2);
-    const hasRole3 = rolesIds.includes(3);
-    const hasRole4 = rolesIds.includes(4);
+    const hasRole2 = rolesIds.includes(2); // Estudiante
+    const hasRole3 = rolesIds.includes(3); // Profesor
+    const hasRole4 = rolesIds.includes(4); // Centro de estudios
 
     return (
-      <div id="dashboard-container" className="dashboard-container" >
+      <div id="dashboard-container" className="dashboard-container">
         <div className="dashboard-menu">
           {hasRole2 && (
             <NavLink exact to="/dashboard" activeClassName="active-link">Estudiante</NavLink>
@@ -235,57 +238,58 @@ class DashboardContainer extends Component {
           )}
           {!hasRole3 && (
             <div className='btn-create-professor'>
-              <button className="btn">Crear Nuevo Profesor</button>
+              <button className="btn" onClick={this.handleCreateProfessor}>Crear Nuevo Profesor</button>
             </div>
           )}
-          {hasRole3 && !hasRole4 && (
+          {hasRole3 && (
             <div className='btn-create-professor'>
               <button className="btn">Crear Nuevo Centro</button>
             </div>
           )}
-          {hasRole3 && hasRole4 && (
-            <div className='btn-create-professor'>
-              <button className="btn">Crear Nuevo Centro</button>
-            </div>
-          )}
-
         </div>
-        <div className="dashboard-content">
-          <Route>
 
+        <div className="dashboard-content">
+          <Switch>
+            {/* Rutas disponibles */}
             {hasRole2 && (
-              <Route
-                exact path="/dashboard"
-                render={() => <StudentContainer studentData={studentData} updateStudentData={this.updateStudentData} />} />
+              <Route path="/dashboard" exact render={() => (
+                <StudentContainer studentData={studentData} updateStudentData={this.updateStudentData} />
+              )} />
+            )}
+            {!hasRole2 && hasRole3 && (
+              <Route path="/dashboard" exact render={() => (
+                <Professor professorData={professorData} updateProfessorData={this.updateProfessorData} userId={userId} />
+              )} />
             )}
             {hasRole3 && (
-              <Route
-                exact path="/dashboard/professor"
-                render={() => <Professor professorData={professorData} updateProfessorData={this.updateProfessorData}  />} />
+              <Route path="/dashboard/professor" exact render={() => (
+                <Professor professorData={professorData} updateProfessorData={this.updateProfessorData} userId={userId} />
+              )} />
             )}
             {hasRole4 && (
-              <Route
-                exact path="/dashboard/center"
-                render={() => <CenterContainer centersData={centersData} />} />
-            )}
-            {(!hasRole2 && !hasRole3 && !hasRole4) && (
-              <div className="no-roles-message">
-                <p>1º.- Si deseas publicar tus cursos, primero debes darte de alta como profesor.</p>
-                <p>2º.- Si lo que quieres impartir el curso a través de un centro de estudios, una vez crees el profesor tienes dos opciones:</p>
-                <ul>
-                  <li>
-                    A través de un centro de estudios ya registrado en la plataforma. Deberás ponerte en contacto con el centro para que te acepten como profesor. Una vez ambas partes estáis de acuerdo, deberás darte de alta como profesor de dicho centro. El centro deberá aceptar dicha solicitud a través de la plataforma. </li>
-                  <li>
-                    A través de un centro de estudios propio, deberás crear el centro de estudios.
-                  </li>
-                </ul>
-              </div>
+              <Route path="/dashboard/center" exact render={() => (
+                <CenterContainer centersData={centersData} />
+              )} />
             )}
 
-          </Route>
+            {/* Mensaje de sin roles */}
+            {!hasRole2 && !hasRole3 && !hasRole4 && (
+              <Route path="*" render={() => (
+                <div className="no-roles-message">
+                  <p>1º.- Si deseas publicar tus cursos, primero debes darte de alta como profesor.</p>
+                  <p>2º.- Si lo que quieres es impartir el curso a través de un centro de estudios, una vez crees el profesor tienes dos opciones:</p>
+                  <ul>
+                    <li>A través de un centro de estudios ya registrado en la plataforma. Deberás ponerte en contacto con el centro para que te acepten como profesor. Una vez ambas partes estén de acuerdo, deberás darte de alta como profesor de dicho centro. El centro deberá aceptar dicha solicitud a través de la plataforma.</li>
+                    <li>A través de un centro de estudios propio, deberás crear el centro de estudios.</li>
+                  </ul>
+                </div>
+              )} />
+            )}
+          </Switch>
         </div>
       </div>
-    )
+    );
   }
 }
+
 export default DashboardContainer;
