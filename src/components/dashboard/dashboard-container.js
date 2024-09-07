@@ -5,7 +5,7 @@ import { API_URL } from '../utils/constant';
 
 import DashboardStudent from './dashboard-student';
 import DashboardProfessor from './dashboard-professor';
-import CenterContainer from './center-container';
+import DashboardCenters from './dashboard-centers';
 
 class DashboardContainer extends Component {
   constructor() {
@@ -282,7 +282,7 @@ class DashboardContainer extends Component {
             )}
             {hasRole4 && (
               <Route path="/dashboard/center" exact render={() => (
-                <CenterContainer centersData={centersData} />
+                <DashboardCenters centersData={centersData} />
               )} />
             )}
             {!hasRole3 && this.state.showProfessorContainer && (

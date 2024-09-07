@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import DashboardBills from './dashboard-bills';
 
-class CenterContainer extends Component {
+class DashboardCenters extends Component {
   constructor(props) {
     super(props);
 
@@ -103,4 +103,4 @@ class CenterContainer extends Component {
     );
   }
 }
-export default withRouter(CenterContainer);
+export default withRouter(DashboardCenters);

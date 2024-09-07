@@ -1,11 +1,11 @@
 import React from 'react';
 
-import CentersContainer from '../center-container';
+import DashboardCenters from '../dashboard-centers';
 
 export default function () {
   return (
     <div>
-      <CentersContainer/>
+      <DashboardCenters/>
     </div>
   )
 }
