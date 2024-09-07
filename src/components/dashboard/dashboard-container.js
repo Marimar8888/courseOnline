@@ -258,7 +258,7 @@ class DashboardContainer extends Component {
 
         <div className="dashboard-content">
           <Switch>
-            {hasRole2 && (
+            {hasRole2 &&  !this.state.showProfessorContainer &&(
               <Route path="/dashboard" exact render={() => (
                 <StudentContainer studentData={studentData} updateStudentData={this.updateStudentData} />
               )} />
@@ -281,7 +281,7 @@ class DashboardContainer extends Component {
                 <CenterContainer centersData={centersData} />
               )} />
             )}
-            {!hasRole2 && !hasRole3 && this.state.showProfessorContainer && (
+            {!hasRole3 && this.state.showProfessorContainer && (
               <Route path="/dashboard" exact render={() => (
                 <Professor userId={userId} showProfessorContainer={this.state.showProfessorContainer} handleProfessorCreated={this.handleProfessorCreated}/>
               )} />
