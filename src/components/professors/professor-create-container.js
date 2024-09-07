@@ -50,6 +50,7 @@ class ProfessorCreateContainer extends Component {
           professors_first_name: "",
           professors_last_name: "",
           professors_email: "",
+          professors_user_id: this.props.userId || null,
           professors_dni: "",
           professors_address: "",
           professors_city: "",
@@ -80,6 +81,8 @@ class ProfessorCreateContainer extends Component {
       "professors_exp_date",
       "professors_cvc"
     ];
+
+    professorFormData.append( "professors_user_id", this.state.professors_user_id);
 
     fields.forEach(field => {
       professorFormData.append(field, this.state[field]);

@@ -6,6 +6,7 @@ import { API_URL } from '../utils/constant';
 import StudentContainer from './student-container';
 import Professor from './dashboard-professor';
 import CenterContainer from './center-container';
+import ProfessorCreateContainer from '../professors/professor-create-container';
 
 class DashboardContainer extends Component {
   constructor() {
@@ -17,7 +18,8 @@ class DashboardContainer extends Component {
       studentData: null,
       professorData: null,
       centersData: null,
-      courses: null
+      courses: null,
+      showProfessorContainer: false
     };
     this.getUserId = this.getUserId.bind(this);
     this.getUserRols = this.getUserRols.bind(this);
@@ -33,7 +35,7 @@ class DashboardContainer extends Component {
 
   handleCreateProfessor() {
     this.setState({
-      professorData: null
+      showProfessorContainer: true
     });
   }
 
@@ -76,7 +78,6 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
-        console.log("Datos del profesor actualizados:", response.data);
         this.setState({
           professorData: response.data
         })
@@ -217,7 +218,7 @@ class DashboardContainer extends Component {
 
 
   render() {
-    const { userRols, studentData, professorData, centersData, showProfessorContainer, userId } = this.state;
+    const { userRols, studentData, professorData, centersData, userId } = this.state;
     const rolesIds = userRols.map(role => role.rols_id);
 
     const hasRole2 = rolesIds.includes(2); // Estudiante
@@ -250,20 +251,19 @@ class DashboardContainer extends Component {
 
         <div className="dashboard-content">
           <Switch>
-            {/* Rutas disponibles */}
             {hasRole2 && (
               <Route path="/dashboard" exact render={() => (
                 <StudentContainer studentData={studentData} updateStudentData={this.updateStudentData} />
               )} />
             )}
-            {!hasRole2 && hasRole3 && (
+            {!hasRole2 && hasRole3 || this.state.showProfessorContainer && (
               <Route path="/dashboard" exact render={() => (
-                <Professor professorData={professorData} updateProfessorData={this.updateProfessorData} userId={userId} />
+                <Professor professorData={professorData} updateProfessorData={this.updateProfessorData} userId={userId} showProfessorContainer={this.state.showProfessorContainer}/>
               )} />
             )}
             {hasRole3 && (
               <Route path="/dashboard/professor" exact render={() => (
-                <Professor professorData={professorData} updateProfessorData={this.updateProfessorData} userId={userId} />
+                <Professor professorData={professorData} updateProfessorData={this.updateProfessorData}  />
               )} />
             )}
             {hasRole4 && (
@@ -271,9 +271,13 @@ class DashboardContainer extends Component {
                 <CenterContainer centersData={centersData} />
               )} />
             )}
+            {/* {this.state.showProfessorContainer && (
+              <Route path="/dashboard" exact render={() => (
+                <ProfessorCreateContainer userId={userId} showProfessorContainer={this.state.showProfessorContainer} />
+              )} />
+            )} */}
 
-            {/* Mensaje de sin roles */}
-            {!hasRole2 && !hasRole3 && !hasRole4 && (
+            {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && (
               <Route path="*" render={() => (
                 <div className="no-roles-message">
                   <p>1º.- Si deseas publicar tus cursos, primero debes darte de alta como profesor.</p>
