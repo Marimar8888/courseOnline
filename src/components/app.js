@@ -18,6 +18,7 @@ import Courses from './dashboard/pages/courses';
 import Centers from "./dashboard/pages/centers";
 import Students from "./dashboard/pages/students";
 import Professors from './dashboard/pages/professors';
+import Store from './pages/store';
 
 
 
@@ -184,7 +185,7 @@ class App extends Component {
               <Route
                 path="/store"
                 render={props => (
-                  <StoreContainer {...props} loggedInStatus={this.state.loggedInStatus} />
+                  <Store {...props} loggedInStatus={this.state.loggedInStatus} />
                 )}
               />
               <Route path="/about" component={About} />

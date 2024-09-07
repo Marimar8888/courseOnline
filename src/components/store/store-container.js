@@ -8,7 +8,11 @@ class StoreContainer extends Component {
         this.state = {
             courses: [],
             categoryId: this.props.match.params.slug || null,
-            categoryName: ""
+            categoryName: "",
+            currentPage: 1,
+            totalCount: 0,
+            isLoading: false,
+            limit: 10
         };
     }
 
@@ -34,18 +38,41 @@ class StoreContainer extends Component {
         }
     }
 
+    // getAllCourses() {
+    //     axios
+    //         .get(
+    //             `${API_URL}/courses`
+    //         )
+    //         .then(response => {
+    //             this.setState({
+    //                 courses: response.data,
+    //                 categoryName: "All Courses"
+    //             })
+    //         })
+    // }
+
     getAllCourses() {
+
+        this.setState({ isLoading: true });
+   
         axios
-            .get(
-                `${API_URL}/courses`
-            )
-            .then(response => {
-                this.setState({
-                    courses: response.data,
-                    categoryName: "All Courses"
-                })
-            })
+          .get(
+            `${API_URL}/courses?page=${this.state.currentPage}&limit=${this.state.limit}`
+          )
+          .then(response => {
+            this.setState(prevState => ({
+                courses: [...prevState.courses, ...response.data.courses],  // Concatenar cursos nuevos
+                totalCount: response.data.total,  
+                isLoading: false,
+                currentPage: prevState.currentPage + 1  
+            }));
+          })
+          .catch(error => {
+            console.log("getCourses error", error);
+            this.setState({ isLoading: false });
+          });
     }
+
 
     getCategoryItem() {
         axios
@@ -83,7 +110,7 @@ class StoreContainer extends Component {
 
     render() {
         return (
-            <div className="content-page-wrapper">
+            <div className="store-content-page-wrapper">
                 <h1>{this.state.categoryName}</h1>
                 <div>
                     {this.state.courses.map(course => (
