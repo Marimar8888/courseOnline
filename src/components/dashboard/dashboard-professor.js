@@ -2,7 +2,7 @@ import React from 'react';
 import ProfessorCreateContainer from '../professors/professor-create-container';
 import ProfessorEditContainer from '../professors/professor-edit-container';
 
-const Professor = ({ professorData, updateProfessorData, userId, showProfessorContainer, handleProfessorCreated}) => {
+const DashboardProfessor = ({ professorData, updateProfessorData, userId, showProfessorContainer, handleProfessorCreated}) => {
 
   const updateDashboarProfessorData =(professorId) =>{
     updateProfessorData(professorId)
@@ -15,4 +15,4 @@ const Professor = ({ professorData, updateProfessorData, userId, showProfessorCo
   );
 };
 
-export default Professor;
+export default DashboardProfessor;

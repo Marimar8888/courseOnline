@@ -1,12 +1,10 @@
 import React from 'react';
-
-
-import Professor from "../dashboard-professor"
+import DashboardProfessor from '../dashboard-professor';
 
 export default function () {
   return (
     <div>
-      <Professor/>
+      <DashboardProfessor/>
     </div>
   )
 }

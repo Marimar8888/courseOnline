@@ -1,11 +1,11 @@
 import React from 'react';
+import DashboardStudent from '../dashboard-student';
 
-import StudentContainer from '../student-container';
 
 export default function () {
   return (
     <div>
-      <StudentContainer/>
+      <DashboardStudent/>
     </div>
   )
 }

@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Switch, NavLink, Route } from 'react-router-do
 import axios from 'axios';
 import { API_URL } from '../utils/constant';
 
-import StudentContainer from './student-container';
-import Professor from './dashboard-professor';
+import DashboardStudent from './dashboard-student';
+import DashboardProfessor from './dashboard-professor';
 import CenterContainer from './center-container';
 
 class DashboardContainer extends Component {
@@ -260,12 +260,14 @@ class DashboardContainer extends Component {
           <Switch>
             {hasRole2 &&  !this.state.showProfessorContainer &&(
               <Route path="/dashboard" exact render={() => (
-                <StudentContainer studentData={studentData} updateStudentData={this.updateStudentData} />
+                <DashboardStudent 
+                  studentData={studentData} 
+                  updateStudentData={this.updateStudentData} />
               )} />
             )}
             {!hasRole2 && hasRole3 && (
               <Route path="/dashboard" exact render={() => (
-                <Professor 
+                <DashboardProfessor 
                   professorData={professorData} 
                   updateProfessorData={this.updateProfessorData} 
                  />
@@ -273,7 +275,9 @@ class DashboardContainer extends Component {
             )}
             {hasRole3 && (
               <Route path="/dashboard/professor" exact render={() => (
-                <Professor professorData={professorData} updateProfessorData={this.updateProfessorData}  />
+                <DashboardProfessor 
+                  professorData={professorData} 
+                  updateProfessorData={this.updateProfessorData}  />
               )} />
             )}
             {hasRole4 && (
@@ -283,7 +287,7 @@ class DashboardContainer extends Component {
             )}
             {!hasRole3 && this.state.showProfessorContainer && (
               <Route path="/dashboard" exact render={() => (
-                <Professor userId={userId} showProfessorContainer={this.state.showProfessorContainer} handleProfessorCreated={this.handleProfessorCreated}/>
+                <DashboardProfessor userId={userId} showProfessorContainer={this.state.showProfessorContainer} handleProfessorCreated={this.handleProfessorCreated}/>
               )} />
             )}
             {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && (
