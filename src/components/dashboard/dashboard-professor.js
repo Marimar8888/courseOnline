@@ -16,24 +16,3 @@ const Professor = ({ professorData, updateProfessorData, userId, showProfessorCo
 };
 
 export default Professor;
-
-
-// import React from 'react';
-// import ProfessorEditContainer from '../professors/professor-edit-container';
-
-
-// const Professor = (props) =>{
-
-//   const updateDashboarProfessorData =(professorId) => {
-//     props.updateProfessorData(professorId)
-//   }
-
-//   return(
-
-//       <ProfessorEditContainer professorData={props.professorData} updateDashboarProfessorData={updateDashboarProfessorData}/>
-  
-//   )
-// }
-
-// export default Professor;
-

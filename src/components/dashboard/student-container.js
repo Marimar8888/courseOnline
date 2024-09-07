@@ -294,7 +294,7 @@ class StudentContainer extends Component {
             <div className="form-group">
               <input
                 type="text"
-                name="students_number_card "
+                name="students_number_card"
                 placeholder="Nº tarjeta"
                 value={this.state.students_number_card || ""}
                 onChange={this.handleChange}

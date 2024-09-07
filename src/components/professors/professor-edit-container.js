@@ -303,7 +303,7 @@ class ProfessorEditContainer extends Component {
         </div>
         <div className='dashboard-form-group-card'>
           <div className="form-group">
-            <input
+          <input
               type="text"
               name="professors_number_card"
               placeholder="Número de tarjeta"
