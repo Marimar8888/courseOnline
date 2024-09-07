@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import { API_URL } from '../utils/constant';
+import { withRouter } from 'react-router-dom';
 
 class ProfessorCreateContainer extends Component {
   constructor(props) {
@@ -46,7 +47,6 @@ class ProfessorCreateContainer extends Component {
         }
       })
       .then(response => {
-        console.log("Profesor creado exitosamente", response.data);
         this.setState({
           professors_first_name: "",
           professors_last_name: "",
@@ -61,6 +61,10 @@ class ProfessorCreateContainer extends Component {
           professors_cvc: "",
           isButtonEnabled: false,
         });
+        this.props.handleProfessorCreated();
+
+        this.props.history.push(`/dashboard/professor`);
+
       })
       .catch(error => {
         console.log("error handleSubmit", error);
@@ -214,4 +218,4 @@ class ProfessorCreateContainer extends Component {
   }
 }
 
-export default ProfessorCreateContainer;
+export default withRouter(ProfessorCreateContainer);

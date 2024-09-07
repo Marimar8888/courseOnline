@@ -6,7 +6,6 @@ import { API_URL } from '../utils/constant';
 import StudentContainer from './student-container';
 import Professor from './dashboard-professor';
 import CenterContainer from './center-container';
-import ProfessorCreateContainer from '../professors/professor-create-container';
 
 class DashboardContainer extends Component {
   constructor() {
@@ -26,6 +25,7 @@ class DashboardContainer extends Component {
     this.updateProfessorData = this.updateProfessorData.bind(this);
     this.updateStudentData = this.updateStudentData.bind(this);
     this.handleCreateProfessor = this.handleCreateProfessor.bind(this);
+    this.handleProfessorCreated = this.handleProfessorCreated.bind(this);
 
   }
 
@@ -33,6 +33,13 @@ class DashboardContainer extends Component {
     this.getUserId();
   }
 
+  handleProfessorCreated = () => {
+    this.setState({
+      showProfessorContainer: false
+    }, () => {
+      this.getUserRols(this.state.userId); 
+    });
+  };
   handleCreateProfessor() {
     this.setState({
       showProfessorContainer: true
@@ -256,9 +263,12 @@ class DashboardContainer extends Component {
                 <StudentContainer studentData={studentData} updateStudentData={this.updateStudentData} />
               )} />
             )}
-            {!hasRole2 && hasRole3 || this.state.showProfessorContainer && (
+            {!hasRole2 && hasRole3 && (
               <Route path="/dashboard" exact render={() => (
-                <Professor professorData={professorData} updateProfessorData={this.updateProfessorData} userId={userId} showProfessorContainer={this.state.showProfessorContainer}/>
+                <Professor 
+                  professorData={professorData} 
+                  updateProfessorData={this.updateProfessorData} 
+                 />
               )} />
             )}
             {hasRole3 && (
@@ -271,12 +281,11 @@ class DashboardContainer extends Component {
                 <CenterContainer centersData={centersData} />
               )} />
             )}
-            {/* {this.state.showProfessorContainer && (
+            {!hasRole2 && !hasRole3 && this.state.showProfessorContainer && (
               <Route path="/dashboard" exact render={() => (
-                <ProfessorCreateContainer userId={userId} showProfessorContainer={this.state.showProfessorContainer} />
+                <Professor userId={userId} showProfessorContainer={this.state.showProfessorContainer} handleProfessorCreated={this.handleProfessorCreated}/>
               )} />
-            )} */}
-
+            )}
             {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && (
               <Route path="*" render={() => (
                 <div className="no-roles-message">
