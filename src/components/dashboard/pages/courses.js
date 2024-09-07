@@ -5,7 +5,7 @@ import CourseContainer from "../../course/course-container"
 
 export default function () {
   return (
-    <div>
+    <div className="store-page-wrapper">
       <CourseContainer/>
     </div>
   )

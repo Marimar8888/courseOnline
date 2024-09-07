@@ -18,26 +18,33 @@ class CourseContainer extends Component {
         const { courses } = this.state;
         return (
             <div>
-                <h2>Course Container</h2>
-                {courses.length > 0 ? (
-                    <ul>
-                        {courses.map(course => {
-                            return(
-                                <div key={course.courses_id}>
-                                    <h2>{course.courses_title}</h2>
-                                    <img 
-                                        src={course.courses_image} 
-                                        alt={course.courses_title} 
-                                        style={{ maxWidth: '30%', height: 'auto' }}
-                                    />
-                                    <p>{course.courses_content}</p>
-                                </div>
-                            );
-                        })}
-                    </ul>
-                ) : (
-                    <p>No hay cursos disponibles.</p>
-                )}
+                <div className="store-content-page-wrapper">
+                    {courses.length > 0 ? (
+                        <ul>
+                            {courses.map(course => {
+                                return (
+                                    <div className="store-content-item" key={course.courses_id}>
+                                        <div className='store-content-image' key={course.courses_id}>
+                                            <img
+                                                src={course.courses_image}
+                                                alt={course.courses_title}
+                                                style={{ maxWidth: '100%', height: 'auto' }}
+                                            />
+                                        </div>
+                                        <div className='store-content-text'>
+                                            <h2>{course.courses_title}</h2>
+
+                                            <p>{course.courses_content}</p>
+                                        </div>
+                                        <div>Icons crear borrar</div>
+                                    </div>
+                                );
+                            })}
+                        </ul>
+                    ) : (
+                        <p>No hay cursos disponibles.</p>
+                    )}
+                </div>
             </div>
         )
     }

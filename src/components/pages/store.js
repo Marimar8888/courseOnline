@@ -13,12 +13,4 @@ const Store = (props) => {
 export default Store;
 
 
-// export default function () {
-//   return (
-//     <div className="store-page-wrapper">
-//       <StoreContainer/>
-//     </div>
-//   )
-// }
-
 
