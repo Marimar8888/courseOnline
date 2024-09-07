@@ -20,12 +20,12 @@ class StoreContainer extends Component {
         this.loadCourses();
     }
 
-    componentDidUpdate(prevProps){
+    componentDidUpdate(prevProps) {
         if (this.props.match.params.slug !== prevProps.match.params.slug) {
             this.setState({
-                    categoryId: this.props.match.params.slug || null 
-                },
-                this.getAllCourses 
+                categoryId: this.props.match.params.slug || null
+            },
+                this.getAllCourses
             );
         }
     }
@@ -33,7 +33,7 @@ class StoreContainer extends Component {
     loadCourses = () => {
         if (this.state.categoryId) {
             this.getCategoryItem();
-        }else{
+        } else {
             this.getAllCourses();
         }
     }
@@ -54,23 +54,23 @@ class StoreContainer extends Component {
     getAllCourses() {
 
         this.setState({ isLoading: true });
-   
+
         axios
-          .get(
-            `${API_URL}/courses?page=${this.state.currentPage}&limit=${this.state.limit}`
-          )
-          .then(response => {
-            this.setState(prevState => ({
-                courses: [...prevState.courses, ...response.data.courses],  // Concatenar cursos nuevos
-                totalCount: response.data.total,  
-                isLoading: false,
-                currentPage: prevState.currentPage + 1  
-            }));
-          })
-          .catch(error => {
-            console.log("getCourses error", error);
-            this.setState({ isLoading: false });
-          });
+            .get(
+                `${API_URL}/courses?page=${this.state.currentPage}&limit=${this.state.limit}`
+            )
+            .then(response => {
+                this.setState(prevState => ({
+                    courses: [...prevState.courses, ...response.data.courses],  // Concatenar cursos nuevos
+                    totalCount: response.data.total,
+                    isLoading: false,
+                    currentPage: prevState.currentPage + 1
+                }));
+            })
+            .catch(error => {
+                console.log("getCourses error", error);
+                this.setState({ isLoading: false });
+            });
     }
 
 
@@ -80,7 +80,7 @@ class StoreContainer extends Component {
                 `${API_URL}/category/${this.state.categoryId}`
             )
             .then(response => {
-                this.setState({ 
+                this.setState({
                     categoryId: response.data.categories_id,
                     categoryName: response.data.categories_name,
                     courses: []
@@ -103,7 +103,7 @@ class StoreContainer extends Component {
                     courses: response.data,
                 });
             })
-            .catch(error =>{
+            .catch(error => {
                 console.log('getCourseByCategory error', error);
             })
     }
@@ -111,20 +111,23 @@ class StoreContainer extends Component {
     render() {
         return (
             <div className="store-content-page-wrapper">
-                <h1>{this.state.categoryName}</h1>
-                <div>
-                    {this.state.courses.map(course => (
-                        <div key={course.courses_id}>
-                            <h2>{course.courses_title}</h2>
-                            <img 
-                                src={course.courses_image} 
-                                alt={course.courses_title} 
-                                style={{ maxWidth: '30%', height: 'auto' }}
+                {this.state.courses.map(course => (
+                    <div className="store-content-item" key={course.courses_id}>
+                        <div className='store-content-image' key={course.courses_id}>
+                            <img
+                                src={course.courses_image}
+                                alt={course.courses_title}
+                                style={{ maxWidth: '100%', height: 'auto' }}
                             />
+                        </div>
+                        <div className='store-content-text'>
+                            <h2>{course.courses_title}</h2>
+
                             <p>{course.courses_content}</p>
                         </div>
-                    ))}
-                </div>
+                        <div>Icons crear borrar</div>
+                    </div>
+                ))}
             </div>
         )
     }

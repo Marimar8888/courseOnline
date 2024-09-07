@@ -1,6 +1,27 @@
 .store-page-wrapper {
     display: flex;
-    margin: 0 auto;
-    width: 60%;
+
+    .store-content-page-wrapper {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        width: 60%; 
+        margin: 0 auto; 
+
+        .store-content-item {
+            display: grid;
+            width: 100%; 
+            grid-template-columns: 1fr 2fr 1fr; 
+            gap: 20px; 
+            margin-bottom: 20px; 
+        }
+
+        .store-content-image img {
+            width: 100%; 
+            height: auto; 
+        }
+
+    }
 
 }
