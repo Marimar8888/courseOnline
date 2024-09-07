@@ -4,7 +4,7 @@ import StoreContainer from '../store/store-container';
 
 const Store = (props) => {
     return (
-      <div className="store-page-wrapper">
+      <div >
         <StoreContainer {...props} />
       </div>
     );
