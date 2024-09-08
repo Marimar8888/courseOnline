@@ -191,7 +191,12 @@ class App extends Component {
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
               <Route path="/dashboard" component={Dashboard} />
-              <Route path="/courses/:slug" component={Courses} />
+              <Route 
+                path="/courses/:slug" 
+                render={props => (
+                  <Courses {...props} loggedInStatus={this.state.loggedInStatus}/>
+                )}
+              />
               <Route path="/students/:slug" component={Students} />
               <Route path="/centers/:slug" component={Centers} />
               <Route path="/professors/:slug" component={Professors} />

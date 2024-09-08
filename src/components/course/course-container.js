@@ -20,58 +20,69 @@ class CourseContainer extends Component {
         this.handleNewCourseClick = this.handleNewCourseClick.bind(this);
     }
 
-    handleNewCourseClick(){
-        console.log("new course click");
+    handleNewCourseClick() {
+        this.setState({
+            courseModalIsOpen: true
+        });
 
     }
 
-    handleDeleteClick(){
+    handleDeleteClick() {
         console.log("delete course click");
     }
 
     render() {
         const { courses } = this.state;
-        return (
-            <div>
-                <div className="course-content-page-wrapper">
-                    {courses.length > 0 ? (
-                        <ul>
-                            {courses.map(course => {
-                                return (
-                                    <div className="course-content-item" key={course.courses_id}>
-                                        <div className='course-content-image' key={course.courses_id}>
-                                            <img
-                                                src={course.courses_image}
-                                                alt={course.courses_title}
-                                                style={{ maxWidth: '100%', height: 'auto' }}
-                                            />
-                                        </div>
-                                        <div className='course-content-text'>
-                                            <h2>{course.courses_title}</h2>
+        const { loggedInStatus } = this.props;
 
-                                            <p>{course.courses_content}</p>
+        if (loggedInStatus !== "LOGGED_IN") {
+            this.props.history.push(`/`);
+            return null;
+        }
+            return (
+                <div>
+                    <div className="course-content-page-wrapper">
+                        {courses.length > 0 ? (
+                            <ul>
+                                {courses.map(course => {
+                                    return (
+                                        <div className="course-content-item" key={course.courses_id}>
+                                            <div className='course-content-image' key={course.courses_id}>
+                                                <img
+                                                    src={course.courses_image}
+                                                    alt={course.courses_title}
+                                                    style={{ maxWidth: '100%', height: 'auto' }}
+                                                />
+                                            </div>
+                                            <div className='course-content-text'>
+                                                <h2>{course.courses_title}</h2>
+
+                                                <p>{course.courses_content}</p>
+                                            </div>
+                                            <div className='course-icons'>
+                                                <a className="icon-trash" onClick={() => this.handleDeleteClick(course)}>
+                                                    <FontAwesomeIcon icon="trash" />
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div className='course-icons'>
-                                            <a className="icon-trash" onClick={() => this.handleDeleteClick(course)}>
-                                                <FontAwesomeIcon icon= "trash"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </ul>
-                    ) : (
-                        <p>No hay cursos disponibles.</p>
-                    )}
-                    <div className="new-course-link">
-                        <a className= "icon-plus-circle" onClick={this.handleNewCourseClick}>
-                        <FontAwesomeIcon icon="plus-circle" />
-                        </a>
+                                    );
+                                })}
+                            </ul>
+                        ) : (
+                            <p>No hay cursos disponibles.</p>
+                        )}
                     </div>
- 
-                </div>
-            </div>
-        )
+                </div>        
+            )
+        // return (
+        //     < div className = "new-course-link" >
+        //         <a className="icon-plus-circle" onClick={this.handleNewCourseClick}>
+        //             <FontAwesomeIcon icon="plus-circle" />
+        //         </a>
+        //     </div >
+
+        // );
+
     }
 }
 
