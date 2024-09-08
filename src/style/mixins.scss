@@ -123,19 +123,15 @@
 
 @mixin icon-plus-circle {
     position: fixed;
-    right: 0;
+    right: 100px;  
     top: 250px;
+    font-size: 3em;
+    color: $blue;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
 
-    a {
-        font-size: 3em;
-        color: $blue;
-        cursor: pointer;
-        margin-right: 100px;
-        transition: 0.5s ease-in-out;
-
-        &:hover {
-            color: $dark-blue;
-        }
+    &:hover {
+        color: $dark-blue;
     }
 }
 

@@ -110,7 +110,8 @@ class ProfessorEditContainer extends Component {
     this.setState({ courses: filteredCourses }, () => {
       this.props.history.push({
         pathname: `/courses/${type}`,
-        state: { courses: this.state.courses }
+        state: { courses: this.state.courses,
+          }
       });
     });
   }
