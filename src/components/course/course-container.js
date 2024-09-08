@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-// import axios from "axios";
-// import { API_URL } from '../utils/constant';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 class CourseContainer extends Component {
@@ -10,8 +9,24 @@ class CourseContainer extends Component {
 
         this.state = {
             param: this.props.match.params.slug || null,
-            courses: (this.props.location && this.props.location.state && this.props.location.state.courses) || []
+            courses: (this.props.location && this.props.location.state && this.props.location.state.courses) || [],
+            totalCount: 0,
+            currentPage: 0,
+            isLoading: true,
+            courseModalIsOpen: false
         }
+
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
+        this.handleNewCourseClick = this.handleNewCourseClick.bind(this);
+    }
+
+    handleNewCourseClick(){
+        console.log("new course click");
+
+    }
+
+    handleDeleteClick(){
+        console.log("delete course click");
     }
 
     render() {
@@ -36,7 +51,11 @@ class CourseContainer extends Component {
 
                                             <p>{course.courses_content}</p>
                                         </div>
-                                        <div>Icons crear borrar</div>
+                                        <div className='course-icons'>
+                                            <a className="icon-trash" onClick={() => this.handleDeleteClick(course)}>
+                                                <FontAwesomeIcon icon= "trash"/>
+                                            </a>
+                                        </div>
                                     </div>
                                 );
                             })}
@@ -44,6 +63,12 @@ class CourseContainer extends Component {
                     ) : (
                         <p>No hay cursos disponibles.</p>
                     )}
+                    <div className="new-course-link">
+                        <a className= "icon-plus-circle" onClick={this.handleNewCourseClick}>
+                        <FontAwesomeIcon icon="plus-circle" />
+                        </a>
+                    </div>
+ 
                 </div>
             </div>
         )

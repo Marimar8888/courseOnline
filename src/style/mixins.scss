@@ -108,6 +108,37 @@
     border-radius: 5%;
 }
 
+@mixin icon-trash {
+
+    font-size: 2em;
+    color: $blue;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+    
+    &:hover {
+        color: $dark-blue;
+    }
+    
+}
+
+@mixin icon-plus-circle {
+    position: fixed;
+    right: 0;
+    top: 250px;
+
+    a {
+        font-size: 3em;
+        color: $blue;
+        cursor: pointer;
+        margin-right: 100px;
+        transition: 0.5s ease-in-out;
+
+        &:hover {
+            color: $dark-blue;
+        }
+    }
+}
+
 
 
 
