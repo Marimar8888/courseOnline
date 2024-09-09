@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter, NavLink } from "react-router-dom";
 
+import CartShopping from '../cart-shopping/cart-shopping';
+
 const NavBarContainer = (props) => {
+
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   if (typeof props.openModal !== 'function') {
     console.error('openModal is not defined or not a function');
     return null;
   }
+  
   useEffect(() => {
     props.checkTokenValidity();
   }, [props.location]);
@@ -25,6 +31,10 @@ const NavBarContainer = (props) => {
     props.history.push("/");
     props.handleSuccessfulLogout();
   };
+
+  const handleToggleCart  = () => {
+    setIsCartOpen(!isCartOpen); 
+  }
 
   const userName = localStorage.getItem('user_name');
 
@@ -51,7 +61,7 @@ const NavBarContainer = (props) => {
       <div className="right-side">
         <div>
           {userName ? userName : ""}
-          <a className="nav-icon">
+          <a className="nav-icon" onClick={handleToggleCart}>
             <FontAwesomeIcon icon="cart-shopping" className='cart-icon'/>
           </a>
         </div>
@@ -66,7 +76,7 @@ const NavBarContainer = (props) => {
           )}
         </div>
       </div>
-
+      {isCartOpen && <CartShopping isOpen={isCartOpen} />}
     </div>
 
   );
