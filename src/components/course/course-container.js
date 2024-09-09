@@ -10,9 +10,11 @@ class CourseContainer extends Component {
         this.state = {
             param: this.props.match.params.slug || null,
             courses: (this.props.location && this.props.location.state && this.props.location.state.courses) || [],
+            currentPage: 1,
             totalCount: 0,
-            currentPage: 0,
+            totalPages: 0,
             isLoading: true,
+            limit: 10,
             courseModalIsOpen: false
         }
 

@@ -36,6 +36,7 @@ class ProfessorEditContainer extends Component {
 
   componentDidMount() {
     const { professorData } = this.props;
+    console.log("dashboarProfessor data;", professorData);
 
     if (professorData) {
       this.setState({
@@ -50,10 +51,12 @@ class ProfessorEditContainer extends Component {
         professors_number_card: professorData.professor.professors_number_card,
         professors_exp_date: professorData.professor.professors_exp_date,
         professors_cvc: professorData.professor.professors_cvc,
-        courses: professorData.courses || [],
+        courses: professorData.courses.items || [],
         students: professorData.students || [],
         isButtonEnabled: false,
       });
+
+      console.log("dashboarProfessor despues de cambiar el state data;", professorData.courses.total);
       
     }
   }
@@ -74,7 +77,7 @@ class ProfessorEditContainer extends Component {
           professors_number_card: professorData.professor.professors_number_card,
           professors_exp_date: professorData.professor.professors_exp_date,
           professors_cvc: professorData.professor.professors_cvc,
-          courses: professorData.courses || [],
+          courses: professorData.courses.items || [],
           students: professorData.students || [],
         });
       }
@@ -92,16 +95,18 @@ class ProfessorEditContainer extends Component {
   handleCoursesClick = (type) => {
     const { courses } = this.props.professorData;
 
+    console.log("Cursos actuales:", courses);
+
     let filteredCourses = [];
     switch (type) {
       case 3:
-        filteredCourses = this.getAllCourses(courses);
+        filteredCourses = courses.items || [];
         break;
       case 5:
-        filteredCourses = this.filterCoursesByEnrollmentStatus(courses, true);
+        filteredCourses = this.filterCoursesByEnrollmentStatus(courses.items || [], true);
         break;
       case 6:
-        filteredCourses = this.filterCoursesByEnrollmentStatus(courses, false);
+        filteredCourses = this.filterCoursesByEnrollmentStatus(courses.items || [], false);
         break;
       default:
         filteredCourses = [];
@@ -210,11 +215,19 @@ class ProfessorEditContainer extends Component {
       return <p>Cargando datos del profesor...</p>
     }
 
-    const { courses } = this.state;
-    console.log("profesor-edit", this.state.courses);
-    const totalCourses = courses ? courses.length : 0;
-    const coursesActive = courses ? (courses.filter(course => course.courses_active === true)).length : 0;
-    const coursesInactive = courses ? (courses.filter(course => course.courses_active === false)).length : 0;
+    const coursesList = professorData.courses.items || []; 
+    console.log("profesor-edit", professorData.courses);
+    const totalCourses = professorData.courses.total;
+    console.log("profesor-edit totalCourses", totalCourses);
+    const coursesActive = coursesList.filter(course => course.courses_active === true).length;
+    console.log("profesor-edit coursesActive", coursesActive);
+
+    const coursesInactive = coursesList.filter(course => course.courses_active === false).length;
+    console.log("profesor-edit coursesInactive", coursesInactive);
+
+    //const totalCourses = coursesList.length;
+    // const coursesActive = coursesList.filter(course => course.courses_active === true).length;
+    // const coursesInactive = coursesList.filter(course => course.courses_active === false).length;
 
     return (
       <form onSubmit={this.handleSubmit} className="dashboard-dates">

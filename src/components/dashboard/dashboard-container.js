@@ -18,8 +18,13 @@ class DashboardContainer extends Component {
       professorData: null,
       centersData: null,
       courses: null,
-      showProfessorContainer: false
+      showProfessorContainer: false,
+      currentPage: 1,
+      totalCount: 0,
+      totalPages: 0, 
+      limit: 10
     };
+
     this.getUserId = this.getUserId.bind(this);
     this.getUserRols = this.getUserRols.bind(this);
     this.updateProfessorData = this.updateProfessorData.bind(this);
@@ -78,7 +83,7 @@ class DashboardContainer extends Component {
     const token = localStorage.getItem("token");
     axios
       .get(
-        `${API_URL}/all_dates/professor/${professorId}`,
+        `${API_URL}/all_dates/professor/${professorId}?page=${this.state.currentPage}&limit=${this.state.limit}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
