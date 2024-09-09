@@ -68,7 +68,7 @@ const NavBarContainer = (props) => {
         <div>
           {props.loggedInStatus === "LOGGED_IN" ? (
             <a onClick={handleSignOut}>
-              <FontAwesomeIcon icon="sign-out-alt" />
+              <FontAwesomeIcon icon="sign-out-alt"  className='sing-icon'/>
             </a>) : (
             <a onClick={props.openModal} className="nav-icon">
               <FontAwesomeIcon icon="door-open" className='sing-icon'/>

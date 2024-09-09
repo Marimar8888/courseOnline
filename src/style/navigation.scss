@@ -6,10 +6,12 @@
 
   .right-side {
     display: flex;
-    justify-content: space-between;
-    width: 5%;
+    justify-content: space-evenly;
+    min-width: 200px;
+    width: 10%;
     padding: 0 15px 0 0;
-    min-width: 85px;
+    font-size: 1.1em;
+    font-family: "Titillium Web", sans-serif;
     @include nav-icon();
 
   }
