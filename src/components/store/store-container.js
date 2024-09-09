@@ -36,8 +36,8 @@ class StoreContainer extends Component {
     }
 
     componentWillUnmount() {
-        this.hasUnmounted = true;  
-        window.onscroll = null;  
+        this.hasUnmounted = true;
+        window.onscroll = null;
         this.setState({
             categoryId: this.props.match.params.slug || null,
             currentPage: 1,
@@ -52,16 +52,16 @@ class StoreContainer extends Component {
             if (
                 window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
             ) {
-                if(this.state.categoryId){
-                    if( this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
+                if (this.state.categoryId) {
+                    if (this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
                         this.getCourseByCategory();
                     }
                 } else {
                     if (this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
                         this.getAllCourses();
-                    }      
+                    }
                 }
-       
+
             }
         };
     }
@@ -112,8 +112,8 @@ class StoreContainer extends Component {
                     this.setState({
                         categoryId: response.data.categories_id,
                         categoryName: response.data.categories_name,
-                        courses: [], 
-                        currentPage: 1, 
+                        courses: [],
+                        currentPage: 1,
                         totalPages: 0
                     }, () => {
                         this.getCourseByCategory();
@@ -153,6 +153,10 @@ class StoreContainer extends Component {
     render() {
         return (
             <div className="course-content-page-wrapper">
+                {this.state.categoryName ?
+                    <h1>Cursos de {this.state.categoryName}</h1>
+                    : null}
+
                 {this.state.courses.map(course => (
                     <div className="course-content-item" key={course.courses_id}>
                         <div className='course-content-image'>
