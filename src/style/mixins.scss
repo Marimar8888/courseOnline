@@ -119,6 +119,37 @@
 
 /* ----------------------- ICONS STYLES --------------------------*/
 
+@mixin nav-icon {
+    display: flex;
+    align-items: center;
+    .sing-icon {
+        font-size: 1.6em;
+        cursor: pointer;
+        color: $blue;
+        transition: 0.5s ease-in-out;
+        
+        &:hover {
+            color: $dark-blue;
+        }
+    } 
+
+    .cart-icon {
+        font-size: 1.6em;
+
+        cursor: pointer;
+        color: $blue;
+        transition: 0.5s ease-in-out;
+        
+        &:hover {
+            color: $dark-blue;
+        }
+    }
+}
+
+
+
+
+
 @mixin icon-trash {
 
     font-size: 2em;
@@ -157,6 +188,7 @@
     color: $blue;
     cursor: pointer;
     transition: 0.5s ease-in-out;
+
     &:hover {
         color: $dark-blue;
     }

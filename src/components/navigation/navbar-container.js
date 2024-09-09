@@ -33,30 +33,38 @@ const NavBarContainer = (props) => {
     <div className="nav-wrapper">
 
       <div className="left-side">
-          <div className="nav-link-wrapper">
-            <NavLink exact to="/" activeClassName="nav-link-active">Home</NavLink>
-          </div>
-          <div className="nav-link-wrapper">
-            <NavLink exact to="/store" activeClassName="nav-link-active">Store</NavLink>
-          </div>
-          <div className="nav-link-wrapper">
-            <NavLink to="/about" activeClassName="nav-link-active">About</NavLink>
-          </div>
-          <div className="nav-link-wrapper">
-            <NavLink to="/contact" activeClassName="nav-link-active">Contact</NavLink>
-          </div>
-          {props.loggedInStatus === "LOGGED_IN" ? (dynamicLink("/dashboard", "Panel de control")) : null}
+        <div className="nav-link-wrapper">
+          <NavLink exact to="/" activeClassName="nav-link-active">Home</NavLink>
+        </div>
+        <div className="nav-link-wrapper">
+          <NavLink exact to="/store" activeClassName="nav-link-active">Store</NavLink>
+        </div>
+        <div className="nav-link-wrapper">
+          <NavLink to="/about" activeClassName="nav-link-active">About</NavLink>
+        </div>
+        <div className="nav-link-wrapper">
+          <NavLink to="/contact" activeClassName="nav-link-active">Contact</NavLink>
+        </div>
+        {props.loggedInStatus === "LOGGED_IN" ? (dynamicLink("/dashboard", "Panel de control")) : null}
       </div>
+
       <div className="right-side">
-        {userName ? userName : ""}
-        {props.loggedInStatus === "LOGGED_IN" ? (
-          <a onClick={handleSignOut}>
-            <FontAwesomeIcon icon="sign-out-alt" />
-          </a>) : (
-          <a onClick={props.openModal} className="nav-icon">
-            <FontAwesomeIcon icon="door-open" />
+        <div>
+          {userName ? userName : ""}
+          <a className="nav-icon">
+            <FontAwesomeIcon icon="cart-shopping" className='cart-icon'/>
           </a>
-        )}
+        </div>
+        <div>
+          {props.loggedInStatus === "LOGGED_IN" ? (
+            <a onClick={handleSignOut}>
+              <FontAwesomeIcon icon="sign-out-alt" />
+            </a>) : (
+            <a onClick={props.openModal} className="nav-icon">
+              <FontAwesomeIcon icon="door-open" className='sing-icon'/>
+            </a>
+          )}
+        </div>
       </div>
 
     </div>

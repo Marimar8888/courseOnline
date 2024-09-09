@@ -5,17 +5,13 @@
   padding: 20px 50px;
 
   .right-side {
-    a {
-      font-size: 1.6em;
-      margin-left: 15px;
-      cursor: pointer;
-      color: $blue;
-      transition: 0.5s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    width: 5%;
+    padding: 0 15px 0 0;
+    min-width: 85px;
+    @include nav-icon();
 
-      &:hover {
-        color: $dark-blue;
-      }
-    }
   }
 
   .left-side {
