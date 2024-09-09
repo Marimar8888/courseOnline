@@ -16,6 +16,7 @@ class StoreContainer extends Component {
             isLoading: true,
             limit: 10
         };
+        this.hasUnmounted = false;
         this.activateInfiniteScroll();
 
     }
@@ -29,9 +30,21 @@ class StoreContainer extends Component {
             this.setState({
                 categoryId: this.props.match.params.slug || null
             },
-                this.getAllCourses
+                this.loadCourses
             );
         }
+    }
+
+    componentWillUnmount() {
+        this.hasUnmounted = true;  
+        window.onscroll = null;  
+        this.setState({
+            categoryId: this.props.match.params.slug || null,
+            currentPage: 1,
+            totalCount: 0,
+            totalPages: 0,
+            isLoading: true
+        });
     }
 
     activateInfiniteScroll() {
@@ -39,9 +52,16 @@ class StoreContainer extends Component {
             if (
                 window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
             ) {
-                if (this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
-                    this.getAllCourses();
+                if(this.state.categoryId){
+                    if( this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
+                        this.getCourseByCategory();
+                    }
+                } else {
+                    if (this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
+                        this.getAllCourses();
+                    }      
                 }
+       
             }
         };
     }
@@ -57,34 +77,30 @@ class StoreContainer extends Component {
     getAllCourses() {
         this.setState({
             isLoading: true,
-
         });
-        const url= this.state.currentPage;
-        console.log("url:",url);
         axios
             .get(
                 `${API_URL}/courses?page=${this.state.currentPage}&limit=${this.state.limit}`
             )
             .then(response => {
-                console.log("getAllCourses:", response.data);
-                const newCourses = response.data.courses.filter(
-                    newCourse => !this.state.courses.some(course => course.courses_id === newCourse.courses_id)
-                );
-                this.setState(prevState => ({
-                    courses: this.state.courses.concat(response.data.courses),
-                    totalCount: response.data.total,
-                    totalPages: response.data.pages,
-                    currentPage: response.data.page + 1,
-                    isLoading: false
-                }));
-
+                if (!this.hasUnmounted) {
+                    this.setState({
+                        courses: this.state.courses.concat(response.data.courses),
+                        totalCount: response.data.total,
+                        totalPages: response.data.pages,
+                        currentPage: response.data.page + 1,
+                        isLoading: false
+                    });
+                }
             })
             .catch(error => {
-                this.setState({ isLoading: false });
+                if (!this.hasUnmounted) {
+                    console.log("getAllCourses error", error);
+                    this.setState({ isLoading: false });
+                }
             });
 
     }
-
 
     getCategoryItem() {
         axios
@@ -92,13 +108,17 @@ class StoreContainer extends Component {
                 `${API_URL}/category/${this.state.categoryId}`
             )
             .then(response => {
-                this.setState({
-                    categoryId: response.data.categories_id,
-                    categoryName: response.data.categories_name,
-                    courses: []
-                }, () => {
-                    this.getCourseByCategory();
-                });
+                if (!this.hasUnmounted) {
+                    this.setState({
+                        categoryId: response.data.categories_id,
+                        categoryName: response.data.categories_name,
+                        courses: [], 
+                        currentPage: 1, 
+                        totalPages: 0
+                    }, () => {
+                        this.getCourseByCategory();
+                    });
+                }
             })
             .catch(error => {
                 console.log("getCategoryItem error", error);
@@ -106,17 +126,27 @@ class StoreContainer extends Component {
     }
 
     getCourseByCategory() {
+        this.setState({
+            isLoading: true,
+        });
         axios
             .get(
-                `${API_URL}/store/courses/${this.state.categoryId}`
+                `${API_URL}/store/courses/${this.state.categoryId}?page=${this.state.currentPage}&limit=${this.state.limit}`
             )
             .then(response => {
-                this.setState({
-                    courses: response.data,
-                });
+                if (!this.hasUnmounted) {
+                    this.setState({
+                        courses: this.state.courses.concat(response.data.courses),
+                        totalCount: response.data.total,
+                        totalPages: response.data.pages,
+                        currentPage: response.data.page + 1,
+                        isLoading: false
+                    });
+                }
             })
             .catch(error => {
-                console.log('getCourseByCategory error', error);
+                console.log("getCourseByCategory error", error);
+                this.setState({ isLoading: false });
             })
     }
 
