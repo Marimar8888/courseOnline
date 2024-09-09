@@ -2,22 +2,22 @@
 
 @mixin btn-save {
     @include base-btn;
-    background-color:$mediumgrey; 
+    background-color: $mediumgrey;
     cursor: not-allowed;
     border-radius: 5%;
-         
+
     &:hover {
-        background-color: $grey; 
-      }
+        background-color: $grey;
+    }
 
     &:not(:disabled) {
-     @include base-btn();
-      cursor: pointer; 
+        @include base-btn();
+        cursor: pointer;
     }
 }
 
 @mixin base-btn {
-    cursor:pointer;
+    cursor: pointer;
     height: 42px;
     font-size: 1em;
     font-weight: 500;
@@ -26,11 +26,12 @@
     background-color: $blue;
     color: white;
 
-    &:active, &:focus {
+    &:active,
+    &:focus {
         outline: none;
     }
 
-    &:hover{
+    &:hover {
         background-color: $dark-blue;
     }
 }
@@ -65,28 +66,30 @@
 }
 
 @mixin form-group-name($columns: 3) {
-    @if $columns == 2 {
-      display: grid;
-      grid-template-columns: 4fr 2fr;
-      gap: 21px;
-    } @else {
-      display: grid;
-      grid-template-columns: 2fr 4fr 2fr;
-      gap: 21px;
+    @if $columns ==2 {
+        display: grid;
+        grid-template-columns: 4fr 2fr;
+        gap: 21px;
     }
-  }
+
+    @else {
+        display: grid;
+        grid-template-columns: 2fr 4fr 2fr;
+        gap: 21px;
+    }
+}
 
 @mixin form-group-address {
     display: grid;
-    grid-template-columns: 2.6fr 0.6fr 0.6fr 1.2fr; 
-    gap:21px;
-} 
+    grid-template-columns: 2.6fr 0.6fr 0.6fr 1.2fr;
+    gap: 21px;
+}
 
 @mixin form-group-card {
     display: grid;
-    grid-template-columns: 3fr 1.5fr 0.5fr;  
-    gap:21px;
-} 
+    grid-template-columns: 3fr 1.5fr 0.5fr;
+    gap: 21px;
+}
 
 /*-------------- dashborar styles -----------------*/
 
@@ -122,16 +125,16 @@
     color: $blue;
     cursor: pointer;
     transition: 0.5s ease-in-out;
-    
+
     &:hover {
         color: $dark-blue;
     }
-    
+
 }
 
 @mixin icon-plus-circle {
     position: fixed;
-    right: 100px;  
+    right: 100px;
     top: 250px;
     font-size: 3em;
     color: $blue;
@@ -140,6 +143,7 @@
 
     &:hover {
         color: $dark-blue;
+
     }
 }
 
@@ -148,7 +152,13 @@
     color: $blue;
 }
 
+@mixin icon-start {
+    font-size: 2.5em;
+    color: $blue;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+    &:hover {
+        color: $dark-blue;
+    }
 
-
-
-
+}

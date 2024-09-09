@@ -22,7 +22,7 @@ class ProfessorEditContainer extends Component {
       professors_cvc: "",
       courses: [],
       students: [],
-      isButtonEnabled: false,
+      isButtonEnabled: false
     };
     this.initialState = { ...this.state };
     this.handleChange = this.handleChange.bind(this);

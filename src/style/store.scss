@@ -15,24 +15,36 @@
         grid-template-columns: 1fr 2fr 1fr;
         gap: 20px;
         margin-bottom: 20px;
-    }
 
-    .course-content-image img {
-        width: 100%;
-        height: auto;
-    }
+        .course-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
 
-    div.course-icons {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        
-        @include icon-trash();
+            .icon-trash {
+                @include icon-trash();
+            }
+
+            .icon-star {
+                @include icon-start();
+            }
+
+        }
+
+        .course-content-image img {
+            width: 100%;
+            height: auto;
+        }
+
+
     }
 
     .new-course-link {
-        @include icon-plus-circle();
+        .icon-plus-circle {
+            @include icon-plus-circle();
+        }
+
     }
 
 }

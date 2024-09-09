@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
 import { API_URL } from '../utils/constant';
+import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 
 class StoreContainer extends Component {
     constructor(props) {
@@ -14,10 +16,12 @@ class StoreContainer extends Component {
             totalCount: 0,
             totalPages: 0,
             isLoading: true,
-            limit: 10
+            limit: 10,
+            favorites: new Set()
         };
         this.hasUnmounted = false;
         this.activateInfiniteScroll();
+        this.handleFavoriteClick = this.handleFavoriteClick.bind(this);
 
     }
 
@@ -43,9 +47,22 @@ class StoreContainer extends Component {
             currentPage: 1,
             totalCount: 0,
             totalPages: 0,
-            isLoading: true
+            isLoading: true,
+            favorites: new Set()
         });
     }
+
+    handleFavoriteClick = (courseId) => {
+        this.setState(prevState => {
+            const favorites = new Set(prevState.favorites);
+            if (favorites.has(courseId)) {
+                favorites.delete(courseId); 
+            } else {
+                favorites.add(courseId); 
+            }
+            return { favorites };
+        });
+    };
 
     activateInfiniteScroll() {
         window.onscroll = () => {
@@ -151,6 +168,7 @@ class StoreContainer extends Component {
     }
 
     render() {
+        console.log('Favorites:', this.state.favorites); 
         return (
             <div className="course-content-page-wrapper">
                 {this.state.categoryName ?
@@ -171,7 +189,14 @@ class StoreContainer extends Component {
 
                             <p>{course.courses_content}</p>
                         </div>
-                        <div>Icons crear borrar</div>
+                        <div className='course-icons'>
+                            <a 
+                                className="icon-star" 
+                                onClick={() => this.handleFavoriteClick(course.courses_id)}
+                            >
+                                <FontAwesomeIcon  icon={this.state.favorites.has(course.courses_id) ? faStarSolid : faStarRegular} /> 
+                            </a>
+                        </div>
                     </div>
                 ))}
                 {this.state.isLoading ? (
