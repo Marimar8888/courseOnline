@@ -5,6 +5,10 @@
     width: 60%;
     margin: 0 auto;
 
+    .content-loader {
+        @include content-loader();
+    }
+
     .course-content-item {
         display: grid;
         width: 100%;

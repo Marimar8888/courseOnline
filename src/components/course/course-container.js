@@ -33,6 +33,7 @@ class CourseContainer extends Component {
 
     render() {
         const { courses } = this.state;
+        console.log("Courses-container", courses);
         const { loggedInStatus } = this.props;
 
         if (loggedInStatus !== "LOGGED_IN") {

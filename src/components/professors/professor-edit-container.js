@@ -54,6 +54,7 @@ class ProfessorEditContainer extends Component {
         students: professorData.students || [],
         isButtonEnabled: false,
       });
+      
     }
   }
 
@@ -210,7 +211,7 @@ class ProfessorEditContainer extends Component {
     }
 
     const { courses } = this.state;
-
+    console.log("profesor-edit", this.state.courses);
     const totalCourses = courses ? courses.length : 0;
     const coursesActive = courses ? (courses.filter(course => course.courses_active === true)).length : 0;
     const coursesInactive = courses ? (courses.filter(course => course.courses_active === false)).length : 0;

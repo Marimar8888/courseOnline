@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
 import { API_URL } from '../utils/constant';
 
@@ -11,9 +12,12 @@ class StoreContainer extends Component {
             categoryName: "",
             currentPage: 1,
             totalCount: 0,
-            isLoading: false,
+            totalPages: 0,
+            isLoading: true,
             limit: 10
         };
+        this.activateInfiniteScroll();
+
     }
 
     componentDidMount() {
@@ -30,6 +34,18 @@ class StoreContainer extends Component {
         }
     }
 
+    activateInfiniteScroll() {
+        window.onscroll = () => {
+            if (
+                window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
+            ) {
+                if (this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
+                    this.getAllCourses();
+                }
+            }
+        };
+    }
+
     loadCourses = () => {
         if (this.state.categoryId) {
             this.getCategoryItem();
@@ -38,39 +54,35 @@ class StoreContainer extends Component {
         }
     }
 
-    // getAllCourses() {
-    //     axios
-    //         .get(
-    //             `${API_URL}/courses`
-    //         )
-    //         .then(response => {
-    //             this.setState({
-    //                 courses: response.data,
-    //                 categoryName: "All Courses"
-    //             })
-    //         })
-    // }
-
     getAllCourses() {
+        this.setState({
+            isLoading: true,
 
-        this.setState({ isLoading: true });
-
+        });
+        const url= this.state.currentPage;
+        console.log("url:",url);
         axios
             .get(
                 `${API_URL}/courses?page=${this.state.currentPage}&limit=${this.state.limit}`
             )
             .then(response => {
+                console.log("getAllCourses:", response.data);
+                const newCourses = response.data.courses.filter(
+                    newCourse => !this.state.courses.some(course => course.courses_id === newCourse.courses_id)
+                );
                 this.setState(prevState => ({
-                    courses: [...prevState.courses, ...response.data.courses],  // Concatenar cursos nuevos
+                    courses: this.state.courses.concat(response.data.courses),
                     totalCount: response.data.total,
-                    isLoading: false,
-                    currentPage: prevState.currentPage + 1
+                    totalPages: response.data.pages,
+                    currentPage: response.data.page + 1,
+                    isLoading: false
                 }));
+
             })
             .catch(error => {
-                console.log("getCourses error", error);
                 this.setState({ isLoading: false });
             });
+
     }
 
 
@@ -113,7 +125,7 @@ class StoreContainer extends Component {
             <div className="course-content-page-wrapper">
                 {this.state.courses.map(course => (
                     <div className="course-content-item" key={course.courses_id}>
-                        <div className='course-content-image' key={course.courses_id}>
+                        <div className='course-content-image'>
                             <img
                                 src={course.courses_image}
                                 alt={course.courses_title}
@@ -128,6 +140,10 @@ class StoreContainer extends Component {
                         <div>Icons crear borrar</div>
                     </div>
                 ))}
+                {this.state.isLoading ? (
+                    <div className='content-loader'>
+                        <FontAwesomeIcon icon="spinner" spin />
+                    </div>) : null}
             </div>
         )
     }
