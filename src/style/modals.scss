@@ -2,12 +2,58 @@
 .ReactModal__Content--after-open {
   height: 80vh;
   overflow: hidden !important
-
 }
 
-.errorText{
-  color:red;
+.errorText {
+  color: red;
   font-size: 1.1em;
   font-weight: 600;
   text-align: center;
+}
+
+/* -------------------- Modal aviso loguear ----------*/
+
+.Modal {
+  background: white;
+  border-radius: 4px;
+  padding: 20px;
+  width: 400px;
+  height: 200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.Overlay {
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  /* Asegúrate de que el overlay cubra toda la pantalla */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-notificacion-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .modal-notification-text {
+
+    h2 {
+      display: line;
+      color: $notificacion;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+  }
 }

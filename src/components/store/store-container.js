@@ -5,6 +5,8 @@ import { API_URL } from '../utils/constant';
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 
+import LoginNotification from '../modals/login-notification';
+
 class StoreContainer extends Component {
     constructor(props) {
         super(props);
@@ -18,20 +20,32 @@ class StoreContainer extends Component {
             isLoading: true,
             limit: 10,
             userId: "",
-            favorites: []
+            favorites: [],
+            isModalOpen: false,
+            modalMessage: ""
         };
         this.hasUnmounted = false;
         this.activateInfiniteScroll();
         this.handleFavoriteClick = this.handleFavoriteClick.bind(this);
-
+        this.closeModal = this.closeModal.bind(this);
     }
 
     componentDidMount() {
+        const token = localStorage.getItem("token");
         this.loadCourses();
-        this.getUserId();
+        if(token){
+           this.getUserId(token);
+        }
+       
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
+
+        if (prevProps.loggedInStatus !== this.props.loggedInStatus && this.props.loggedInStatus === "LOGGED_IN") {
+            const token = localStorage.getItem("token");
+            this.getUserId(token);
+        }
+
         if (this.props.match.params.slug !== prevProps.match.params.slug) {
             this.setState({
                 categoryId: this.props.match.params.slug || null
@@ -79,9 +93,9 @@ class StoreContainer extends Component {
 
     }
 
-    getUserId() {
-        const token = localStorage.getItem("token");
-        axios
+    getUserId(token) {
+        if(token){
+            axios
             .get(
                 `${API_URL}/get_user_id`,
                 {
@@ -91,10 +105,10 @@ class StoreContainer extends Component {
                 })
             .then(response => {
                 if (response.status === 200) {
-                    this.setState({
-                        userId: response.data.users_id
-                    })
-                    this.getAllFavorites(this.state.userId);
+                    const userId = response.data.users_id;
+                    this.setState({ userId }, () => {
+                        this.getAllFavorites(userId);
+                    });
                 } else {
                     console.log("No Authorization");
                 }
@@ -106,6 +120,7 @@ class StoreContainer extends Component {
                     console.log("Network or other error:", error.message);
                 }
             })
+        }     
     }
 
     deleteFavorite(courseId, token) {
@@ -120,7 +135,6 @@ class StoreContainer extends Component {
                     }
                 })
             .then(response => {
-                console.log("response handleFavoriteClick", response);
                 this.setState(prevState => ({
                     favorites: prevState.favorites.filter(favId => favId !== courseId)
                 }));
@@ -158,12 +172,15 @@ class StoreContainer extends Component {
         const token = localStorage.getItem("token");
 
         if (!token) {
-            console.log("Debe loguearse para crear favoritos");
+            this.setState({
+                isModalOpen: true,
+                modalMessage: "Para agregar favoritos debe loguearse"
+            });
             return;
         }
-    
+
         const favorite = this.state.favorites.includes(courseId);
-        
+
         if (!favorite) {
             this.createFavorite(courseId, token);
         } else {
@@ -274,6 +291,11 @@ class StoreContainer extends Component {
             })
     }
 
+    closeModal = () => {
+        this.setState({ isModalOpen: false });
+    }
+
+
     render() {
         return (
             <div className="course-content-page-wrapper">
@@ -305,10 +327,16 @@ class StoreContainer extends Component {
                         </div>
                     </div>
                 ))}
-                {this.state.isLoading ? (
+                {this.state.isLoading && (
                     <div className='content-loader'>
                         <FontAwesomeIcon icon="spinner" spin />
-                    </div>) : null}
+                    </div>
+                )}
+                <LoginNotification
+                    isOpen={this.state.isModalOpen}
+                    onRequestClose={this.closeModal}
+                    message={this.state.modalMessage}
+                />
             </div>
         )
     }
