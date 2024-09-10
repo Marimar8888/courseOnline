@@ -54,7 +54,7 @@ class StoreContainer extends Component {
         });
     }
 
-    getAllFavorites(userId)  {    
+    getAllFavorites(userId) {
         const token = localStorage.getItem("token");
 
         if (userId) {
@@ -67,7 +67,7 @@ class StoreContainer extends Component {
                         }
                     })
                 .then(response => {
-                    const favoriteIds = response.data.map(favorite => favorite.favorites_course_id);     
+                    const favoriteIds = response.data.map(favorite => favorite.favorites_course_id);
                     this.setState({
                         favorites: favoriteIds
                     });
@@ -82,43 +82,94 @@ class StoreContainer extends Component {
     getUserId() {
         const token = localStorage.getItem("token");
         axios
-          .get(
-            `${API_URL}/get_user_id`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
+            .get(
+                `${API_URL}/get_user_id`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            .then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        userId: response.data.users_id
+                    })
+                    this.getAllFavorites(this.state.userId);
+                } else {
+                    console.log("No Authorization");
+                }
             })
-          .then(response => {
-            if (response.status === 200) {
-              this.setState({
-                userId: response.data.users_id
-              })
-              this.getAllFavorites(this.state.userId);
-            } else {
-              console.log("No Authorization");
-            }
-          })
-          .catch(error => {
-            if (error.response) {
-              console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
-            } else {
-              console.log("Network or other error:", error.message);
-            }
-          })
-      }
+            .catch(error => {
+                if (error.response) {
+                    console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
+                } else {
+                    console.log("Network or other error:", error.message);
+                }
+            })
+    }
+
+    deleteFavorite(courseId, token) {
+        const userId = this.state.userId;
+
+        axios
+            .delete(
+                `${API_URL}/favorite/${userId}/${courseId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            .then(response => {
+                console.log("response handleFavoriteClick", response);
+                this.setState(prevState => ({
+                    favorites: prevState.favorites.filter(favId => favId !== courseId)
+                }));
+            })
+            .catch(error => {
+                console.log("error handleFavoriteClick", error);
+            })
+    }
+
+    createFavorite(courseId, token) {
+        const userId = this.state.userId;
+        axios
+            .post(
+                `${API_URL}/favorite`,
+                {
+                    favorites_user_id: userId,
+                    favorites_course_id: courseId
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            .then(response => {
+                this.setState(prevState => ({
+                    favorites: [...prevState.favorites, courseId]
+                }));
+            })
+            .catch(error => {
+                console.log("error handleFavoriteClick", error);
+            })
+    }
 
     handleFavoriteClick = (courseId) => {
-        this.setState(prevState => {
-            const favorites = new Set(prevState.favorites);
-            if (favorites.has(courseId)) {
-                favorites.delete(courseId); 
-            } else {
-                favorites.add(courseId); 
-            }
-            return { favorites };
-        });
-    };
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            console.log("Debe loguearse para crear favoritos");
+            return;
+        }
+    
+        const favorite = this.state.favorites.includes(courseId);
+        
+        if (!favorite) {
+            this.createFavorite(courseId, token);
+        } else {
+            this.deleteFavorite(courseId, token);
+        }
+    }
 
     activateInfiniteScroll() {
         window.onscroll = () => {
@@ -245,11 +296,11 @@ class StoreContainer extends Component {
                             <p>{course.courses_content}</p>
                         </div>
                         <div className='course-icons'>
-                            <a 
-                                className="icon-star" 
+                            <a
+                                className="icon-star"
                                 onClick={() => this.handleFavoriteClick(course.courses_id)}
                             >
-                                <FontAwesomeIcon  icon={this.state.favorites.includes(course.courses_id) ? faStarSolid : faStarRegular} /> 
+                                <FontAwesomeIcon icon={this.state.favorites.includes(course.courses_id) ? faStarSolid : faStarRegular} />
                             </a>
                         </div>
                     </div>
