@@ -3,8 +3,6 @@ import React from "react";
 const CartShopping = ({ isOpen, cartCourses = [] }) => {
   if (!isOpen) return null;
 
-  console.log("CartShopping", cartCourses);
-
   const getTotal = () => {
     return cartCourses
       .reduce((sum, course) => {

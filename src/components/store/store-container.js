@@ -40,7 +40,6 @@ class StoreContainer extends Component {
     }
 
     componentDidUpdate(prevProps) {
-
         if (prevProps.loggedInStatus !== this.props.loggedInStatus && this.props.loggedInStatus === "LOGGED_IN") {
             const token = localStorage.getItem("token");
             this.getUserId(token);
@@ -49,11 +48,10 @@ class StoreContainer extends Component {
         if (this.props.match.params.slug !== prevProps.match.params.slug) {
             this.setState({
                 categoryId: this.props.match.params.slug || null
-            },
-                this.loadCourses
-            );
+            }, this.loadCourses);
         }
     }
+
 
     componentWillUnmount() {
         this.hasUnmounted = true;
@@ -297,56 +295,69 @@ class StoreContainer extends Component {
 
 
     render() {
+        const { cartCourses = [] } = this.props; 
         return (
             <div className="course-content-page-wrapper">
-                {this.state.categoryName ?
+                {this.state.categoryName && (
                     <h1>Cursos de {this.state.categoryName}</h1>
-                    : null}
+                )}
 
-                {this.state.courses.map(course => (
-                    <div className="course-content-item" key={course.courses_id}>
-                        <div className='course-content-image'>
-                            <img
-                                src={course.courses_image}
-                                alt={course.courses_title}
-                            />
-                        </div>
-                        <div className='course-content-text'>
-                            <div className='course-content-text-title'>
-                                <h2>{course.courses_title}</h2>
-                                <p>{course.courses_content}</p>
+                {this.state.courses.map(course => {
+                    const isCourseInCart = cartCourses.some(cartCourse => cartCourse.courses_id === course.courses_id);
+
+                    return (
+                        <div className="course-content-item" key={course.courses_id}>
+                            <div className='course-content-image'>
+                                <img
+                                    src={course.courses_image}
+                                    alt={course.courses_title}
+                                />
                             </div>
-                            <div className='course-content-rest'>
-                                <div className='course-content-price'>
-                                    {course.courses_price} €
+                            <div className='course-content-text'>
+                                <div className='course-content-text-title'>
+                                    <h2>{course.courses_title}</h2>
+                                    <p>{course.courses_content}</p>
                                 </div>
-                                <div className='btn-add-cart'>
-                                    <button className='btn'  onClick={() => this.props.addToCart(course)}>Añadir a la cesta</button>
+                                <div className='course-content-rest'>
+                                    <div className='course-content-price'>
+                                        {course.courses_price} €
+                                    </div>
+                                    <div className='btn-add-cart'>
+                                        <button
+                                            className='btn'
+                                            onClick={() => this.props.addToCart(course)}
+                                            disabled={isCourseInCart}
+                                        >
+                                            {isCourseInCart ? 'Seleccionado' : 'Añadir a la cesta'}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                            <div className='course-icons'>
+                                <a
+                                    className="icon-star"
+                                    onClick={() => this.handleFavoriteClick(course.courses_id)}
+                                >
+                                    <FontAwesomeIcon icon={this.state.favorites.includes(course.courses_id) ? faStarSolid : faStarRegular} />
+                                </a>
+                            </div>
                         </div>
-                        <div className='course-icons'>
-                            <a
-                                className="icon-star"
-                                onClick={() => this.handleFavoriteClick(course.courses_id)}
-                            >
-                                <FontAwesomeIcon icon={this.state.favorites.includes(course.courses_id) ? faStarSolid : faStarRegular} />
-                            </a>
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
+
                 {this.state.isLoading && (
                     <div className='content-loader'>
                         <FontAwesomeIcon icon="spinner" spin />
                     </div>
                 )}
+
                 <LoginNotification
                     isOpen={this.state.isModalOpen}
                     onRequestClose={this.closeModal}
                     message={this.state.modalMessage}
                 />
             </div>
-        )
+        );
     }
 }
 

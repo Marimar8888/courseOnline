@@ -44,12 +44,6 @@ class App extends Component {
     this.openLoginModal = this.openLoginModal.bind(this);
   }
 
-  componentDidUpdate(prevState) {
-    if (prevState.cartCourses !== this.state.cartCourses) { 
-      console.log("cartCourses updated:", this.state.cartCourses);
-    }
-  }
-
   addToCart = (course) => {
     try {
       this.setState(prevState => ({
@@ -197,13 +191,13 @@ class App extends Component {
               <Route
                 path="/store/:slug"
                 render={props => (
-                  <StoreContainer {...props} loggedInStatus={this.state.loggedInStatus} addToCart={this.addToCart}/>
+                  <StoreContainer {...props} loggedInStatus={this.state.loggedInStatus} addToCart={this.addToCart}  cartCourses={this.state.cartCourses}/>
                 )}
               />
               <Route
                 path="/store"
                 render={props => (
-                  <Store {...props} loggedInStatus={this.state.loggedInStatus} addToCart={this.addToCart}/>
+                  <Store {...props} loggedInStatus={this.state.loggedInStatus} addToCart={this.addToCart} cartCourses={this.state.cartCourses}/>
                 )}
               />
               <Route path="/about" component={About} />

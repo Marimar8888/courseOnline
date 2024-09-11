@@ -1,5 +1,9 @@
 .btn {
     @include base-btn();
+    
+    &:disabled{
+        @include btn-save();
+    }
 }
 
 .btn-save {
