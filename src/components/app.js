@@ -29,7 +29,8 @@ class App extends Component {
     this.state = {
       loggedInStatus: "NOT_LOGGED_IN",
       isRegisterModalOpen: false,
-      isModalOpen: false
+      isModalOpen: false, 
+      cartCourses: []
     };
 
     this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
@@ -41,6 +42,22 @@ class App extends Component {
     this.openRegisterModal = this.openRegisterModal.bind(this);
     this.closeRegisterModal = this.closeRegisterModal.bind(this);
     this.openLoginModal = this.openLoginModal.bind(this);
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.cartCourses !== this.state.cartCourses) { 
+      console.log("cartCourses updated:", this.state.cartCourses);
+    }
+  }
+
+  addToCart = (course) => {
+    try {
+      this.setState(prevState => ({
+        cartCourses: [...prevState.cartCourses, course]
+      }));
+    }catch (error) {
+      console.error("Error adding course to cart:", error);
+    }
   }
 
   openLoginModal() {
@@ -173,19 +190,20 @@ class App extends Component {
               handleSuccessfulLogout={this.handleSuccessfulLogout}
               openModal={this.openModal}
               checkTokenValidity={this.checkTokenValidity.bind(this)}
+              cartCourses={this.state.cartCourses}
             />
             <Switch>
               <Route exact path="/" component={Home} />
               <Route
                 path="/store/:slug"
                 render={props => (
-                  <StoreContainer {...props} loggedInStatus={this.state.loggedInStatus} />
+                  <StoreContainer {...props} loggedInStatus={this.state.loggedInStatus} addToCart={this.addToCart}/>
                 )}
               />
               <Route
                 path="/store"
                 render={props => (
-                  <Store {...props} loggedInStatus={this.state.loggedInStatus} />
+                  <Store {...props} loggedInStatus={this.state.loggedInStatus} addToCart={this.addToCart}/>
                 )}
               />
               <Route path="/about" component={About} />

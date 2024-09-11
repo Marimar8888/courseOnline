@@ -39,7 +39,7 @@ class StoreContainer extends Component {
        
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
 
         if (prevProps.loggedInStatus !== this.props.loggedInStatus && this.props.loggedInStatus === "LOGGED_IN") {
             const token = localStorage.getItem("token");
@@ -321,7 +321,7 @@ class StoreContainer extends Component {
                                     {course.courses_price} €
                                 </div>
                                 <div className='btn-add-cart'>
-                                    <button className='btn'>Añadir a la cesta</button>
+                                    <button className='btn'  onClick={() => this.props.addToCart(course)}>Añadir a la cesta</button>
                                 </div>
                             </div>
                         </div>
