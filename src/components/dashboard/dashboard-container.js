@@ -5,7 +5,8 @@ import { API_URL } from '../utils/constant';
 
 import DashboardStudent from './dashboard-student';
 import DashboardProfessor from './dashboard-professor';
-import DashboardCenters from './dashboard-centers';
+import DashboardCenter from './dashboard-center';
+import CentersContainer from '../centers/centers-container';
 
 class DashboardContainer extends Component {
   constructor() {
@@ -19,9 +20,10 @@ class DashboardContainer extends Component {
       centersData: null,
       courses: null,
       showProfessorContainer: false,
+      showCenterContainer: false,
       currentPage: 1,
       totalCount: 0,
-      totalPages: 0, 
+      totalPages: 0,
       limit: 10
     };
 
@@ -31,20 +33,45 @@ class DashboardContainer extends Component {
     this.updateStudentData = this.updateStudentData.bind(this);
     this.handleCreateProfessor = this.handleCreateProfessor.bind(this);
     this.handleProfessorCreated = this.handleProfessorCreated.bind(this);
+    this.updateCentersData = this.updateCentersData.bind(this);
+    this.handleCreateCenter = this.handleCreateCenter.bind(this);
+    this.handleCenterCreated = this.handleCenterCreated.bind(this);
 
   }
 
   componentDidMount() {
     this.getUserId();
+    console.log("componentDidMount showCenterContainer:", this.state.showCenterContainer);
+  }
+
+  updateCentersData(centerId) {
+    this.fechCenterData(centerId);
+  }
+
+  handleCenterCreated = () => {
+    this.setState({
+      showCenterContainer: false
+    }, () => {
+      this.getUserRols(this.state.userId);
+    });
+  };
+
+  handleCreateCenter() {
+    this.setState({
+      showCenterContainer: true
+    }, () => {
+      console.log("handleCreateCenter (updated):", this.state.showCenterContainer);
+    });
   }
 
   handleProfessorCreated = () => {
     this.setState({
       showProfessorContainer: false
     }, () => {
-      this.getUserRols(this.state.userId); 
+      this.getUserRols(this.state.userId);
     });
   };
+
   handleCreateProfessor() {
     this.setState({
       showProfessorContainer: true
@@ -72,7 +99,10 @@ class DashboardContainer extends Component {
       .then(response => {
         this.setState({
           studentData: response.data
-        })
+        }, () => {
+          console.log("fechStudentData", this.state.studentData);
+        });
+
       })
       .catch(error => {
         console.log("error fechStudentData", error)
@@ -92,7 +122,10 @@ class DashboardContainer extends Component {
       .then(response => {
         this.setState({
           professorData: response.data
-        })
+        }, () => {
+          console.log("fechProfessorData", this.state.professorData);
+        });
+
       })
       .catch(error => {
         console.log("error fechProfessorData", error)
@@ -111,8 +144,14 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
-        this.setState({ centersData: response.data });
+        this.setState({
+          centersData: response.data
+        }, () => {
+          console.log("getCenters", this.state.centersData);
+        });
+
       })
+
       .catch(error => {
         console.log("error getCenters", error);
       })
@@ -130,6 +169,7 @@ class DashboardContainer extends Component {
         })
       .then(response => {
         const professorId = response.data.professors_id;
+        console.log("getProfessorId:", professorId);
         this.fechProfessorData(professorId);
       })
       .catch(error => {
@@ -150,7 +190,9 @@ class DashboardContainer extends Component {
         })
       .then(response => {
         const studentId = response.data.students_id;
+        console.log("getStudentId:", studentId);
         this.fechStudentData(studentId);
+
       })
       .catch(error => {
         console.log("error getStudentId", error)
@@ -171,6 +213,7 @@ class DashboardContainer extends Component {
         this.setState({
           userRols: response.data.rols
         }, () => {
+          console.log("getUserRols:", this.state.userRols);
           const { userRols } = this.state;
           if (userRols.length > 1) {
             userRols.forEach(rol => {
@@ -213,6 +256,7 @@ class DashboardContainer extends Component {
           this.setState({
             userId: response.data.users_id
           })
+          console.log("getUserId:", this.state.userId);
           this.getUserRols(this.state.userId);
         } else {
           console.log("No Authorization");
@@ -256,46 +300,74 @@ class DashboardContainer extends Component {
           )}
           {hasRole3 && (
             <div className='btn-create-professor'>
-              <button className="btn">Crear Nuevo Centro</button>
+              <button className="btn" onClick={this.handleCreateCenter}>Crear Nuevo Centro</button>
             </div>
           )}
         </div>
 
         <div className="dashboard-content">
           <Switch>
-            {hasRole2 &&  !this.state.showProfessorContainer &&(
+            {hasRole2 && !this.state.showProfessorContainer && (
               <Route path="/dashboard" exact render={() => (
-                <DashboardStudent 
-                  studentData={studentData} 
+                <DashboardStudent
+                  studentData={studentData}
                   updateStudentData={this.updateStudentData} />
               )} />
             )}
-            {!hasRole2 && hasRole3 && (
+            {!hasRole2 && hasRole3 && !this.state.showProfessorContainer&& (
               <Route path="/dashboard" exact render={() => (
-                <DashboardProfessor 
-                  professorData={professorData} 
-                  updateProfessorData={this.updateProfessorData} 
-                 />
+                <DashboardProfessor
+                  professorData={professorData}
+                  updateProfessorData={this.updateProfessorData}
+                />
               )} />
             )}
             {hasRole3 && (
               <Route path="/dashboard/professor" exact render={() => (
-                <DashboardProfessor 
-                  professorData={professorData} 
-                  updateProfessorData={this.updateProfessorData}  />
-              )} />
-            )}
-            {hasRole4 && (
-              <Route path="/dashboard/center" exact render={() => (
-                <DashboardCenters centersData={centersData} />
+                <DashboardProfessor
+                  professorData={professorData}
+                  updateProfessorData={this.updateProfessorData} />
               )} />
             )}
             {!hasRole3 && this.state.showProfessorContainer && (
               <Route path="/dashboard" exact render={() => (
-                <DashboardProfessor userId={userId} showProfessorContainer={this.state.showProfessorContainer} handleProfessorCreated={this.handleProfessorCreated}/>
+                <DashboardProfessor
+                  userId={userId}
+                  showProfessorContainer={this.state.showProfessorContainer}
+                  handleProfessorCreated={this.handleProfessorCreated} />
               )} />
             )}
-            {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && (
+            {hasRole4 && !this.state.showCenterContainer && (
+              <Route path="/dashboard/center" exact render={() => (
+                <CentersContainer
+                  centersData={centersData}
+                  updateCenterData={this.updateCenterData} />
+              )} />
+            )}
+            {!hasRole4 || hasRole4 && this.state.showCenterContainer && (
+              <React.Fragment>
+                <Route path="/dashboard" exact render={() => (
+                  <DashboardCenter
+                    userId={userId}
+                    showCenterContainer={this.state.showCenterContainer}
+                    handleCenterCreated={this.handleCenterCreated} />
+                )} />
+                <Route path="/dashboard/center" exact render={() => (
+                  <DashboardCenter
+                    userId={userId}
+                    showCenterContainer={this.state.showCenterContainer}
+                    handleCenterCreated={this.handleCenterCreated} />
+                )} />
+                <Route path="/dashboard/professor" exact render={() => (
+                  <DashboardCenter
+                    userId={userId}
+                    showCenterContainer={this.state.showCenterContainer}
+                    handleCenterCreated={this.handleCenterCreated} />
+                )} />
+              </React.Fragment>
+            )}
+
+            {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && !this.state.showCenterContainer && (
               <Route path="*" render={() => (
                 <div className="no-roles-message">
                   <p>1º.- Si deseas publicar tus cursos, primero debes darte de alta como profesor.</p>

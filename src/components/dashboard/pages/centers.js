@@ -1,12 +1,12 @@
 import React from 'react';
 
-import DashboardCenters from '../dashboard-centers';
+import DashboardCenter from '../dashboard-center';
 
 //Recibe los props desde app.js
 export default function () {
   return (
     <div>
-      <DashboardCenters/>
+      <DashboardCenter/>
     </div>
   )
 }

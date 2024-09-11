@@ -3,22 +3,21 @@ import axios from "axios";
 import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
-class ProfessorCreateContainer extends Component {
+class CenterCreateContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      professors_first_name: "",
-      professors_last_name: "",
-      professors_email: "",
-      professors_user_id: this.props.userId || "",
-      professors_dni: "",
-      professors_address: "",
-      professors_city: "",
-      professors_postal: "",
-      professors_number_card: "",
-      professors_exp_date: "",
-      professors_cvc: "",
-      professors_active: true,
+      studyCenters_name: "",
+      studyCenters_email: "",
+      studyCenters_user_id: this.props.userId || "",
+      studyCenters_cif: "",
+      studyCenters_address: "",
+      studyCenters_city: "",
+      studyCenters_postal: "",
+      studyCenters_number_card: "",
+      studyCenters_exp_date: "",
+      studyCenters_cvc: "",
+      studyCenters_active: true,
       isButtonEnabled: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -41,7 +40,7 @@ class ProfessorCreateContainer extends Component {
     axios
       ({
         method: "post",
-        url: `${API_URL}/professor`,
+        url: `${API_URL}/studycenter`,
         data: formData,
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -49,23 +48,21 @@ class ProfessorCreateContainer extends Component {
       })
       .then(response => {
         this.setState({
-          professors_first_name: "",
-          professors_last_name: "",
-          professors_email: "",
-          professors_user_id: "",
-          professors_dni: "",
-          professors_address: "",
-          professors_city: "",
-          professors_postal: "",
-          professors_number_card: "",
-          professors_exp_date: "",
-          professors_cvc: "",
+          studyCenters_name: "",
+          studyCenters_email: "",
+          studyCenters_user_id: this.props.userId || "",
+          studyCenters_cif: "",
+          studyCenters_address: "",
+          studyCenters_city: "",
+          studyCenters_postal: "",
+          studyCenters_number_card: "",
+          studyCenters_exp_date: "",
+          studyCenters_cvc: "",
+          studyCenters_active: true,
           isButtonEnabled: false,
         });
-        this.props.handleProfessorCreated();
-
-        this.props.history.push(`/dashboard/professor`);
-
+        this.props.handleCenterCreated();
+        this.props.history.push('/dashboard/center');
       })
       .catch(error => {
         console.log("error handleSubmit", error);
@@ -73,28 +70,27 @@ class ProfessorCreateContainer extends Component {
   }
 
   buildForm() {
-    let professorFormData = new FormData();
+    let centerFormData = new FormData();
 
     const fields = [
-      "professors_first_name",
-      "professors_last_name",
-      "professors_email",
-      "professors_dni",
-      "professors_address",
-      "professors_city",
-      "professors_postal",
-      "professors_number_card",
-      "professors_exp_date",
-      "professors_cvc"
+        "studyCenters_name",
+        "studyCenters_email",
+        "studyCenters_cif",
+        "studyCenters_address",
+        "studyCenters_city",
+        "studyCenters_postal",
+        "studyCenters_number_card",
+        "studyCenters_exp_date",
+        "studyCenters_cvc"
     ];
 
-    professorFormData.append( "professors_user_id", this.state.professors_user_id);
+    centerFormData.append("studyCenters_user_id", this.state.studyCenters_user_id);
 
     fields.forEach(field => {
-      professorFormData.append(field, this.state[field]);
+        centerFormData.append(field, this.state[field]);
     });
 
-    return professorFormData;
+    return centerFormData
   }
 
   render() {
@@ -116,27 +112,18 @@ class ProfessorCreateContainer extends Component {
           <div className="form-group">
             <input
               type="text"
-              name="professors_first_name"
-              placeholder="Nombre"
-              value={this.state.professors_first_name || ""}
+              name="studyCenters_name"
+              placeholder="Nombre del centro"
+              value={this.state.studyCenters_name || ""}
               onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="text"
-              name="professors_last_name"
-              placeholder="Apellidos"
-              value={this.state.professors_last_name || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="professors_dni"
-              placeholder="DNI"
-              value={this.state.professors_dni || ""}
+              name="studyCenters_cif"
+              placeholder="CIF"
+              value={this.state.studyCenters_cif || ""}
               onChange={this.handleChange}
             />
           </div>
@@ -148,36 +135,36 @@ class ProfessorCreateContainer extends Component {
           <div className="form-group">
             <input
               type="text"
-              name="professors_address"
+              name="studyCenters_address"
               placeholder="Dirección"
-              value={this.state.professors_address || ""}
+              value={this.state.studyCenters_address || ""}
               onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="text"
-              name="professors_city"
+              name="studyCenters_city"
               placeholder="Ciudad"
-              value={this.state.professors_city || ""}
+              value={this.state.studyCenters_city || ""}
               onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="text"
-              name="professors_postal"
+              name="studyCenters_postal"
               placeholder="Código Postal"
-              value={this.state.professors_postal || ""}
+              value={this.state.studyCenters_postal || ""}
               onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="email"
-              name="professors_email"
+              name="studyCenters_email"
               placeholder="Email"
-              value={this.state.professors_email || ""}
+              value={this.state.studyCenters_email || ""}
               onChange={this.handleChange}
             />
           </div>
@@ -189,27 +176,27 @@ class ProfessorCreateContainer extends Component {
           <div className="form-group">
             <input
               type="text"
-              name="professors_number_card"
+              name="studyCenters_number_card"
               placeholder="Número de tarjeta"
-              value={this.state.professors_number_card || ""}
+              value={this.state.studyCenters_number_card || ""}
               onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="text"
-              name="professors_exp_date"
+              name="studyCenters_exp_date"
               placeholder="Fecha de caducidad (MM/AA)"
-              value={this.state.professors_exp_date || ""}
+              value={this.state.studyCenters_exp_date || ""}
               onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <input
               type="text"
-              name="professors_cvc"
+              name="studyCenters_cvc"
               placeholder="CVC"
-              value={this.state.professors_cvc || ""}
+              value={this.state.studyCenters_cvc || ""}
               onChange={this.handleChange}
             />
           </div>
@@ -218,5 +205,4 @@ class ProfessorCreateContainer extends Component {
     );
   }
 }
-
-export default withRouter(ProfessorCreateContainer);
+export default withRouter(CenterCreateContainer);

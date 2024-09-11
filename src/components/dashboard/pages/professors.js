@@ -1,4 +1,5 @@
 import React from 'react';
+
 import DashboardProfessor from '../dashboard-professor';
 
 //Recibe los props desde app.js
