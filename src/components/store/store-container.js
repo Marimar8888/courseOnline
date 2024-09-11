@@ -309,13 +309,21 @@ class StoreContainer extends Component {
                             <img
                                 src={course.courses_image}
                                 alt={course.courses_title}
-                                style={{ maxWidth: '100%', height: 'auto' }}
                             />
                         </div>
                         <div className='course-content-text'>
-                            <h2>{course.courses_title}</h2>
-
-                            <p>{course.courses_content}</p>
+                            <div className='course-content-text-title'>
+                                <h2>{course.courses_title}</h2>
+                                <p>{course.courses_content}</p>
+                            </div>
+                            <div className='course-content-rest'>
+                                <div className='course-content-price'>
+                                    {course.courses_price} €
+                                </div>
+                                <div className='btn-add-cart'>
+                                    <button className='btn'>Añadir a la cesta</button>
+                                </div>
+                            </div>
                         </div>
                         <div className='course-icons'>
                             <a
