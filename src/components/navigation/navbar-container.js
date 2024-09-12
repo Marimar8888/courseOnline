@@ -13,7 +13,7 @@ const NavBarContainer = (props) => {
     console.error('openModal is not defined or not a function');
     return null;
   }
-  
+
   useEffect(() => {
     props.checkTokenValidity();
   }, [props.location]);
@@ -33,8 +33,8 @@ const NavBarContainer = (props) => {
     props.handleSuccessfulLogout();
   };
 
-  const handleToggleCart  = () => {
-    setIsCartOpen(!isCartOpen); 
+  const handleToggleCart = () => {
+    setIsCartOpen(!isCartOpen);
   }
 
   const userName = localStorage.getItem('user_name');
@@ -60,14 +60,19 @@ const NavBarContainer = (props) => {
       </div>
 
       <div className="right-side">
-        <div>
+        <div className="cart-icon-wrapper"> 
           {userName ? userName : ""}
           <a className="nav-icon" onClick={handleToggleCart}>
-            <FontAwesomeIcon icon="cart-shopping" className='cart-icon'/>
+            <FontAwesomeIcon icon="cart-shopping" className='cart-icon' />
+            {cartCourses.length > 0 && (
+              <span className="cart-item-count">
+                {cartCourses.length}
+              </span>
+            )}
           </a>
         </div>
         <div>
-          {props.loggedInStatus === "LOGGED_IN" ? (
+        {props.loggedInStatus === "LOGGED_IN" ? (
             <a onClick={handleSignOut}>
               <FontAwesomeIcon icon="sign-out-alt"  className='sing-icon'/>
             </a>) : (
@@ -77,7 +82,7 @@ const NavBarContainer = (props) => {
           )}
         </div>
       </div>
-      {isCartOpen && <CartShopping isOpen={isCartOpen} cartCourses={cartCourses} removeFromCart={removeFromCart}/>}
+      {isCartOpen && <CartShopping isOpen={isCartOpen} cartCourses={cartCourses} removeFromCart={removeFromCart} />}
     </div>
 
   );

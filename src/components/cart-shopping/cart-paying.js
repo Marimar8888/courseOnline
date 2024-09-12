@@ -39,17 +39,17 @@ const CartPaying = ({ cartCourses = [], removeFromCart }) => {
                             <p>No items in the cart</p>
                         ) : (
                             cartCourses.map((course) => {
-                                const price = Number(course.courses_price).toFixed(2); // Formatear el precio
+                                const price = Number(course.courses_price).toFixed(2); 
                                 return (
                                     <div key={course.courses_id} className='cart-paying-product-resumen'>
                                         <div className='cart-paying-image'>
-                                            <img src={course.courses_image} alt={course.courses_title} /> {/* Agrega la URL de la imagen y el texto alternativo */}
+                                            <img src={course.courses_image} alt={course.courses_title} /> 
                                         </div>
                                         <div className='cart-paying-title'>
-                                            {course.courses_title} {/* Usa el título del curso */}
+                                            {course.courses_title} 
                                         </div>
                                         <div className='cart-paying-price'>
-                                            {price} € {/* Usa el precio del curso */}
+                                            {price} € 
                                         </div>
                                         <div className='cart-paying-delete'>
                                             <span
@@ -69,7 +69,7 @@ const CartPaying = ({ cartCourses = [], removeFromCart }) => {
                             Total:
                         </div>
                         <div className='cart-paying-total-pay-total'>
-                            {getTotal()} € {/* Usa el total calculado */}
+                            {getTotal()} € 
                         </div>
                         <div className='cart-paying-total-pay-button'>
                             <button className='btn-save'>Pagar</button>
