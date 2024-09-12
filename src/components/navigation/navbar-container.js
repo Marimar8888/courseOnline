@@ -18,6 +18,12 @@ const NavBarContainer = (props) => {
     props.checkTokenValidity();
   }, [props.location]);
 
+  useEffect(() => {
+    if (props.location.pathname === '/cart') {
+      setIsCartOpen(false);
+    }
+  }, [props.location.pathname]);
+
   const dynamicLink = (route, linkText) => {
     return (
       <div className="nav-link-wrapper">
