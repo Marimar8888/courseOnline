@@ -80,17 +80,6 @@ class App extends Component {
     });
   };
 
-  // removeFromCart = (courseId) => {
-  //   try {
-  //     this.setState(prevState => {
-  //       const updatedCart = prevState.cartCourses.filter(course => course.courses_id !== courseId);
-  //       return { cartCourses: updatedCart };
-  //     });
-  //   } catch (error) {
-  //     console.error("Error removing course from cart:", error);
-  //   }
-  // }
-
   openLoginModal() {
     this.setState({
       isRegisterModalOpen: false,
@@ -266,6 +255,7 @@ class App extends Component {
                 <CartPaying
                   cartCourses={this.state.cartCourses}
                   removeFromCart={this.removeFromCart}
+                  openRegisterModal={this.openRegisterModal}
                 />
               )} />
               {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedPages()) : null}

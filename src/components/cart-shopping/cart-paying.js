@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const CartPaying = ({ cartCourses = [], removeFromCart }) => {
+const CartPaying = ({ cartCourses = [], removeFromCart, openRegisterModal }) => {
 
     useEffect(() => {
         localStorage.setItem("cartCourses", JSON.stringify(cartCourses));
@@ -22,6 +22,16 @@ const CartPaying = ({ cartCourses = [], removeFromCart }) => {
             console.error("removeFromCart is not a function");
         }
     };
+
+    const handleToPay = () => {
+        const token = localStorage.getItem("token");
+        if(!token){
+            openRegisterModal();
+        }else { //Si está logueado
+            //TODD
+        }
+        
+    }
 
 
     return (
@@ -72,7 +82,7 @@ const CartPaying = ({ cartCourses = [], removeFromCart }) => {
                             {getTotal()} € 
                         </div>
                         <div className='cart-paying-total-pay-button'>
-                            <button className='btn-save'>Pagar</button>
+                            <button className='btn-save' onClick={handleToPay}>Pagar</button>
                         </div>
                     </div>
                 </div>
