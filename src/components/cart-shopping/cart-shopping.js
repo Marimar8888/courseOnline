@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const CartShopping = ({ isOpen, cartCourses = [] }) => {
+const CartShopping = ({ isOpen, cartCourses = [] , removeFromCart}) => {
   if (!isOpen) return null;
+
+  useEffect(() => {
+    localStorage.setItem("cartCourses", JSON.stringify(cartCourses));
+  }, [cartCourses]);
 
   const getTotal = () => {
     return cartCourses
       .reduce((sum, course) => {
-        const price = parseFloat(course.courses_price) || 0; 
+        const price = parseFloat(course.courses_price) || 0;
         return sum + price;
       }, 0)
-      .toFixed(2); 
+      .toFixed(2);
+  };
+
+  const handleDeleteClick = (courseId) => {
+    if (typeof removeFromCart === 'function') {
+      removeFromCart(courseId);
+    } else {
+      console.error("removeFromCart is not a function");
+    }
   };
 
   return (
@@ -19,13 +32,20 @@ const CartShopping = ({ isOpen, cartCourses = [] }) => {
           <p>No items in the cart</p>
         ) : (
           cartCourses.map((course) => {
-            const price = Number(course.courses_price); 
-            return (  
+            const price = Number(course.courses_price);
+            return (
               <div key={course.courses_id} className="cart-item">
-                <img src={course.courses_image} alt={course.courses_title} className="cart-item-image" />
+                <div className="cart-item-image" >
+                  <img src={course.courses_image} alt={course.courses_title} />
+                </div>
                 <div className="cart-item-info">
                   <p className="cart-item-title">{course.courses_title}</p>
                   <p className="cart-item-price">{price.toFixed(2)} €</p>
+                </div>
+                <div className='cart-item-icons'>
+                  <a className="icon-trash" onClick={() => handleDeleteClick(course.courses_id)}>
+                    <FontAwesomeIcon icon="trash" />
+                  </a>
                 </div>
               </div>
             );

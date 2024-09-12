@@ -7,7 +7,7 @@ import CartShopping from '../cart-shopping/cart-shopping';
 const NavBarContainer = (props) => {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { cartCourses } = props;
+  const { cartCourses, removeFromCart } = props;
 
   if (typeof props.openModal !== 'function') {
     console.error('openModal is not defined or not a function');
@@ -77,7 +77,7 @@ const NavBarContainer = (props) => {
           )}
         </div>
       </div>
-      {isCartOpen && <CartShopping isOpen={isCartOpen} cartCourses={cartCourses}/>}
+      {isCartOpen && <CartShopping isOpen={isCartOpen} cartCourses={cartCourses} removeFromCart={removeFromCart}/>}
     </div>
 
   );

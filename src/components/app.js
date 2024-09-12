@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, withRouter  } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, withRouter } from "react-router-dom";
 import { API_URL } from './utils/constant';
 import axios from 'axios';
 
@@ -20,17 +20,17 @@ import Students from "./dashboard/pages/students";
 import Professors from './dashboard/pages/professors';
 import Store from './pages/store';
 
-
-
 class App extends Component {
   constructor(props) {
     super(props);
     Icons();
+    const storedCart = localStorage.getItem("cartCourses");
+    const initialCartCourses = storedCart ? JSON.parse(storedCart) : [];
     this.state = {
       loggedInStatus: "NOT_LOGGED_IN",
       isRegisterModalOpen: false,
-      isModalOpen: false, 
-      cartCourses: []
+      isModalOpen: false,
+      cartCourses: initialCartCourses
     };
 
     this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
@@ -42,17 +42,53 @@ class App extends Component {
     this.openRegisterModal = this.openRegisterModal.bind(this);
     this.closeRegisterModal = this.closeRegisterModal.bind(this);
     this.openLoginModal = this.openLoginModal.bind(this);
+
+  }
+
+  componentDidMount() {
+    this.checkLoginStatus();
+
+    const storedCart = localStorage.getItem("cartCourses");
+    if (storedCart) {
+      this.setState({ cartCourses: JSON.parse(storedCart) });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.cartCourses !== this.state.cartCourses) {
+      localStorage.setItem("cartCourses", JSON.stringify(this.state.cartCourses));
+    }
   }
 
   addToCart = (course) => {
     try {
-      this.setState(prevState => ({
-        cartCourses: [...prevState.cartCourses, course]
-      }));
-    }catch (error) {
+      this.setState(prevState => {
+        const updatedCart = [...prevState.cartCourses, course];
+        localStorage.setItem("cartCourses", JSON.stringify(updatedCart));
+        return { cartCourses: updatedCart };
+      });
+    } catch (error) {
       console.error("Error adding course to cart:", error);
     }
-  }
+  };
+  removeFromCart = (courseId) => {
+    this.setState(prevState => {
+      const updatedCart = prevState.cartCourses.filter(course => course.courses_id !== courseId);
+      localStorage.setItem("cartCourses", JSON.stringify(updatedCart));
+      return { cartCourses: updatedCart };
+    });
+  };
+
+  // removeFromCart = (courseId) => {
+  //   try {
+  //     this.setState(prevState => {
+  //       const updatedCart = prevState.cartCourses.filter(course => course.courses_id !== courseId);
+  //       return { cartCourses: updatedCart };
+  //     });
+  //   } catch (error) {
+  //     console.error("Error removing course from cart:", error);
+  //   }
+  // }
 
   openLoginModal() {
     this.setState({
@@ -108,30 +144,30 @@ class App extends Component {
 
   checkTokenValidity() {
     const token = localStorage.getItem("token");
-   
+
     if (token) {
       axios.get(`${API_URL}/get_verify_token`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       })
-      .then(response => {
-        if (response.status === 200) {
-          this.setState({ loggedInStatus: "LOGGED_IN" });
-        } else {
+        .then(response => {
+          if (response.status === 200) {
+            this.setState({ loggedInStatus: "LOGGED_IN" });
+          } else {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user_name");
+
+            this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
+            this.openLoginModal();
+          }
+        })
+        .catch(error => {
           localStorage.removeItem("token");
           localStorage.removeItem("user_name");
-
           this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
           this.openLoginModal();
-        }
-      })
-      .catch(error => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user_name");
-        this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
-        this.openLoginModal();
-      });
+        });
     } else {
       this.setState({ loggedInStatus: "NOT_LOGGED_IN" });
     }
@@ -157,7 +193,7 @@ class App extends Component {
 
   authorizedPages() {
     return [
-      <Route key="dashboard" path="/dashboard" component={Dashboard} 
+      <Route key="dashboard" path="/dashboard" component={Dashboard}
       />,
       <Route key="courses" path="/courses/:slug" render={props => (
         <Courses {...props} />
@@ -185,35 +221,48 @@ class App extends Component {
               openModal={this.openModal}
               checkTokenValidity={this.checkTokenValidity.bind(this)}
               cartCourses={this.state.cartCourses}
+              removeFromCart={this.removeFromCart}
             />
             <Switch>
               <Route exact path="/" component={Home} />
               <Route
                 path="/store/:slug"
                 render={props => (
-                  <StoreContainer {...props} loggedInStatus={this.state.loggedInStatus} addToCart={this.addToCart}  cartCourses={this.state.cartCourses}/>
+                  <StoreContainer
+                    {...props}
+                    loggedInStatus={this.state.loggedInStatus}
+                    addToCart={this.addToCart}
+                    cartCourses={this.state.cartCourses}
+                  />
                 )}
               />
               <Route
                 path="/store"
                 render={props => (
-                  <Store {...props} loggedInStatus={this.state.loggedInStatus} addToCart={this.addToCart} cartCourses={this.state.cartCourses}/>
+                  <Store
+                    {...props}
+                    loggedInStatus={this.state.loggedInStatus}
+                    addToCart={this.addToCart}
+                    cartCourses={this.state.cartCourses}
+                  />
                 )}
               />
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
               <Route path="/dashboard" component={Dashboard} />
-              <Route 
-                path="/courses/:slug" 
+              <Route
+                path="/courses/:slug"
                 render={props => (
-                  <Courses {...props} loggedInStatus={this.state.loggedInStatus}/>
+                  <Courses
+                    {...props}
+                    loggedInStatus={this.state.loggedInStatus} />
                 )}
               />
               <Route path="/students/:slug" component={Students} />
               <Route path="/centers/:slug" component={Centers} />
               <Route path="/professors/:slug" component={Professors} />
               {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedPages()) : null}
-               <Route component={NoMatch} />
+              <Route component={NoMatch} />
             </Switch>
             <LoginModal
               isOpen={this.state.isModalOpen}
