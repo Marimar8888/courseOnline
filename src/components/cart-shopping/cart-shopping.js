@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CartShopping = ({ isOpen, cartCourses = [] , removeFromCart}) => {
+  const history = useHistory();
   if (!isOpen) return null;
 
   useEffect(() => {
@@ -23,6 +25,10 @@ const CartShopping = ({ isOpen, cartCourses = [] , removeFromCart}) => {
     } else {
       console.error("removeFromCart is not a function");
     }
+  };
+
+  const handleGoToCart = () => {
+    history.push('/cart'); 
   };
 
   return (
@@ -57,7 +63,7 @@ const CartShopping = ({ isOpen, cartCourses = [] , removeFromCart}) => {
           <p>Total: <span>{getTotal()} €</span></p>
         </div>
       )}
-      <button className="cart-checkout-button">Ir a la cesta</button>
+      <button className="cart-checkout-button" onClick={handleGoToCart}>Ir a la cesta</button>
     </div>
   );
 };

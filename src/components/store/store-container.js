@@ -33,7 +33,6 @@ class StoreContainer extends Component {
     componentDidMount() {
         const token = localStorage.getItem("token");
         const cartCourse = localStorage.getItem('cartCourses');
-        console.log("componentDidMount cartCourses:", cartCourse);
         this.loadCourses();
         if(token){
            this.getUserId(token);
