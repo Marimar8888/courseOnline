@@ -19,6 +19,7 @@ import Centers from "./dashboard/pages/centers";
 import Students from "./dashboard/pages/students";
 import Professors from './dashboard/pages/professors';
 import Store from './pages/store';
+import CartDetails from './cart-shopping/cart-details';
 import CartPaying from './cart-shopping/cart-paying';
 
 class App extends Component {
@@ -252,12 +253,19 @@ class App extends Component {
               <Route path="/centers/:slug" component={Centers} />
               <Route path="/professors/:slug" component={Professors} />
               <Route path="/cart" render={() => (
-                <CartPaying
+                <CartDetails
                   cartCourses={this.state.cartCourses}
                   removeFromCart={this.removeFromCart}
                   openRegisterModal={this.openRegisterModal}
                 />
               )} />
+              <Route path="/cart-pay" render={() => (
+                <CartPaying
+                  cartCourses={this.state.cartCourses}
+                />
+              )} />
+
+
               {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedPages()) : null}
               <Route component={NoMatch} />
             </Switch>

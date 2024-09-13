@@ -91,6 +91,28 @@
     gap: 21px;
 }
 
+/*--------------form pay styles--------------------*/
+
+
+@mixin input-pay-element {
+    input{                                       
+        font-family: "Titillium Web", sans-serif;
+        color: $charcoal;
+        padding: 5px 0px 5px 5px;
+        width: 100%;
+        min-width: 400px;
+        border-top: 0px;
+        border-right: 0px;
+        border-left: 0px;
+        border-bottom: 1px solid black;
+        background-color: transparent;
+        transition: 0.5s all ease-in-out;
+        font-size: 1.1em;
+        margin-bottom: 21px;
+
+    }
+}
+
 /*-------------- dashborar styles -----------------*/
 
 @mixin dashboard-courses-content {

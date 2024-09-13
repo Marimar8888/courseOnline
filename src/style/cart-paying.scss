@@ -1,96 +1,113 @@
-.cart-paying-wrapper {
+.cart-paying-content-wrapper {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60%;
-    margin: 0 auto;
+    justify-content: center;
+    align-items: center; 
+    border: 1px solid black;
 
-    .cart-paying-content-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0 auto;
+    .cart-paying-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        width: 100%;
+        height: auto;
+        text-align: left; 
+        justify-items: center; 
 
-        .cart-paying-header {
+        .column-left-wrapper {
+            display: flex;
+            flex-direction: column;
             width: 100%;
-            text-align: left;
-        }
+            align-items: flex-end;
+     
+            .column-left{
+                display: flex;
+                flex-direction: column;
+                width: 50%;
+                align-items: flex-start;
 
-        .cart-paying-details-wrapper {
-            display: grid;
-            width: 100%;
-            grid-template-columns: 3fr 1fr;
-            gap:20px;
+                .column-left-header {
+                   
+                }
             
-            .cart-paying-products {
-                .cart-paying-products-title {
-                    font-weight: 700;
-                    font-size: 1.1em;
+                .column-left-billing-title {
+    
                 }
 
-                .cart-paying-product-resumen {
-                    display: grid;
-                    width: 100%;
-                    grid-template-columns: 1fr 2fr 1fr 1fr;
-                    gap: 20px;
-                    margin-bottom: 20px;
+                .column-left-dates {
+                 
+                    .column-left-dates-titles {
 
-                    .cart-paying-image {
-                        img {
-                            max-width: 70%;
-                            height: auto;
+                    }
+                    .cart-paying-form-group-dates {
+                    
+                        .form-group {
+                            @include input-pay-element();
+                        }
+                       
+                    }
+                }
+
+                .column-left-direction {
+                    .column-left-direction-title {
+
+                    }
+
+                    .cart-paying-form-group-address {
+
+                        .form-group {
+                            @include input-pay-element();
                         }
 
                     }
+                }
 
-                    .cart-paying-title {}
+                .column-left-pay-method {
+                    .column-left-direction-title {
 
-                    .cart-paying-delete {
-                        .cart-paying-delete-text {
-                            color: $blue; 
-                            cursor: pointer;
-                            text-decoration: none; 
-                            transition: transform 0.5s ease-in-out;
-
-                            &:hover{
-                                color: $dark-blue;
-                            }
+                    }
+                    .cart-paying-form-group-card {
+                        .form-group {
+                            @include input-pay-element();
                         }
-                    }
+                       
 
-                    .cart-paying-price {}
-
-                }
-
-            }
-
-            .cart-paying-total-pay {
-                
-
-                .cart-paying-total-pay-header {
-                    font-size: 1.3em;
-                    font-weight: 600;
-                    margin-bottom: 20px;
-                }
-
-                .cart-paying-total-pay-total {
-                    font-size: 1.8em;
-                    font-weight: 700;
-                    margin-bottom: 40px;
-                }
-
-                .cart-paying-total-pay-button {
-                    .btn-save {
-                        width: 60%;
-                        margin: 0 auto;
-                        font-size: 1.2em;
                     }
 
                 }
-
             }
+
+
         }
+        .column-right-wrapper {
+            width: 100%;
+            background-color: $offwhite;
+            padding: 50px 0 0 20px;
 
+            .column-right {
+                display: flex;
+                flex-direction: column;
+                width: 50%;
+                justify-content: left;
+
+                .column-right-header {
+
+                }
+
+                .resume-price-wrapper {
+                    display: grid;
+                    grid-template-columns: 2fr 1fr;
+                    .resumen-price-text {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    .resumen-price-number {
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                }
+            }
+
+        }
     }
-
 }
