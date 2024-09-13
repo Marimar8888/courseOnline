@@ -21,6 +21,14 @@ const CartPaying = ({ cartCourses = [] }) => {
     const [studentsCvc, setStudentsCvc] = useState("");
     const history = useHistory();
 
+    //toogles
+    const toggleDatesgDetails = () => setShowDatesDetails(!showDatesDetails);
+    const toggleAddressDetails = () => setShowAddressDetails(!showAddressDetails);
+    const toggleCardDetails = () => setShowCardDetails(!showCardDetails);
+    const [showDatesDetails, setShowDatesDetails] = useState(false);
+    const [showAddressDetails, setShowAddressDetails] = useState(false);
+    const [showCardDetails, setShowCardDetails] = useState(false);
+
     useEffect(() => {
         localStorage.setItem("cartCourses", JSON.stringify(cartCourses));
         console.log("useEffect", cartCourses);
@@ -202,16 +210,13 @@ const CartPaying = ({ cartCourses = [] }) => {
 
     }
     const formatCardNumber = (value) => {
-        // Filtra solo números, sin eliminar los caracteres que ya son números
         const digits = value.replace(/[^\d]/g, '');
-
-        // Añade espacios cada 4 dígitos
         return digits.replace(/(.{4})/g, '$1 ').trim();
     };
 
     const handleCardNumberChange = (e) => {
         const formattedValue = formatCardNumber(e.target.value);
-        console.log("Formatted Card Number:", formattedValue); // Verifica el valor formateado
+        console.log("Formatted Card Number:", formattedValue); 
         setStudentsNumberCard(formattedValue);
     };
 
@@ -224,14 +229,15 @@ const CartPaying = ({ cartCourses = [] }) => {
                             <h2>Pagar</h2>
                         </div>
 
-                        <div className='column-left-billing-title'>
+                        <div className='column-left-billing-title' >
                             <h3>Dirección de facturación</h3>
                         </div>
 
-                        <div className='column-left-dates'>
-                            <div className='column-left-dates-title'>
-                                <h3>Nombre, apellidos y dni</h3>
+                        <div className='column-left-dates' >
+                            <div className='column-left-dates-title' onClick={toggleDatesgDetails}>
+                                <h3 > Nombre, apellidos y dni</h3>
                             </div>
+                        {showDatesDetails && (
                             <div className='cart-paying-form-group-dates'>
                                 <div className="form-group">
                                     <input
@@ -261,12 +267,14 @@ const CartPaying = ({ cartCourses = [] }) => {
                                     />
                                 </div>
                             </div>
+                        )}
                         </div>
 
                         <div className='column-left-direction'>
-                            <div className='column-left-direction-title'>
+                            <div className='column-left-direction-title' onClick={toggleAddressDetails}>
                                 <h3>Domicilio</h3>
                             </div>
+                        {showAddressDetails && (
                             <div className='cart-paying-form-group-address'>
                                 <div className="form-group">
                                     <input
@@ -305,12 +313,13 @@ const CartPaying = ({ cartCourses = [] }) => {
                                     />
                                 </div>
                             </div>
+                             )}
                         </div>
                         <div className='column-left-pay-method'>
-                            <div className='column-left-direction-title'>
+                            <div className='column-left-direction-title' onClick={toggleCardDetails}>
                                 <h3>Datos bancarios</h3>
                             </div>
-
+                            {showCardDetails && (
                             <div className='cart-paying-form-group-card'>
                                 <div className="form-group">
                                     <input
@@ -341,6 +350,7 @@ const CartPaying = ({ cartCourses = [] }) => {
                                     />
                                 </div>
                             </div>
+                        )}
                         </div>
                     </div>
                 </div>

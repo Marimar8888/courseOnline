@@ -125,6 +125,20 @@
     }
 }
 
+@mixin toogle-input {
+    width: 100%;
+    min-width: 400px;
+    cursor: pointer;
+    border: 1px solid $lightgrey;
+    background-color: $offwhite;
+    width: 100%;
+    margin-bottom: 5px;
+
+    h3 {
+        margin: 5px;
+    }
+}
+
 /*-------------- dashborar styles -----------------*/
 
 @mixin dashboard-courses-content {

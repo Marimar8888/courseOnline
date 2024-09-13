@@ -2,14 +2,17 @@
     display: flex;
     justify-content: center;
     align-items: center; 
-    border: 1px solid black;
+    margin-bottom: 50px;
+    height: calc(100vh - 285px); 
+    border-top: 1px solid rgba(0, 0, 0, 0.1);  
+    box-shadow: 0px -4px 10px -3px rgba(0, 0, 0, 0.1);
 
     .cart-paying-content {
-        display: grid;
+        display: grid;  
         grid-template-columns: 1fr 1fr;
         gap: 20px;
         width: 100%;
-        height: auto;
+        height: calc(100vh - 285px); 
         text-align: left; 
         justify-items: center; 
 
@@ -18,7 +21,8 @@
             flex-direction: column;
             width: 100%;
             align-items: flex-end;
-     
+            height: 100%;
+
             .column-left{
                 display: flex;
                 flex-direction: column;
@@ -30,12 +34,13 @@
                 }
             
                 .column-left-billing-title {
-    
+
                 }
 
                 .column-left-dates {
-                 
-                    .column-left-dates-titles {
+              
+                    .column-left-dates-title {
+                        @include toogle-input();
 
                     }
                     .cart-paying-form-group-dates {
@@ -45,10 +50,12 @@
                         }
                        
                     }
+                
                 }
 
                 .column-left-direction {
                     .column-left-direction-title {
+                        @include toogle-input();
 
                     }
 
@@ -63,7 +70,7 @@
 
                 .column-left-pay-method {
                     .column-left-direction-title {
-
+                        @include toogle-input();
                     }
                     .cart-paying-form-group-card {
                         .form-group {
@@ -82,7 +89,7 @@
             width: 100%;
             background-color: $offwhite;
             padding: 50px 0 0 20px;
-
+            height: 100%;
             .column-right {
                 display: flex;
                 flex-direction: column;
