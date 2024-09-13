@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_URL } from '../utils/constant';
 import { useHistory } from 'react-router-dom';
 
-const CartPaying = ({ cartCourses = [] }) => {
+const CartPaying = ({ cartCourses = [], clearCart }) => {
     const [userId, setUserId] = useState(null);
     const [studentId, setStudentId] = useState(null);
     const [userRols, setUserRols] = useState([]);
@@ -131,7 +131,7 @@ const CartPaying = ({ cartCourses = [] }) => {
             })
     }
 
-    const saveEnrollment = async () => {
+    const handlePaymentSuccess  = async () => {
 
         if (studentId) {
             addEnrollment();
@@ -139,17 +139,21 @@ const CartPaying = ({ cartCourses = [] }) => {
             addStudent();
             addEnrollment();
         }
+        clearCart();
+        history.push(`/`);
     }
 
     const addEnrollment = async () => {
         const enrollment = buildFormEnrollment();
+
         try {
             const response = await axios.post(`${API_URL}/enrollment`, enrollment, {
                 headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded', 
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
-            history.push(`/`);
+
         } catch (error) {
             console.log("Error addEnrollment:", error);
         }
@@ -173,19 +177,26 @@ const CartPaying = ({ cartCourses = [] }) => {
     const buildFormEnrollment = () => {
         let enrollmentFormData = new FormData();
 
-        const fields = [
-            "enrollments_student_id",
-            "enrollments_course_id",
-            "enrollments_course_start_date",
-            "enrollments_end_date"
-        ];
+        const startDate = new Date();
 
-        fields.forEach(field => {
-            if (this.state[field] !== this.initialState[field]) {
-                enrollmentFormData.append(field, this.state[field]);
-            }
-        });
+        const endDate = new Date();
+        endDate.setMonth(startDate.getMonth() + 1);
 
+        const formatDate = (date) => {
+            return date.toISOString().slice(0, 19).replace('T', ' ');
+        };
+
+        const formattedStartDate = formatDate(startDate);
+        const formattedEndDate = formatDate(endDate);
+
+        enrollmentFormData.append("enrollments_student_id", studentId);
+        enrollmentFormData.append("enrollments_course_id", cartCourses.map(course => course.courses_id).join(','));
+        enrollmentFormData.append("enrollments_start_date", formattedStartDate);
+        enrollmentFormData.append("enrollments_end_date", formattedEndDate);
+
+        for (let pair of enrollmentFormData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]); 
+        }
     
         return enrollmentFormData;
     }
@@ -373,7 +384,7 @@ const CartPaying = ({ cartCourses = [] }) => {
                             </div>
                         </div>
                         <div>
-                            <button onClick={saveEnrollment} className='btn-save'>Completar pago</button>
+                            <button onClick={handlePaymentSuccess} className='btn-save'>Completar pago</button>
                         </div>
                     </div>
                 </div>

@@ -73,6 +73,7 @@ class App extends Component {
       console.error("Error adding course to cart:", error);
     }
   };
+
   removeFromCart = (courseId) => {
     this.setState(prevState => {
       const updatedCart = prevState.cartCourses.filter(course => course.courses_id !== courseId);
@@ -80,6 +81,12 @@ class App extends Component {
       return { cartCourses: updatedCart };
     });
   };
+
+  clearCart = () => {
+    this.setState({ cartCourses: [] });
+    localStorage.removeItem("cartCourses");
+  }
+  
 
   openLoginModal() {
     this.setState({
@@ -262,6 +269,7 @@ class App extends Component {
               <Route path="/cart-pay" render={() => (
                 <CartPaying
                   cartCourses={this.state.cartCourses}
+                  clearCart={this.clearCart}
                 />
               )} />
 
