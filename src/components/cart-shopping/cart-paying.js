@@ -317,6 +317,7 @@ const CartPaying = ({ cartCourses = [] }) => {
                                         type="text"
                                         name="students_number_card"
                                         placeholder="Nº tarjeta 1234 5678 9012 3456"
+                                        maxLength={19}
                                         value={studentsNumberCard}
                                         onChange={handleCardNumberChange}
                                     />

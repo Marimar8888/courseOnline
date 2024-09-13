@@ -104,11 +104,23 @@
         border-top: 0px;
         border-right: 0px;
         border-left: 0px;
-        border-bottom: 1px solid black;
+        border: 1px solid black;
         background-color: transparent;
         transition: 0.5s all ease-in-out;
-        font-size: 1.1em;
+        font-size: 1.2em;
         margin-bottom: 21px;
+        color: $dark-blue;
+
+        &:focus {
+            border: none;
+            border-bottom: 2px solid $blue; 
+            outline: none; 
+            box-shadow: 0 0 5px $blue;
+        }
+
+        &::placeholder {
+            color: $mediumgrey;
+        }
 
     }
 }
