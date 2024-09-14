@@ -3,8 +3,10 @@ import axios from 'axios';
 import { API_URL } from '../utils/constant';
 import { useHistory } from 'react-router-dom';
 
+import { getUserIdFromAPI } from '../helpers/user';
+
 const CartPaying = ({ cartCourses = [], clearCart }) => {
-    const [userId, setUserId] = useState(null);
+    const [userId, setUserId] = useState(null); 
     const [studentId, setStudentId] = useState(null);
     const [userRols, setUserRols] = useState([]);
 
@@ -34,38 +36,50 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
         console.log("useEffect", cartCourses);
     }, [cartCourses]);
 
+    // useEffect(() => {
+
+    //     const getUserId = async () => {
+    //         const token = localStorage.getItem("token");
+    //         axios
+    //             .get(
+    //                 `${API_URL}/get_user_id`,
+    //                 {
+    //                     headers: {
+    //                         Authorization: `Bearer ${token}`
+    //                     }
+    //                 })
+    //             .then(response => {
+    //                 if (response.status === 200) {
+    //                     setUserId(response.data.users_id);
+    //                     console.log("getUserId:", response.data.users_id);
+    //                 } else {
+    //                     console.log("No Authorization");
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 if (error.response) {
+    //                     console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
+    //                     console.log(error.response.data);
+    //                 } else {
+    //                     console.log("Network or other error:", error.message);
+    //                 }
+    //             })
+    //     };
+
+    //     getUserId();
+    // }, [])
+
     useEffect(() => {
-
-        const getUserId = async () => {
-            const token = localStorage.getItem("token");
-            axios
-                .get(
-                    `${API_URL}/get_user_id`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    })
-                .then(response => {
-                    if (response.status === 200) {
-                        setUserId(response.data.users_id);
-                        console.log("getUserId:", response.data.users_id);
-                    } else {
-                        console.log("No Authorization");
-                    }
-                })
-                .catch(error => {
-                    if (error.response) {
-                        console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
-                        console.log(error.response.data);
-                    } else {
-                        console.log("Network or other error:", error.message);
-                    }
-                })
-        };
-
-        getUserId();
-    }, [])
+        const token = localStorage.getItem("token");
+        if(token){
+            getUserIdFromAPI(token)
+            .then(id => {
+                if (id) {
+                    setUserId(id); 
+                }
+            });
+        }
+    }, []);
 
     useEffect(() => {
         if (userId !== null) {
@@ -91,6 +105,10 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
                 if (studentRole) {
                     getStudentById(userId, token);
                 }
+                //Comprobar si hay rol professor para recuperar los datos por professorId si no hay student 
+                //Creación de student y luego enrollment
+
+                //Si no hay tampoco professor, ni estudiante. crear estudiante y enrollment 
             })
             .catch(error => {
                 console.log("error in getUserRols:", error);
@@ -98,7 +116,6 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
     }
 
     const getStudentById = (userId, token) => {
-
         axios
             .get(
                 `${API_URL}/student/userId/${userId}`,

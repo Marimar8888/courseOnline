@@ -54,6 +54,12 @@ class App extends Component {
     if (storedCart) {
       this.setState({ cartCourses: JSON.parse(storedCart) });
     }
+
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    console.log('Ancho de la pantalla:', screenWidth);
+    console.log('Alto de la pantalla:', screenHeight);
   }
 
   componentDidUpdate(prevState) {
@@ -86,7 +92,7 @@ class App extends Component {
     this.setState({ cartCourses: [] });
     localStorage.removeItem("cartCourses");
   }
-  
+
 
   openLoginModal() {
     this.setState({

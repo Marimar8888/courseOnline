@@ -30,8 +30,9 @@ const CartDetails = ({ cartCourses = [], removeFromCart, openRegisterModal }) =>
         const token = localStorage.getItem("token");
         if (!token) {
             openRegisterModal();
-            history.push('/cart-pay'); 
-
+            if(token){
+                history.push('/cart-pay');
+            }
         } else { 
             history.push('/cart-pay'); 
         }

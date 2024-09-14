@@ -2,14 +2,18 @@ html body {
     height: 100%; 
     margin: 0px;
     font-family: "Titillium Web", sans-serif;
+    height: 100vh;
+}
+
+.app-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
 }
 
 .container{
-    display: grid;
+    display: flex;
     flex-direction: column;
-    min-height: 100vh;
 }
 
-.container > div {
-    flex: 1; 
-}
