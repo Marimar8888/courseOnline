@@ -1,0 +1,41 @@
+import axios from 'axios';
+import { API_URL } from '../utils/constant';
+
+export const buildFormEnrollment = ({ studentId, courseId }) => {
+    const enrollmentFormData = new FormData();
+
+    const startDate = new Date();
+
+    const endDate = new Date();
+    endDate.setMonth(startDate.getMonth() + 1);
+
+    const formatDate = (date) => {
+        return date.toISOString().slice(0, 19).replace('T', ' ');
+    };
+
+    enrollmentFormData.append('enrollments_student_id', studentId);
+    enrollmentFormData.append('enrollments_course_id', courseId);
+    enrollmentFormData.append('enrollments_start_date', formatDate(startDate));
+    enrollmentFormData.append('enrollments_end_date', formatDate(endDate));
+
+    return enrollmentFormData;
+};
+
+export const addEnrollment = (studentId, courseId, token) => {
+    const enrollmentFormData = buildFormEnrollment({ studentId, courseId });
+
+    return axios.post(`${API_URL}/enrollment`, enrollmentFormData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    .then(response => {
+        return response.data;
+    })
+    .catch(error => {
+        console.log("Error addEnrollment:", error);
+        throw error; 
+    
+    });
+};

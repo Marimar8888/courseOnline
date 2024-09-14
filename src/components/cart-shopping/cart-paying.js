@@ -3,7 +3,8 @@ import axios from 'axios';
 import { API_URL } from '../utils/constant';
 import { useHistory } from 'react-router-dom';
 
-import { getUserIdFromAPI } from '../helpers/user';
+import { getUserIdFromAPI, getUserRolsFromAPI, getStudentByIdFromAPI, getProfessorByIdFromAPI } from '../services/user';
+import { addEnrollment } from '../services/enrollment';
 
 const CartPaying = ({ cartCourses = [], clearCart }) => {
     const [userId, setUserId] = useState(null); 
@@ -36,40 +37,7 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
         console.log("useEffect", cartCourses);
     }, [cartCourses]);
 
-    // useEffect(() => {
-
-    //     const getUserId = async () => {
-    //         const token = localStorage.getItem("token");
-    //         axios
-    //             .get(
-    //                 `${API_URL}/get_user_id`,
-    //                 {
-    //                     headers: {
-    //                         Authorization: `Bearer ${token}`
-    //                     }
-    //                 })
-    //             .then(response => {
-    //                 if (response.status === 200) {
-    //                     setUserId(response.data.users_id);
-    //                     console.log("getUserId:", response.data.users_id);
-    //                 } else {
-    //                     console.log("No Authorization");
-    //                 }
-    //             })
-    //             .catch(error => {
-    //                 if (error.response) {
-    //                     console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
-    //                     console.log(error.response.data);
-    //                 } else {
-    //                     console.log("Network or other error:", error.message);
-    //                 }
-    //             })
-    //     };
-
-    //     getUserId();
-    // }, [])
-
-    useEffect(() => {
+     useEffect(() => {
         const token = localStorage.getItem("token");
         if(token){
             getUserIdFromAPI(token)
@@ -83,99 +51,72 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
 
     useEffect(() => {
         if (userId !== null) {
-            getUserRols(userId); // Solo llama cuando userId ya no es null
+            const token = localStorage.getItem("token");
+            if (token) {
+                getUserRolsFromAPI(userId, token)
+                    .then(({ rols, studentRole, professorRole }) => {
+                        setUserRols(rols);
+                        console.log("getUserRols:", rols);
+
+                        if (studentRole) {
+                            getStudentByIdFromAPI(userId, token)
+                                .then(student => {
+                                    console.log("getStudentByIdFromAPI", student);
+                                    if (student) {
+                                        setStudentId(student.students_id);
+                                        setStudentsFirstName(student.students_first_name);
+                                        setStudentsLastName(student.students_last_name);
+                                        setStudentsDni(student.students_dni);
+                                        setStudentsAddress(student.students_address);
+                                        setStudentsCity(student.students_city);
+                                        setStudentsPostal(student.students_postal);
+                                        setStudentsEmail(student.students_email);
+                                        setStudentsNumberCard(formatCardNumber(student.students_number_card));
+                                        setStudentsExpDate(student.students_exp_date);
+                                        setStudentsCvc(student.students_cvc);
+                                        console.log("getStudent dates student", student);
+                                    }
+                                });
+                        } else if (professorRole) {
+                            getProfessorByIdFromAPI(userId, token)
+                                .then(professor => {
+                                    if (professor) {
+                                        setStudentsFirstName(professor.professors_first_name);
+                                        setStudentsLastName(professor.professors_last_name);
+                                        setStudentsDni(professor.professors__dni);
+                                        setStudentsAddress(professor.professors_address);
+                                        setStudentsCity(professor.professors_city);
+                                        setStudentsPostal(professor.professors_postal);
+                                        setStudentsEmail(professor.professors_email);
+                                        setStudentsNumberCard(formatCardNumber(professor.professors_number_card));
+                                        setStudentsExpDate(professor.professors_exp_date);
+                                        setStudentsCvc(professor.professors_s_cvc);
+                                        console.log("getStudent dates profeesor:", professor);
+                                    }
+                                });
+                        }
+                    });
+            }
         }
     }, [userId]);
 
-    const getUserRols = (userId) => {
-        const token = localStorage.getItem("token");
-        axios
-            .get(
-                `${API_URL}/user/${userId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-            .then(async response => {
-                setUserRols(response.data.rols);
-                console.log("getUserRols:", response.data.rols);
-
-                const studentRole = response.data.rols.find(rol => rol.rols_id === 2);
-                if (studentRole) {
-                    getStudentById(userId, token);
-                }
-                //Comprobar si hay rol professor para recuperar los datos por professorId si no hay student 
-                //Creación de student y luego enrollment
-
-                //Si no hay tampoco professor, ni estudiante. crear estudiante y enrollment 
-            })
-            .catch(error => {
-                console.log("error in getUserRols:", error);
-            });
-    }
-
-    const getStudentById = (userId, token) => {
-        axios
-            .get(
-                `${API_URL}/student/userId/${userId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-            .then(response => {
-                if (response.status === 200) {
-                    const student = response.data;
-                    setStudentId(student.students_id);
-                    setStudentsFirstName(student.students_first_name);
-                    setStudentsLastName(student.students_last_name);
-                    setStudentsDni(student.students_dni);
-                    setStudentsAddress(student.students_address);
-                    setStudentsCity(student.students_city);
-                    setStudentsPostal(student.students_postal);
-                    setStudentsEmail(student.students_email);
-                    setStudentsNumberCard(formatCardNumber(student.students_number_card));
-                    setStudentsExpDate(student.students_exp_date);
-                    setStudentsCvc(student.students_cvc);
-                    console.log("getStudent", response.data);
-                } else {
-                    console.log("Student not found");
-                }
-            })
-            .catch(error => {
-                console.log("error getStudentId", error)
-            })
-    }
-
-    const handlePaymentSuccess  = async () => {
-
+    const handlePaymentSuccess = () => {
+        const token = localStorage.getItem('token');
+        const courseId = cartCourses.map(course => course.courses_id)[0]; 
+    
         if (studentId) {
-            addEnrollment();
+            addEnrollment(studentId, courseId, token);
         } else {
-            addStudent();
-            addEnrollment();
+            addStudent((newStudentId) => {
+                if (newStudentId) {
+                    addEnrollment(newStudentId, courseId, token);
+                }
+            });
         }
+    
         clearCart();
         history.push(`/`);
-    }
-
-    const addEnrollment = async () => {
-        const enrollment = buildFormEnrollment();
-
-        try {
-            const response = await axios.post(`${API_URL}/enrollment`, enrollment, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded', 
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-
-        } catch (error) {
-            console.log("Error addEnrollment:", error);
-        }
-
-    }
+    };
 
     const addStudent = async () => {
         const formData = buildForm();
@@ -189,33 +130,6 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
         } catch (error) {
             console.log("Error handleSubmit:", error);
         }
-    }
-
-    const buildFormEnrollment = () => {
-        let enrollmentFormData = new FormData();
-
-        const startDate = new Date();
-
-        const endDate = new Date();
-        endDate.setMonth(startDate.getMonth() + 1);
-
-        const formatDate = (date) => {
-            return date.toISOString().slice(0, 19).replace('T', ' ');
-        };
-
-        const formattedStartDate = formatDate(startDate);
-        const formattedEndDate = formatDate(endDate);
-
-        enrollmentFormData.append("enrollments_student_id", studentId);
-        enrollmentFormData.append("enrollments_course_id", cartCourses.map(course => course.courses_id).join(','));
-        enrollmentFormData.append("enrollments_start_date", formattedStartDate);
-        enrollmentFormData.append("enrollments_end_date", formattedEndDate);
-
-        for (let pair of enrollmentFormData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]); 
-        }
-    
-        return enrollmentFormData;
     }
 
     const buildForm = () => {

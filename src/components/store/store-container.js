@@ -84,6 +84,9 @@ class StoreContainer extends Component {
                     this.setState({
                         favorites: favoriteIds
                     });
+                    if(response.status === 404){
+                        console.log("User doesn´t have favorites");
+                    }
                 })
                 .catch(error => {
                     console.log("error getAllFavorites", error)
