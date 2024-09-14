@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL } from '../utils/constant';
 
-export const buildFormEnrollment = ({ studentId, courseId }) => {
+export const buildFormEnrollment = ({ studentId, courseIds  }) => {
     const enrollmentFormData = new FormData();
 
     const startDate = new Date();
@@ -14,15 +14,21 @@ export const buildFormEnrollment = ({ studentId, courseId }) => {
     };
 
     enrollmentFormData.append('enrollments_student_id', studentId);
-    enrollmentFormData.append('enrollments_course_id', courseId);
+    if (Array.isArray(courseIds)) {
+        courseIds.forEach(courseId => {
+            enrollmentFormData.append('enrollments_course_ids', courseId);
+        });
+    } else {
+        console.error("courseIds no es un array válido:", courseIds);
+    }
     enrollmentFormData.append('enrollments_start_date', formatDate(startDate));
     enrollmentFormData.append('enrollments_end_date', formatDate(endDate));
 
     return enrollmentFormData;
 };
 
-export const addEnrollment = (studentId, courseId, token) => {
-    const enrollmentFormData = buildFormEnrollment({ studentId, courseId });
+export const addEnrollment = (studentId, courseIds, token) => {
+    const enrollmentFormData = buildFormEnrollment({ studentId, courseIds });
 
     return axios.post(`${API_URL}/enrollment`, enrollmentFormData, {
         headers: {

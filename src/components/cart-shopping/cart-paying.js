@@ -102,14 +102,14 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
 
     const handlePaymentSuccess = () => {
         const token = localStorage.getItem('token');
-        const courseId = cartCourses.map(course => course.courses_id)[0]; 
-    
+        const courseIds = cartCourses.map(course => course.courses_id);
+
         if (studentId) {
-            addEnrollment(studentId, courseId, token);
+            addEnrollment(studentId, courseIds, token);
         } else {
             addStudent((newStudentId) => {
                 if (newStudentId) {
-                    addEnrollment(newStudentId, courseId, token);
+                    addEnrollment(newStudentId, courseIds, token);
                 }
             });
         }
