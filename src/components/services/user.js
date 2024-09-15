@@ -11,7 +11,7 @@ export const getUserIdFromAPI = (token) => {
     })
     .then(response => {
         if (response.status === 200) {
-            return response.data.users_id; // Retorna el ID del usuario
+            return response.data.users_id; 
         } else {
             console.log("No Authorization");
             return null;
@@ -46,7 +46,6 @@ export const getUserRolsFromAPI = (userId, token) => {
                 professorRole
             };
         } else {
-            console.log("Error fetching user roles");
             return {
                 rols: [],
                 studentRole: null,
@@ -55,7 +54,6 @@ export const getUserRolsFromAPI = (userId, token) => {
         }
     })
     .catch(error => {
-        console.log("Error in getUserRols:", error);
         return {
             rols: [],
             studentRole: null,
@@ -64,45 +62,5 @@ export const getUserRolsFromAPI = (userId, token) => {
     });
 };
 
-// Obtener detalles del estudiante
-export const getStudentByIdFromAPI = (userId, token) => {
-    return axios.get(`${API_URL}/student/userId/${userId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-    .then(response => {
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            console.log("Student not found");
-            return null;
-        }
-    })
-    .catch(error => {
-        console.log("Error getStudentById:", error);
-        return null;
-    });
-};
 
-// Obtener detalles del profesor
-export const getProfessorByIdFromAPI = (userId, token) => {
-    return axios.get(`${API_URL}/professor/userId/${userId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-    .then(response => {
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            console.log("Professor not found");
-            return null;
-        }
-    })
-    .catch(error => {
-        console.log("Error getProfessorById:", error);
-        return null;
-    });
-};
 

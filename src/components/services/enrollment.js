@@ -28,6 +28,8 @@ export const buildFormEnrollment = ({ studentId, courseIds  }) => {
 };
 
 export const addEnrollment = (studentId, courseIds, token) => {
+    console.log("addEnrollment called with studentId:", studentId, "courseIds:", courseIds);
+
     const enrollmentFormData = buildFormEnrollment({ studentId, courseIds });
 
     return axios.post(`${API_URL}/enrollment`, enrollmentFormData, {
@@ -37,10 +39,11 @@ export const addEnrollment = (studentId, courseIds, token) => {
         },
     })
     .then(response => {
+        console.log("Enrollment added successfully:", response.data);
         return response.data;
     })
     .catch(error => {
-        console.log("Error addEnrollment:", error);
+        console.error("Error addEnrollment:", error.response ? error.response.data : error.message);
         throw error; 
     
     });
