@@ -59,9 +59,20 @@
             width: 100%;
             height: 200px;
 
-            .dashboard-course-process {
+            .dashboard-course-process, .dashboard-course-favorites, .dashboard-course-completed{
                 @include dashboard-process();
                 cursor: pointer;
+               
+                .dashboard-course-title {
+                    padding-left: 20px;
+                    font-weight: 700;
+                    font-size: 1.5em;
+                }
+                .dashboard-course-number {
+                    font-weight: 700;
+                    font-size: 1.5em;
+                    text-align: center;
+                }
             }
 
             .dashboard-course-completed {

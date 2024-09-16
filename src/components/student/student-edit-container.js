@@ -336,16 +336,16 @@ class StudentEditContainer extends Component {
                     </div>
                     <div className="dashboard-courses-content">
                         <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(1)}>
-                            <p>En curso</p>
-                            <p>{unfinishedCourses}</p>
+                            <p className='dashboard-course-title'>En curso...</p>
+                            <p className='dashboard-course-number'>({unfinishedCourses})</p>
                         </div>
                         <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(2)} >
-                            <p>Finalizados</p>
-                            <p>{coursesFinalized}</p>
+                            <p className='dashboard-course-title'>Finalizados</p>
+                            <p className='dashboard-course-number'>({coursesFinalized})</p>
                         </div>
                         <div className='dashboard-course-favorites' onClick={() => this.handleCoursesClick(4)}>
-                            <p>Favoritos</p>
-                            <p>{totalFavorites}</p>
+                            <p className='dashboard-course-title'>Favoritos</p>
+                            <p className='dashboard-course-number'>({totalFavorites})</p>
                         </div>
                     </div>
                 </div>
