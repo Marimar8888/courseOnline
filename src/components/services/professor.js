@@ -10,7 +10,6 @@ export const getProfessorByIdFromAPI = (userId, token) => {
     })
     .then(response => {
         if (response.status === 200) {
-            console.log("getProfessorByIdFromAPI", response.data);
             return response.data;
         } else {
             console.log("Professor not found");

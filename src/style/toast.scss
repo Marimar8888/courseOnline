@@ -1,0 +1,23 @@
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4caf50; /* Color verde para éxito */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Asegúrate de que el toast esté por encima de otros elementos */
+    font-size: 16px;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeout {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}

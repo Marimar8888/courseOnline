@@ -88,9 +88,7 @@ class StoreContainer extends Component {
                         console.log("User doesn´t have favorites");
                     }
                 })
-                .catch(error => {
-                    console.log("error getAllFavorites", error)
-                })
+      
         }
 
     }
@@ -300,7 +298,6 @@ class StoreContainer extends Component {
 
     render() {
         const { cartCourses = [] } = this.props;
-        console.log("cartCourse render:", cartCourses);
         return (
             <div className="course-content-page-wrapper">
                 {this.state.categoryName && (
@@ -310,7 +307,6 @@ class StoreContainer extends Component {
                 {this.state.courses.map(course => {
                     const isCourseInCart = cartCourses.some(cartCourse => cartCourse.courses_id === course.courses_id);
                     const discounted = course.courses_discounted_price;
-                    console.log("discounted:", discounted);
                     return (
                         <div className="course-content-item" key={course.courses_id}>
                             <div className='course-content-image'>

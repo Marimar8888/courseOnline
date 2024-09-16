@@ -13,6 +13,7 @@ export default class Register extends Component {
             name: "",
             email: "",
             password: "",
+            confirmPassword: "",
             errorText: ""
         };
         this.isMountedComponent = false;
@@ -23,6 +24,12 @@ export default class Register extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        if (this.state.password !== this.state.confirmPassword) {
+            this.setState({
+                errorText: "Las contraseñas no coinciden."
+            });
+            return;
+        }
         axios
             .post(
                 `${API_URL}/user`,
@@ -137,6 +144,16 @@ export default class Register extends Component {
                             name="password"
                             placeholder="Your password"
                             value={this.state.password}
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <FontAwesomeIcon icon="lock" />
+                        <input
+                            type="password"
+                            name="confirmPassword"
+                            placeholder="Confirm your password"
+                            value={this.state.confirmPassword}
                             onChange={this.handleChange}
                         />
                     </div>

@@ -22,6 +22,7 @@ import Store from './pages/store';
 import CartDetails from './cart-shopping/cart-details';
 import CartPaying from './cart-shopping/cart-paying';
 
+
 class App extends Component {
   constructor(props) {
     super(props);

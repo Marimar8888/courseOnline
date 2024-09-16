@@ -17,7 +17,7 @@ export default class RegisterModal extends Component {
                 marginRight: "-50%",
                 transform: "translate(-50%, -50%)",
                 width: "500px",
-                height: "540px"
+                height: "580px"
             },
             overlay: {
                 backgroundColor: "rgba(1, 1, 1, 0.75)"

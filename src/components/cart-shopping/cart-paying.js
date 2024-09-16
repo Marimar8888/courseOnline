@@ -35,8 +35,6 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
 
     useEffect(() => {
         localStorage.setItem("cartCourses", JSON.stringify(cartCourses));
-        console.log("useEffect", cartCourses);
-
     }, [cartCourses]);
 
     useEffect(() => {
@@ -46,8 +44,6 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
                 .then(id => {
                     if (id) {
                         setUserId(id);
-                        console.log("User ID updated:", id);
-
                     }
                 });
         }
@@ -60,14 +56,10 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
             if (token) {
                 getUserRolsFromAPI(userId, token)
                     .then(({ rols, studentRole, professorRole }) => {
-                        console.log("getUserRolsFromAPI rols", rols);
-                        console.log("getUserRolsFromAPI studentRole", studentRole);
-                        console.log("userId:", userId);
                         setUserRols(rols);
                         if (studentRole) {
                             getStudentByIdFromAPI(userId, token)
                                 .then(student => {
-                                    console.log("datos de student recibidos", student);
                                     if (student) {
                                         setStudentId(student.students_id);
                                         setStudentsFirstName(student.students_first_name);
@@ -133,8 +125,10 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
 
     const handlePaymentSuccess = () => {
         const token = localStorage.getItem('token');
-        const courseIds = cartCourses.map(course => course.courses_id);
-        console.log("handlePaymentSuccess studentsFirstName", studentsFirstName);
+        const courseDetails = cartCourses.map(course => ({
+            id: course.courses_id,
+            price: course.courses_discounted_price || course.courses_price
+        }));
         const studentData = {
             studentId: studentId,
             firstName: studentsFirstName,
@@ -148,16 +142,20 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
             expDate: studentsExpDate,
             cvc: studentsCvc
         };
-        console.log("handlePaymentSuccess studentId", studentId);
 
         if (studentId) {
-            console.log("Adding enrollment for existing student:", studentId);
-            addEnrollment(studentId, courseIds, token);
+            addEnrollment(studentId, courseDetails, token)
+                .then(() => {
+                    clearCart();
+                    history.push(`/`);
+                })
+                .catch(error => {
+                    console.error("Error al agregar inscripción:", error);
+                });
         } else {
             addStudent(userId, studentData, token)
                 .then(newStudent => {
                     const newStudentId = newStudent.students_id;
-                    console.log("New student created with ID:", newStudent);
                     if (newStudent) {
                         setStudentId(newStudent.students_id);
                         setStudentsFirstName(newStudent.students_first_name);
@@ -171,7 +169,7 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
                         setStudentsExpDate(newStudent.students_exp_date);
                         setStudentsCvc(newStudent.students_cvc);
 
-                        addEnrollment(newStudentId, courseIds, token)
+                        addEnrollment(newStudentId, courseDetails, token)
                             .then(() => {
                                 clearCart();
                                 history.push(`/`);
