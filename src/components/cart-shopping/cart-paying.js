@@ -60,6 +60,9 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
             if (token) {
                 getUserRolsFromAPI(userId, token)
                     .then(({ rols, studentRole, professorRole }) => {
+                        console.log("getUserRolsFromAPI rols", rols);
+                        console.log("getUserRolsFromAPI studentRole", studentRole);
+                        console.log("userId:", userId);
                         setUserRols(rols);
                         if (studentRole) {
                             getStudentByIdFromAPI(userId, token)
@@ -108,6 +111,7 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
         const courseIds = cartCourses.map(course => course.courses_id);
         console.log("handlePaymentSuccess studentsFirstName", studentsFirstName);
         const studentData = {
+            studentId: studentId,
             firstName: studentsFirstName,
             lastName: studentsLastName,
             dni: studentsDni,
@@ -119,7 +123,7 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
             expDate: studentsExpDate,
             cvc: studentsCvc
         };
-        console.log("handlePaymentSuccess studentData:", studentData);
+        console.log("handlePaymentSuccess studentId", studentId);
 
         if (studentId) {
             console.log("Adding enrollment for existing student:", studentId);
