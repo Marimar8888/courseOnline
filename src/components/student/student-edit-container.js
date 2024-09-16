@@ -207,10 +207,12 @@ class StudentEditContainer extends Component {
         }
 
         const { courses } = this.state;
+        const { favorites } = this.state;
 
         const coursesFinalized = courses ? (courses.filter(course => course.enrollments_finalized === true)).length : 0;
         const unfinishedCourses = courses ? (courses.filter(course => course.enrollments_finalized === false)).length : 0;
         const totalCourses = courses ? courses.length : 0;
+        const totalFavorites = favorites ? favorites.length : 0;
 
         return (
             <form onSubmit={this.handleSubmit} className="dashboard-dates">
@@ -343,7 +345,7 @@ class StudentEditContainer extends Component {
                         </div>
                         <div className='dashboard-course-favorites' onClick={() => this.handleCoursesClick(4)}>
                             <p>Favoritos</p>
-                            <p>{totalCourses}</p>
+                            <p>{totalFavorites}</p>
                         </div>
                     </div>
                 </div>
