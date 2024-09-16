@@ -51,3 +51,24 @@ export const addEnrollment = (studentId, courseDetails, token) => {
     
     });
 };
+
+export const getEnrollmentsByStudentId = (StudentId, token) => {
+
+    return axios.get(`${API_URL}/enrollments/${StudentId}`, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    .then(response => {
+        if(response.status === 200){
+            return response.data;
+        }
+       
+    })
+    .catch(error => {
+        console.error("Error getEnrollmentsByStudentId:", error.response ? error.response.data : error.message);
+        throw error; 
+    
+    });
+};

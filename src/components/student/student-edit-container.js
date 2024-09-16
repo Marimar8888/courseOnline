@@ -4,6 +4,7 @@ import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
 import DashboardBills from '../dashboard/dashboard-bills';
+import { getEnrollmentsByStudentId } from '../services/enrollment';
 
 class StudentEditContainer extends Component {
 
@@ -24,6 +25,7 @@ class StudentEditContainer extends Component {
             students_cvc: "",
             courses: [],
             isButtonEnabled: false,
+            enrollments: []
         };
 
         this.initialState = { ...this.state };
@@ -35,10 +37,12 @@ class StudentEditContainer extends Component {
     }
 
     componentDidMount() {
-
+        const token = localStorage.getItem("token");
         const { studentData } = this.props;
         if (studentData && studentData.student) {
             this.setState({
+
+                // ...studentData.student,
                 students_id: studentData.student.students_id,
                 students_first_name: studentData.student.students_first_name,
                 students_last_name: studentData.student.students_last_name,
@@ -53,6 +57,16 @@ class StudentEditContainer extends Component {
                 courses: studentData.courses || [],
                 isButtonEnabled: false,
             });
+            if(studentData.student.students_id) {
+                getEnrollmentsByStudentId(studentData.student.students_id, token)
+                    .then ( enrollments  => {
+                        console.log("componentDidMount enrollment:", enrollments);
+                        this.setState({ enrollments });
+                    })
+                    .catch(error => {
+                        console.log("error getEnrollmentsByStudentId", error);
+                    })
+            }
         }
     }
 
@@ -342,7 +356,7 @@ class StudentEditContainer extends Component {
                 </div>
                 <div className="dashboard-bills">
                     <h3>Facturas</h3>
-                    <DashboardBills />
+                    <DashboardBills enrollments={this.state.enrollments} />
                 </div>
             </form>
         );

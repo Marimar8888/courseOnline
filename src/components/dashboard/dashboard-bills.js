@@ -1,34 +1,47 @@
 import React from 'react';
 
-const DashboardBills = ({ invoices }) => {
+const DashboardBills = ({ enrollments }) => {
+
+  const getTotal = () => {
+    return enrollments
+        .reduce((sum, enrollment) => {
+            const price = parseFloat(enrollment.enrollments_price) || 0;
+            return sum + price;
+        }, 0)
+        .toFixed(2);
+};
+
   return (
-    <table className="invoice-table">
+    <table className="enrollments-table">
       <thead>
         <tr>
           <th>Fecha</th>
           <th>Nº Factura</th>
-          <th>Curso</th>
           <th>Importe </th>
-          <th>Pagado</th>
+          <th>Finalizado</th>
         </tr>
       </thead>
       <tbody>
         <tr >
-            <td data-label="Fecha"></td>
-            <td data-label="Importe"></td>
-            <td data-label="Curso"></td>
-            <td data-label="Importe"></td>
-            <td data-label="Pagado"></td>
+          <td data-label="Nº Fact"></td>
+          <td data-label="Fecha"></td>
+          <td data-label="Importe"></td>
+          <td data-label="Finalizado"></td>
         </tr>
-        {/* {invoices.map((invoice, index) => (
-          <tr key={index}>
-            <td data-label="Fecha">{invoice.date}</td>
-            <td data-label="Importe">{invoice.amount}</td>
-            <td data-label="Curso">{invoice.course}</td>
-            <td data-label="Importe">{invoice.paidAmount}</td>
-            <td data-label="Pagado">{invoice.paid}</td>
-          </tr>
-        ))} */}
+        {enrollments.length === 0 ? (
+                    <tr>
+                        <td colSpan="5">No hay facturas disponibles</td>
+                    </tr>
+                ) : (
+                    enrollments.map((enrollment) => (
+                        <tr key={enrollment.enrollments_id}>
+                            <td className='dashboard-bills-number'>{enrollment.enrollments_code}</td>
+                            <td className='dashboard-bills-date'>{enrollment.enrollments_start_date}</td>
+                            <td className='dashboard-bills-total'>{getTotal()} €</td>
+                            <td className='dashboard-bils-finished'>{enrollment.enrollments_finalized ? "Sí" : "No"}</td>
+                        </tr>
+                    ))
+                )}
       </tbody>
     </table>
   );

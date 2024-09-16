@@ -1,4 +1,4 @@
-.invoice-table {
+.enrollments-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
@@ -29,6 +29,23 @@
         td {
           padding: 10px;
           border-bottom: 1px solid #ddd;
+
+        }
+
+        .dashboard-bills-number {
+          text-align: center;
+        }
+
+        .dashboard-bills-date {
+          text-align: center;
+        }
+        
+        .dashboard-bills-total {
+          text-align: right;
+        }
+
+        .dashboard-bils-finished {
+          text-align: center;
         }
       }
     }
