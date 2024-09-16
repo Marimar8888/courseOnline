@@ -32,28 +32,28 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
     const [showAddressDetails, setShowAddressDetails] = useState(false);
     const [showCardDetails, setShowCardDetails] = useState(false);
 
-  
+
     useEffect(() => {
         localStorage.setItem("cartCourses", JSON.stringify(cartCourses));
         console.log("useEffect", cartCourses);
-     
+
     }, [cartCourses]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token ) {
+        if (token) {
             getUserIdFromAPI(token)
                 .then(id => {
                     if (id) {
                         setUserId(id);
                         console.log("User ID updated:", id);
-  
+
                     }
                 });
         }
-     }, []);
+    }, []);
 
-  
+
     useEffect(() => {
         if (userId !== null && userId !== undefined) {
             const token = localStorage.getItem("token");
@@ -100,11 +100,36 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
                                 });
                         }
                     });
-    
+
             }
         }
 
     }, [userId]);
+
+    const getTotal = () => {
+        return cartCourses
+            .reduce((sum, course) => {
+                const price = parseFloat(course.courses_price) || 0;
+                return sum + price;
+            }, 0)
+            .toFixed(2);
+    };
+
+
+    const getTotalDiscount = () => {
+        return cartCourses
+            .reduce((totalDiscount, course) => {
+                if (course.courses_discounted_price) {
+                    const originalPrice = parseFloat(course.courses_price) || 0;
+                    const discountedPrice = parseFloat(course.courses_discounted_price) || 0;
+                    const discountAmount = originalPrice - discountedPrice;
+
+                    return totalDiscount + (isNaN(discountAmount) ? 0 : discountAmount);
+                }
+                return totalDiscount;
+            }, 0)
+            .toFixed(2);
+    };
 
     const handlePaymentSuccess = () => {
         const token = localStorage.getItem('token');
@@ -130,35 +155,35 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
             addEnrollment(studentId, courseIds, token);
         } else {
             addStudent(userId, studentData, token)
-            .then(newStudent => {
-                const newStudentId = newStudent.students_id;
-                console.log("New student created with ID:", newStudent);
-                if (newStudent) {                  
-                    setStudentId(newStudent.students_id);
-                    setStudentsFirstName(newStudent.students_first_name);
-                    setStudentsLastName(newStudent.students_last_name);
-                    setStudentsDni(newStudent.students_dni);
-                    setStudentsAddress(newStudent.students_address);
-                    setStudentsCity(newStudent.students_city);
-                    setStudentsPostal(newStudent.students_postal);
-                    setStudentsEmail(newStudent.students_email);
-                    setStudentsNumberCard(formatCardNumber(newStudent.students_number_card));
-                    setStudentsExpDate(newStudent.students_exp_date);
-                    setStudentsCvc(newStudent.students_cvc);
+                .then(newStudent => {
+                    const newStudentId = newStudent.students_id;
+                    console.log("New student created with ID:", newStudent);
+                    if (newStudent) {
+                        setStudentId(newStudent.students_id);
+                        setStudentsFirstName(newStudent.students_first_name);
+                        setStudentsLastName(newStudent.students_last_name);
+                        setStudentsDni(newStudent.students_dni);
+                        setStudentsAddress(newStudent.students_address);
+                        setStudentsCity(newStudent.students_city);
+                        setStudentsPostal(newStudent.students_postal);
+                        setStudentsEmail(newStudent.students_email);
+                        setStudentsNumberCard(formatCardNumber(newStudent.students_number_card));
+                        setStudentsExpDate(newStudent.students_exp_date);
+                        setStudentsCvc(newStudent.students_cvc);
 
-                    addEnrollment(newStudentId, courseIds, token)
-                        .then(() => {
-                            clearCart();
-                            history.push(`/`);
-                        })
-                        .catch(error => {
-                            console.error("Error al agregar inscripción:", error);
-                        });
-                }
-            })
-            .catch(error => {
-                console.error("Error al crear el estudiante:", error);
-            });
+                        addEnrollment(newStudentId, courseIds, token)
+                            .then(() => {
+                                clearCart();
+                                history.push(`/`);
+                            })
+                            .catch(error => {
+                                console.error("Error al agregar inscripción:", error);
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al crear el estudiante:", error);
+                });
 
         }
     };
@@ -318,16 +343,58 @@ const CartPaying = ({ cartCourses = [], clearCart }) => {
                             <div className='resumen-price-text'>
                                 <span>Precio</span>
                                 <span>Descuento</span>
-                                <h3>Total</h3>
+                                <span className='resumen-price-text-total'>Total</span>
                             </div>
                             <div className='resumen-price-number'>
-                                <span>400,00 €</span>
-                                <span>-200,00 €</span>
-                                <span>200,00 €</span>
+                                <span>{getTotal()} €</span>
+                                <span className='resumen-price-disconunted'>-{getTotalDiscount()} €</span>
+                                <span className='resumen-price-total'>{getTotal() - getTotalDiscount()} €</span>
                             </div>
                         </div>
                         <div>
                             <button onClick={handlePaymentSuccess} className='btn-save'>Completar pago</button>
+                        </div>
+
+                        <div className='resume-products'>
+                            <div className='resume-products-title'>
+                                <h2>Detalle del pedido</h2>
+                            </div>
+                            {cartCourses.length === 0 ? (
+                                <p>No items in the cart</p>
+                            ) : (
+                                cartCourses.map((course) => {
+                                    const discountedPrice = parseFloat(course.courses_discounted_price);
+                                    const price = Number(course.courses_price).toFixed(2);
+                                    return (
+                                        <div key={course.courses_id} className='resume-product-detail'>
+                                            <div className='product-paying-image'>
+                                                <img src={course.courses_image} alt={course.courses_title} />
+                                            </div>
+                                            <div className='product-paying-title'>
+                                                <span className='product-title'>{course.courses_title}</span>
+                                                <span className='product-professor'>Nombre profesor</span>
+                                            </div>
+                                            {discountedPrice ? (
+                                                <div className='product-paying-price'>
+                                                    <div className='product-paying-discounted-price'>
+                                                        {discountedPrice} €
+                                                    </div>
+                                                    <div className='product-paying-price-through'>
+                                                        {price} €
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className='product-paying-price'>
+                                                    {price} €
+                                                </div>
+                                            )}
+
+                                        </div>
+                                    );
+                                })
+                            )}
+
+
                         </div>
                     </div>
                 </div>

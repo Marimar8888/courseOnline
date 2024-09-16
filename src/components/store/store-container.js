@@ -34,10 +34,10 @@ class StoreContainer extends Component {
         const token = localStorage.getItem("token");
         const cartCourse = localStorage.getItem('cartCourses');
         this.loadCourses();
-        if(token){
-           this.getUserId(token);
+        if (token) {
+            this.getUserId(token);
         }
-       
+
     }
 
     componentDidUpdate(prevProps) {
@@ -84,7 +84,7 @@ class StoreContainer extends Component {
                     this.setState({
                         favorites: favoriteIds
                     });
-                    if(response.status === 404){
+                    if (response.status === 404) {
                         console.log("User doesn´t have favorites");
                     }
                 })
@@ -96,33 +96,33 @@ class StoreContainer extends Component {
     }
 
     getUserId(token) {
-        if(token){
+        if (token) {
             axios
-            .get(
-                `${API_URL}/get_user_id`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+                .get(
+                    `${API_URL}/get_user_id`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                .then(response => {
+                    if (response.status === 200) {
+                        const userId = response.data.users_id;
+                        this.setState({ userId }, () => {
+                            this.getAllFavorites(userId);
+                        });
+                    } else {
+                        console.log("No Authorization");
                     }
                 })
-            .then(response => {
-                if (response.status === 200) {
-                    const userId = response.data.users_id;
-                    this.setState({ userId }, () => {
-                        this.getAllFavorites(userId);
-                    });
-                } else {
-                    console.log("No Authorization");
-                }
-            })
-            .catch(error => {
-                if (error.response) {
-                    console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
-                } else {
-                    console.log("Network or other error:", error.message);
-                }
-            })
-        }     
+                .catch(error => {
+                    if (error.response) {
+                        console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
+                    } else {
+                        console.log("Network or other error:", error.message);
+                    }
+                })
+        }
     }
 
     deleteFavorite(courseId, token) {
@@ -299,7 +299,8 @@ class StoreContainer extends Component {
 
 
     render() {
-        const { cartCourses = [] } = this.props; 
+        const { cartCourses = [] } = this.props;
+        console.log("cartCourse render:", cartCourses);
         return (
             <div className="course-content-page-wrapper">
                 {this.state.categoryName && (
@@ -308,7 +309,8 @@ class StoreContainer extends Component {
 
                 {this.state.courses.map(course => {
                     const isCourseInCart = cartCourses.some(cartCourse => cartCourse.courses_id === course.courses_id);
-
+                    const discounted = course.courses_discounted_price;
+                    console.log("discounted:", discounted);
                     return (
                         <div className="course-content-item" key={course.courses_id}>
                             <div className='course-content-image'>
@@ -323,9 +325,21 @@ class StoreContainer extends Component {
                                     <p>{course.courses_content}</p>
                                 </div>
                                 <div className='course-content-rest'>
-                                    <div className='course-content-price'>
-                                        {course.courses_price} €
-                                    </div>
+                                    {discounted != null ? (
+                                        <div>
+                                            <div className='course-content-price-through'>
+                                                {course.courses_price} €
+                                            </div>
+                                            <div className='course-content-discounted-price'>
+                                                {course.courses_discounted_price} €
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className='course-content-price'>
+                                            {course.courses_price} €
+                                        </div>
+                                    )}
+
                                     <div className='btn-add-cart'>
                                         <button
                                             className='btn'

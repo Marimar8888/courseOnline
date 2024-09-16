@@ -67,7 +67,20 @@
                         }
                     }
 
-                    .cart-paying-price {}
+                    .cart-paying-price {
+                        font-weight: 700;
+
+                    }
+
+                    .cart-paying-price-through {
+                        color: gray; 
+                        text-decoration: line-through;
+                    }
+
+                    .cart-paying-discounted-price {
+                        font-weight: 700;
+                        color: red;
+                    }
 
                 }
 

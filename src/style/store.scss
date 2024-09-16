@@ -43,7 +43,18 @@
                     justify-content: center;
                     text-align: center;
                     font-weight: 700;
+                }
 
+                .course-content-price-through {
+                    color: gray; 
+                    text-decoration: line-through;
+                }
+
+                .course-content-discounted-price {
+                    justify-content: center;
+                    text-align: center;
+                    color: red;
+                    font-weight: 700;
                 }
 
                 .btn-add-cart {

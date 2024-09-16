@@ -9,13 +9,17 @@ const CartDetails = ({ cartCourses = [], removeFromCart, openRegisterModal }) =>
         localStorage.setItem("cartCourses", JSON.stringify(cartCourses));
     }, [cartCourses]);
 
-    const getTotal = () => {
+
+    const getDescounted = () => {
         return cartCourses
-            .reduce((sum, course) => {
-                const price = parseFloat(course.courses_price) || 0;
-                return sum + price;
-            }, 0)
-            .toFixed(2);
+        .reduce((sum, course) => {
+            const price = course.courses_discounted_price 
+                ? parseFloat(course.courses_discounted_price) 
+                : parseFloat(course.courses_price);
+
+            return sum + (isNaN(price) ? 0 : price);
+        }, 0)
+        .toFixed(2);
     };
 
     const handleDeleteClick = (courseId) => {
@@ -54,6 +58,7 @@ const CartDetails = ({ cartCourses = [], removeFromCart, openRegisterModal }) =>
                             <p>No items in the cart</p>
                         ) : (
                             cartCourses.map((course) => {
+                                const discountedPrice = parseFloat(course.courses_discounted_price);
                                 const price = Number(course.courses_price).toFixed(2);
                                 return (
                                     <div key={course.courses_id} className='cart-paying-product-resumen'>
@@ -64,9 +69,21 @@ const CartDetails = ({ cartCourses = [], removeFromCart, openRegisterModal }) =>
                                             <span className='course-title'>{course.courses_title}</span>
                                             <span className='course-professor'>Nombre profesor</span>
                                         </div>
+                                        {discountedPrice ? (
+                                            <div>
+                                        <div className='cart-paying-discounted-price'>
+                                            {discountedPrice} €
+                                            
+                                        </div>
+                                        <div className='cart-paying-price-through'>
+                                            {price} €
+                                        </div>
+                                        </div>
+                                        ) : (
                                         <div className='cart-paying-price'>
                                             {price} €
                                         </div>
+                                        )}
                                         <div className='cart-paying-delete'>
                                             <span
                                                 className='cart-paying-delete-text'
@@ -85,7 +102,7 @@ const CartDetails = ({ cartCourses = [], removeFromCart, openRegisterModal }) =>
                             Total:
                         </div>
                         <div className='cart-paying-total-pay-total'>
-                            {getTotal()} €
+                            {getDescounted()} €
                         </div>
                         <div className='cart-paying-total-pay-button'>
                             <button className='btn-save' onClick={handleToPay}>Pagar</button>
