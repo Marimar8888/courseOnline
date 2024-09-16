@@ -272,7 +272,7 @@ class DashboardContainer extends Component {
       })
   }
 
-
+  
   render() {
     const { userRols, studentData, professorData, centersData, userId } = this.state;
     const rolesIds = userRols.map(role => role.rols_id);

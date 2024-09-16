@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import DashboardBills from '../dashboard/dashboard-bills';
 import { getEnrollmentsByStudentId } from '../services/enrollment';
+import { getFavoritesByUserId } from '../services/favorites';
 
 class StudentEditContainer extends Component {
 
@@ -23,7 +24,9 @@ class StudentEditContainer extends Component {
             students_number_card: "",
             students_exp_date: "",
             students_cvc: "",
+            students_user_id: "",
             courses: [],
+            favorites: [],
             isButtonEnabled: false,
             enrollments: []
         };
@@ -41,22 +44,11 @@ class StudentEditContainer extends Component {
         const { studentData } = this.props;
         if (studentData && studentData.student) {
             this.setState({
-
-                // ...studentData.student,
-                students_id: studentData.student.students_id,
-                students_first_name: studentData.student.students_first_name,
-                students_last_name: studentData.student.students_last_name,
-                students_email: studentData.student.students_email,
-                students_dni: studentData.student.students_dni,
-                students_address: studentData.student.students_address,
-                students_city: studentData.student.students_city,
-                students_postal: studentData.student.students_postal,
-                students_number_card: studentData.student.students_number_card,
-                students_exp_date: studentData.student.students_exp_date,
-                students_cvc: studentData.student.students_cvc,
+                ...studentData.student,
                 courses: studentData.courses || [],
                 isButtonEnabled: false,
             });
+            console.log("componentDidMount, studentData:", studentData);
             if(studentData.student.students_id) {
                 getEnrollmentsByStudentId(studentData.student.students_id, token)
                     .then ( enrollments  => {
@@ -67,6 +59,17 @@ class StudentEditContainer extends Component {
                         console.log("error getEnrollmentsByStudentId", error);
                     })
             }
+            if(studentData.student.students_user_id) {
+                const userId = studentData.student.students_user_id;
+                getFavoritesByUserId(userId, token)
+                .then ( favorites  => {
+                    console.log("componentDidMount favorites:", favorites);
+                    this.setState({ favorites });
+                })
+                .catch(error => {
+                    console.log("error getFavoritesByUserId", error);
+                })
+            }
         }
     }
 
@@ -75,17 +78,7 @@ class StudentEditContainer extends Component {
             const { studentData } = this.props;
             if (studentData && studentData.student) {
                 this.setState({
-                    students_id: studentData.student.students_id,
-                    students_first_name: studentData.student.students_first_name,
-                    students_last_name: studentData.student.students_last_name,
-                    students_email: studentData.student.students_email,
-                    students_dni: studentData.student.students_dni,
-                    students_address: studentData.student.students_address,
-                    students_city: studentData.student.students_city,
-                    students_postal: studentData.student.students_postal,
-                    students_number_card: studentData.student.students_number_card,
-                    students_exp_date: studentData.student.students_exp_date,
-                    students_cvc: studentData.student.students_cvc,
+                    ...studentData.student,
                     courses: studentData.courses || [],
                 });
             }
