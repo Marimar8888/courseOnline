@@ -54,14 +54,11 @@ class ProfessorEditContainer extends Component {
       if(professorData.professor.professors_id) {
         getEnrollmentsByProfessorId(professorData.professor.professors_id, token)
           .then (enrollments => {
-            console.log("enrollments", enrollments)
               this.setState({ enrollments });
 
               const activeStudents = ActiveStudents(enrollments);
               const inactiveStudents = InactiveStudents(enrollments);
-              console.log("activeStudents: ", activeStudents);
-              console.log("InactiveStudents: ", inactiveStudents);
-
+             
               this.setState({ activeStudents, inactiveStudents });
           })
           .catch(error => {
