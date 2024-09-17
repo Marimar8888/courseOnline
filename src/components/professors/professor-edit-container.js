@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import DashboardBills from '../dashboard/dashboard-bills';
 import { getEnrollmentsByProfessorId } from "../services/enrollment";
+import { ActiveStudents, InactiveStudents } from "../services/student"; 
 
 class ProfessorEditContainer extends Component {
   constructor(props) {
@@ -24,6 +25,8 @@ class ProfessorEditContainer extends Component {
       courses: [],
       students: [],
       enrollments: [],
+      activeStudents: [],
+      inactiveStudents: [],
       isButtonEnabled: false
     };
     this.initialState = { ...this.state };
@@ -39,6 +42,7 @@ class ProfessorEditContainer extends Component {
   componentDidMount() {
     const { professorData } = this.props;
     const token = localStorage.getItem("token");
+
     if (professorData) {
       this.setState({
         ...professorData.professor,
@@ -46,11 +50,19 @@ class ProfessorEditContainer extends Component {
         students: professorData.students || [],
         isButtonEnabled: false,
       });
+
       if(professorData.professor.professors_id) {
         getEnrollmentsByProfessorId(professorData.professor.professors_id, token)
           .then (enrollments => {
             console.log("enrollments", enrollments)
               this.setState({ enrollments });
+
+              const activeStudents = ActiveStudents(enrollments);
+              const inactiveStudents = InactiveStudents(enrollments);
+              console.log("activeStudents: ", activeStudents);
+              console.log("InactiveStudents: ", inactiveStudents);
+
+              this.setState({ activeStudents, inactiveStudents });
           })
           .catch(error => {
             console.log("error getEnrollmentsByCourseId", error);
@@ -195,6 +207,9 @@ class ProfessorEditContainer extends Component {
     const totalCourses = professorData.courses.total;
     const coursesInactive = coursesList.filter(course => course.courses_active === false).length;
     const coursesActive = totalCourses - coursesInactive; 
+    const activeStudentsNumber = this.state.activeStudents ? this.state.activeStudents.length : 0;
+    const inactiveStudentsNumber = this.state.inactiveStudents ? this.state.inactiveStudents.length : 0;
+    const totalStudents = activeStudentsNumber + inactiveStudentsNumber || 0;
 
     return (
       <form onSubmit={this.handleSubmit} className="dashboard-dates">
@@ -336,9 +351,18 @@ class ProfessorEditContainer extends Component {
             <h3>Estudiantes</h3>
           </div>
           <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleStudentsClick(1)}>En curso...</div>
-            <div className='dashboard-course-completed' onClick={() => this.handleStudentsClick(2)}>Finalizados...</div>
-            <div className='dashboard-course-favorites' onClick={() => this.handleStudentsClick(3)}>Todos...</div>
+            <div className='dashboard-course-process' onClick={() => this.handleStudentsClick(1)}>
+            <p className='dashboard-course-title'>Activos</p>
+            <p className='dashboard-course-number'>({activeStudentsNumber})</p>
+            </div>
+            <div className='dashboard-course-completed' onClick={() => this.handleStudentsClick(2)}>
+              <p className='dashboard-course-title'>Baja</p>
+              <p className='dashboard-course-number'>({inactiveStudentsNumber})</p>
+              </div>
+            <div className='dashboard-course-favorites' onClick={() => this.handleStudentsClick(3)}>
+              <p className='dashboard-course-title'>Total</p>
+              <p className='dashboard-course-number'>({totalStudents})</p>
+              </div>
           </div>
         </div>
         <div className="dashboard-courses">

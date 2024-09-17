@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { API_URL } from '../utils/constant'; 
+import { API_URL } from '../utils/constant';
 
 export const getStudentByIdFromAPI = (userId, token) => {
     return axios.get(`${API_URL}/student/userId/${userId}`, {
@@ -8,19 +8,19 @@ export const getStudentByIdFromAPI = (userId, token) => {
             Authorization: `Bearer ${token}`
         }
     })
-    .then(response => {
-        if (response.status === 200) {
-            const newStudent = response.data;
-            return newStudent;
-        } else {
-            console.log("Student not found");
+        .then(response => {
+            if (response.status === 200) {
+                const newStudent = response.data;
+                return newStudent;
+            } else {
+                console.log("Student not found");
+                return null;
+            }
+        })
+        .catch(error => {
+            console.log("Error getStudentById:", error);
             return null;
-        }
-    })
-    .catch(error => {
-        console.log("Error getStudentById:", error);
-        return null;
-    });
+        });
 };
 
 export const addStudent = (userId, studentData, token) => {
@@ -32,13 +32,13 @@ export const addStudent = (userId, studentData, token) => {
             Authorization: `Bearer ${token}`,
         },
     })
-    .then(response => {
+        .then(response => {
 
-        return response.data;
-    })
-    .catch(error => {
-        console.log("error addStudent", error);
-    })
+            return response.data;
+        })
+        .catch(error => {
+            console.log("error addStudent", error);
+        })
 
 };
 
@@ -61,3 +61,31 @@ export const buildFormStudent = (userId, studentData) => {
     return studentFormData;
 
 }
+
+export const ActiveStudents =(enrollments) => {
+    const activeStudents = [];
+
+    enrollments.forEach(enrollment => {
+        if (!enrollment.enrollments_finalized) {
+            if (!activeStudents.includes(enrollment.enrollments_student_id)) {
+                activeStudents.push(enrollment.enrollments_student_id);
+            }
+        }
+    });
+    return activeStudents;
+};
+
+export const InactiveStudents =(enrollments) => {
+    const InactiveStudents = [];
+
+    enrollments.forEach(enrollment => {
+        if (enrollment.enrollments_finalized) {
+            if (!InactiveStudents.includes(enrollment.enrollments_student_id)) {
+                InactiveStudents.push(enrollment.enrollments_student_id);
+            }
+        }
+    });
+    return InactiveStudents;
+};
+
+

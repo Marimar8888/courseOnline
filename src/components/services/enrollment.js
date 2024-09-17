@@ -78,6 +78,7 @@ export const getEnrollmentsByProfessorId = (professorId, token) => {
     })
     .then(response => {
         if(response.status === 200){
+            console.log("enrollments", response.data);
             return response.data;
         }
     })
@@ -86,3 +87,4 @@ export const getEnrollmentsByProfessorId = (professorId, token) => {
         throw error;
     });
 };
+
