@@ -3,9 +3,7 @@ import { API_URL } from '../utils/constant';
 
 export const buildFormEnrollment = ({ studentId, courseDetails  }) => {
     const enrollmentFormData = new FormData();
-
     const startDate = new Date();
-
     const endDate = new Date();
     endDate.setMonth(startDate.getMonth() + 1);
 
@@ -33,7 +31,6 @@ export const buildFormEnrollment = ({ studentId, courseDetails  }) => {
 };
 
 export const addEnrollment = (studentId, courseDetails, token) => {
-
     const enrollmentFormData = buildFormEnrollment({ studentId, courseDetails });
 
     return axios.post(`${API_URL}/enrollment`, enrollmentFormData, {
@@ -48,7 +45,6 @@ export const addEnrollment = (studentId, courseDetails, token) => {
     .catch(error => {
         console.error("Error addEnrollment:", error.response ? error.response.data : error.message);
         throw error; 
-    
     });
 };
 
@@ -64,7 +60,6 @@ export const getEnrollmentsByStudentId = (StudentId, token) => {
         if(response.status === 200){
             return response.data;
         }
-       
     })
     .catch(error => {
         console.error("Error getEnrollmentsByStudentId:", error.response ? error.response.data : error.message);
@@ -75,7 +70,6 @@ export const getEnrollmentsByStudentId = (StudentId, token) => {
 
 export const getEnrollmentsByProfessorId = (professorId, token) => {
    
-
     return axios.get(`${API_URL}/enrollments/professor/${professorId}`, {
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -84,7 +78,6 @@ export const getEnrollmentsByProfessorId = (professorId, token) => {
     })
     .then(response => {
         if(response.status === 200){
-            console.log("getEnrollmentsByProfessorId:", response.data);
             return response.data;
         }
     })

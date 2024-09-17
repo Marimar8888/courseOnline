@@ -36,7 +36,6 @@ class StudentEditContainer extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCoursesClick = this.handleCoursesClick.bind(this);
         this.filterCoursesByEnrollmentStatus = this.filterCoursesByEnrollmentStatus.bind(this);
-        this.getAllCourses = this.getAllCourses.bind(this);
         this.setStateAndRedirect = this.setStateAndRedirect.bind(this);
     }
 
@@ -52,7 +51,6 @@ class StudentEditContainer extends Component {
             if(studentData.student.students_id) {
                 getEnrollmentsByStudentId(studentData.student.students_id, token)
                     .then ( enrollments  => {
-                        console.log("componentDidMount getEnrollmentsByStudentId:", enrollments);
                         this.setState({ enrollments });
                     })
                     .catch(error => {
@@ -95,10 +93,6 @@ class StudentEditContainer extends Component {
 
     filterCoursesByEnrollmentStatus = (courses, status) => {
         return courses.filter(course => course.enrollments_finalized === status);
-    };
-
-    getAllCourses = (courses) => {
-        return courses;
     };
 
     handleCoursesClick = (type) => {
@@ -191,13 +185,11 @@ class StudentEditContainer extends Component {
             "students_cvc",
             "students_user_id"
         ];
-
         fields.forEach(field => {
             if (this.state[field] !== this.initialState[field]) {
                 studentFormData.append(field, this.state[field]);
             }
         });
-
         return studentFormData;
     }
 
@@ -206,7 +198,6 @@ class StudentEditContainer extends Component {
         if (!studentData) {
             return <p>Cargando datos del estudiante...</p>
         }
-        console.log("Enrollment en StudentEditContainer:", this.state.enrollments);
         const { courses } = this.state;
         const { favorites } = this.state;
 

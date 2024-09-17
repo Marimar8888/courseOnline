@@ -59,7 +59,7 @@
             width: 100%;
             height: 200px;
 
-            .dashboard-course-process, .dashboard-course-favorites, .dashboard-course-completed{
+            .dashboard-course-process, .dashboard-course-favorites, .dashboard-course-completed, .dashboard-course-all{
                 @include dashboard-process();
                 cursor: pointer;
                

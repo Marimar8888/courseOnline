@@ -38,7 +38,6 @@ class ProfessorEditContainer extends Component {
 
   componentDidMount() {
     const { professorData } = this.props;
-    console.log("dashboarProfessor data;", professorData);
     const token = localStorage.getItem("token");
     if (professorData) {
       this.setState({
@@ -50,18 +49,13 @@ class ProfessorEditContainer extends Component {
       if(professorData.professor.professors_id) {
         getEnrollmentsByProfessorId(professorData.professor.professors_id, token)
           .then (enrollments => {
-            console.log("Enrollments successfully set:", enrollments);
-            // if (Array.isArray(enrollments)) {
+            console.log("enrollments", enrollments)
               this.setState({ enrollments });
-            // } else {
-            //   console.error('Enrollments data is not an array:', enrollments);
-            // }
           })
           .catch(error => {
             console.log("error getEnrollmentsByCourseId", error);
           })
       }
-      console.log("dashboarProfessor despues de cambiar el state data;", professorData.courses.total);
     }
   }
 
@@ -88,8 +82,6 @@ class ProfessorEditContainer extends Component {
 
   handleCoursesClick = (type) => {
     const { courses } = this.props.professorData;
-
-    console.log("Cursos actuales:", courses);
 
     let filteredCourses = [];
     switch (type) {
@@ -199,16 +191,10 @@ class ProfessorEditContainer extends Component {
     if (!professorData) {
       return <p>Cargando datos del profesor...</p>
     }
-    console.log("Enrollments professorEditContiner:", this.state.enrollments);
     const coursesList = professorData.courses.items || []; 
-    console.log("profesor-edit", professorData.courses);
     const totalCourses = professorData.courses.total;
-    console.log("profesor-edit totalCourses", totalCourses);
-    //const coursesActive = coursesList.filter(course => course.courses_active === true).length;
-    console.log("profesor-edit coursesActive", coursesActive);
     const coursesInactive = coursesList.filter(course => course.courses_active === false).length;
     const coursesActive = totalCourses - coursesInactive; 
-    console.log("profesor-edit coursesInactive", coursesInactive);
 
     return (
       <form onSubmit={this.handleSubmit} className="dashboard-dates">
@@ -332,16 +318,16 @@ class ProfessorEditContainer extends Component {
           </div>
           <div className="dashboard-courses-content">
             <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(5)}>
-              <p>Activos</p>
-              <p>{coursesActive}</p>
+              <p className='dashboard-course-title'>Activos</p>
+              <p className='dashboard-course-number'>({coursesActive})</p>
             </div>
             <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(6)}>
-              <p>Inactivos</p>
-              <p>{coursesInactive}</p>
+              <p className='dashboard-course-title'>Inactivos</p>
+              <p className='dashboard-course-number'>({coursesInactive})</p>
             </div>
             <div className='dashboard-course-all' onClick={() => this.handleCoursesClick(3)}>
-              <p>Nº Total</p>
-              <p>{totalCourses}</p>
+              <p className='dashboard-course-title'>Nº Total</p>
+              <p className='dashboard-course-number'>({totalCourses})</p>
             </div>
           </div>
         </div>

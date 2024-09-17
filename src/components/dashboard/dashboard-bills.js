@@ -2,15 +2,6 @@ import React from 'react';
 
 const DashboardBills = ({ enrollments }) => {
 
-  const getTotal = () => {
-    return enrollments
-        .reduce((sum, enrollment) => {
-            const price = parseFloat(enrollment.enrollments_price) || 0;
-            return sum + price;
-        }, 0)
-        .toFixed(2);
-};
-
   return (
     <table className="enrollments-table">
       <thead>
@@ -37,7 +28,7 @@ const DashboardBills = ({ enrollments }) => {
                         <tr key={enrollment.enrollments_id}>
                             <td className='dashboard-bills-number'>{enrollment.enrollments_code}</td>
                             <td className='dashboard-bills-date'>{enrollment.enrollments_start_date}</td>
-                            <td className='dashboard-bills-total'>{getTotal()} €</td>
+                            <td className='dashboard-bills-total'>{enrollment.enrollments_price} €</td>
                             <td className='dashboard-bils-finished'>{enrollment.enrollments_finalized ? "Sí" : "No"}</td>
                         </tr>
                     ))
