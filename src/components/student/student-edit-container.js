@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import DashboardBills from '../dashboard/dashboard-bills';
 import { getEnrollmentsByStudentId } from '../services/enrollment';
-import { getFavoritesByUserId } from '../services/favorites';
+import { getFavoritesByUserId, getCoursesFavoritesByUserId } from '../services/favorites';
 
 class StudentEditContainer extends Component {
 
@@ -37,6 +37,7 @@ class StudentEditContainer extends Component {
         this.handleCoursesClick = this.handleCoursesClick.bind(this);
         this.filterCoursesByEnrollmentStatus = this.filterCoursesByEnrollmentStatus.bind(this);
         this.getAllCourses = this.getAllCourses.bind(this);
+        this.setStateAndRedirect = this.setStateAndRedirect.bind(this);
     }
 
     componentDidMount() {
@@ -85,6 +86,15 @@ class StudentEditContainer extends Component {
         }
     }
 
+    setStateAndRedirect(type, filteredCourses) {
+        this.setState({ courses: filteredCourses }, () => {
+            this.props.history.push({
+                pathname: `/courses/${type}`,
+                state: { courses: this.state.courses }
+            });
+        });
+    }
+
     filterCoursesByEnrollmentStatus = (courses, status) => {
         return courses.filter(course => course.enrollments_finalized === status);
     };
@@ -95,29 +105,33 @@ class StudentEditContainer extends Component {
 
     handleCoursesClick = (type) => {
         const { courses } = this.props.studentData;
-
+        const token = localStorage.getItem("token");
+        const userId = this.state.students_user_id;
         let filteredCourses = [];
         switch (type) {
             case 1:
                 filteredCourses = this.filterCoursesByEnrollmentStatus(courses, false);
+                this.setStateAndRedirect(type, filteredCourses);
                 break;
             case 2:
                 filteredCourses = this.filterCoursesByEnrollmentStatus(courses, true);
+                this.setStateAndRedirect(type, filteredCourses);
                 break;
             case 4:
-                filteredCourses = this.getAllCourses(courses);
+                getCoursesFavoritesByUserId(userId, token)
+                    .then(favoriteCourses => {
+                        console.log("Cursos favoritos obtenidos:", favoriteCourses);
+                        this.setStateAndRedirect(type, favoriteCourses);
+                    })
+                    .catch(error => {
+                        console.error("Error al obtener cursos favoritos:", error);
+                    });
                 break;
             default:
                 filteredCourses = [];
+                this.setStateAndRedirect(type, filteredCourses);
                 break;
         }
-
-        this.setState({ courses: filteredCourses }, () => {
-            this.props.history.push({
-                pathname: `/courses/${type}`,
-                state: { courses: this.state.courses }
-            });
-        });
     }
 
     handleSubmit(event) {
@@ -172,8 +186,6 @@ class StudentEditContainer extends Component {
         });
     };
 
-
-
     buildForm() {
         let studentFormData = new FormData();
 
@@ -211,7 +223,6 @@ class StudentEditContainer extends Component {
 
         const coursesFinalized = courses ? (courses.filter(course => course.enrollments_finalized === true)).length : 0;
         const unfinishedCourses = courses ? (courses.filter(course => course.enrollments_finalized === false)).length : 0;
-        const totalCourses = courses ? courses.length : 0;
         const totalFavorites = favorites ? favorites.length : 0;
 
         return (
