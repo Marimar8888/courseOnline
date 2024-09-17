@@ -72,3 +72,23 @@ export const getEnrollmentsByStudentId = (StudentId, token) => {
     
     });
 };
+
+export const getEnrollmentsByProfessorId = (professorId, token) => {
+   
+
+    return axios.get(`${API_URL}/enrollments/professor/${professorId}`, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    .then(response => {
+        if(response.status === 200){
+            console.log("getEnrollmentsByProfessorId:", response.data);
+            return response.data;
+        }
+    })
+    .catch(error => {
+        console.log("error getEnrollmentsByProfessorId:", error.response ? error.response.data : error.message);
+    });
+};

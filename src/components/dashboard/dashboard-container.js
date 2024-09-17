@@ -41,7 +41,6 @@ class DashboardContainer extends Component {
 
   componentDidMount() {
     this.getUserId();
-    console.log("componentDidMount showCenterContainer:", this.state.showCenterContainer);
   }
 
   updateCentersData(centerId) {
@@ -99,8 +98,6 @@ class DashboardContainer extends Component {
       .then(response => {
         this.setState({
           studentData: response.data
-        }, () => {
-          console.log("fechStudentData", this.state.studentData);
         });
 
       })
@@ -122,10 +119,7 @@ class DashboardContainer extends Component {
       .then(response => {
         this.setState({
           professorData: response.data
-        }, () => {
-          console.log("fechProfessorData", this.state.professorData);
         });
-
       })
       .catch(error => {
         console.log("error fechProfessorData", error)
@@ -146,12 +140,8 @@ class DashboardContainer extends Component {
       .then(response => {
         this.setState({
           centersData: response.data
-        }, () => {
-          console.log("getCenters", this.state.centersData);
         });
-
       })
-
       .catch(error => {
         console.log("error getCenters", error);
       })
@@ -169,7 +159,6 @@ class DashboardContainer extends Component {
         })
       .then(response => {
         const professorId = response.data.professors_id;
-        console.log("getProfessorId:", professorId);
         this.fechProfessorData(professorId);
       })
       .catch(error => {
@@ -190,7 +179,6 @@ class DashboardContainer extends Component {
         })
       .then(response => {
         const studentId = response.data.students_id;
-        console.log("getStudentId:", studentId);
         this.fechStudentData(studentId);
 
       })
@@ -213,7 +201,6 @@ class DashboardContainer extends Component {
         this.setState({
           userRols: response.data.rols
         }, () => {
-          console.log("getUserRols:", this.state.userRols);
           const { userRols } = this.state;
           if (userRols.length > 1) {
             userRols.forEach(rol => {
@@ -256,7 +243,6 @@ class DashboardContainer extends Component {
           this.setState({
             userId: response.data.users_id
           })
-          console.log("getUserId:", this.state.userId);
           this.getUserRols(this.state.userId);
         } else {
           console.log("No Authorization");
@@ -265,14 +251,12 @@ class DashboardContainer extends Component {
       .catch(error => {
         if (error.response) {
           console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
-          console.log(error.response.data);
         } else {
           console.log("Network or other error:", error.message);
         }
       })
   }
 
-  
   render() {
     const { userRols, studentData, professorData, centersData, userId } = this.state;
     const rolesIds = userRols.map(role => role.rols_id);
@@ -314,7 +298,7 @@ class DashboardContainer extends Component {
                   updateStudentData={this.updateStudentData} />
               )} />
             )}
-            {!hasRole2 && hasRole3 && !this.state.showProfessorContainer&& (
+            {!hasRole2 && hasRole3 && !this.state.showProfessorContainer && (
               <Route path="/dashboard" exact render={() => (
                 <DashboardProfessor
                   professorData={professorData}
@@ -344,29 +328,30 @@ class DashboardContainer extends Component {
                   updateCenterData={this.updateCenterData} />
               )} />
             )}
-            {!hasRole4 || hasRole4 && this.state.showCenterContainer && (
-              <React.Fragment>
-                <Route path="/dashboard" exact render={() => (
-                  <DashboardCenter
-                    userId={userId}
-                    showCenterContainer={this.state.showCenterContainer}
-                    handleCenterCreated={this.handleCenterCreated} />
-                )} />
-                <Route path="/dashboard/center" exact render={() => (
-                  <DashboardCenter
-                    userId={userId}
-                    showCenterContainer={this.state.showCenterContainer}
-                    handleCenterCreated={this.handleCenterCreated} />
-                )} />
-                <Route path="/dashboard/professor" exact render={() => (
-                  <DashboardCenter
-                    userId={userId}
-                    showCenterContainer={this.state.showCenterContainer}
-                    handleCenterCreated={this.handleCenterCreated} />
-                )} />
-              </React.Fragment>
+            {this.state.showCenterContainer && (
+              <Route path="/dashboard" exact render={() => (
+                <DashboardCenter
+                  userId={userId}
+                  showCenterContainer={this.state.showCenterContainer}
+                  handleCenterCreated={this.handleCenterCreated} />
+              )} />
             )}
-
+            {this.state.showCenterContainer && (
+              <Route path="/dashboard/center" exact render={() => (
+                <DashboardCenter
+                  userId={userId}
+                  showCenterContainer={this.state.showCenterContainer}
+                  handleCenterCreated={this.handleCenterCreated} />
+              )} />
+            )}
+            {this.state.showCenterContainer && (
+              <Route path="/dashboard/professor" exact render={() => (
+                <DashboardCenter
+                  userId={userId}
+                  showCenterContainer={this.state.showCenterContainer}
+                  handleCenterCreated={this.handleCenterCreated} />
+              )} />
+            )}
             {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && !this.state.showCenterContainer && (
               <Route path="*" render={() => (
                 <div className="no-roles-message">
@@ -381,7 +366,7 @@ class DashboardContainer extends Component {
             )}
           </Switch>
         </div>
-      </div>
+      </div >
     );
   }
 }

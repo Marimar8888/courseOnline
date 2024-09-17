@@ -98,7 +98,7 @@ class CentersContainer extends Component {
         </div>
         <div className="dashboard-bills">
           <h3>Facturas</h3>
-          <DashboardBills />
+          {/* <DashboardBills /> */}
 
         </div>
       </div>
