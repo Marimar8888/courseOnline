@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
+//PEDIENTE DE HACER SCROLL INFINITO
 class CourseContainer extends Component {
     constructor(props) {
         super(props);

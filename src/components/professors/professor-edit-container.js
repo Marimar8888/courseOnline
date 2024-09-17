@@ -23,7 +23,7 @@ class ProfessorEditContainer extends Component {
       professors_cvc: "",
       courses: [],
       students: [],
-      enrollments: false,
+      enrollments: [],
       isButtonEnabled: false
     };
     this.initialState = { ...this.state };
@@ -50,19 +50,18 @@ class ProfessorEditContainer extends Component {
       if(professorData.professor.professors_id) {
         getEnrollmentsByProfessorId(professorData.professor.professors_id, token)
           .then (enrollments => {
-            if (Array.isArray(enrollments)) {
+            console.log("Enrollments successfully set:", enrollments);
+            // if (Array.isArray(enrollments)) {
               this.setState({ enrollments });
-              console.log("Enrollments successfully set:", enrollments);
-            } else {
-              console.error('Enrollments data is not an array:', enrollments);
-            }
+            // } else {
+            //   console.error('Enrollments data is not an array:', enrollments);
+            // }
           })
           .catch(error => {
             console.log("error getEnrollmentsByCourseId", error);
           })
       }
       console.log("dashboarProfessor despues de cambiar el state data;", professorData.courses.total);
-      
     }
   }
 
@@ -71,17 +70,7 @@ class ProfessorEditContainer extends Component {
       const { professorData } = this.props;
       if (professorData && professorData.professor) {
         this.setState({
-          professors_id: professorData.professor.professors_id,
-          professors_first_name: professorData.professor.professors_first_name,
-          professors_last_name: professorData.professor.professors_last_name,
-          professors_email: professorData.professor.professors_email,
-          professors_dni: professorData.professor.professors_dni,
-          professors_address: professorData.professor.professors_address,
-          professors_city: professorData.professor.professors_city,
-          professors_postal: professorData.professor.professors_postal,
-          professors_number_card: professorData.professor.professors_number_card,
-          professors_exp_date: professorData.professor.professors_exp_date,
-          professors_cvc: professorData.professor.professors_cvc,
+          ...professorData.professor,
           courses: professorData.courses.items || [],
           students: professorData.students || [],
         });
@@ -157,16 +146,7 @@ class ProfessorEditContainer extends Component {
       })
       .then(response => {
         this.setState({
-          professors_first_name: response.data.professors_first_name,
-          professors_last_name: response.data.professors_last_name,
-          professors_email: response.data.professors_email,
-          professors_dni: response.data.professors_dni,
-          professors_address: response.data.professors_address,
-          professors_city: response.data.professors_city,
-          professors_postal: response.data.professors_postal,
-          professors_number_card: response.data.professors_number_card,
-          professors_exp_date: response.data.professors_exp_date,
-          professors_cvc: response.data.professors_cvc,
+          ...response.data,
           isButtonEnabled: false,
         });
 
@@ -224,10 +204,10 @@ class ProfessorEditContainer extends Component {
     console.log("profesor-edit", professorData.courses);
     const totalCourses = professorData.courses.total;
     console.log("profesor-edit totalCourses", totalCourses);
-    const coursesActive = coursesList.filter(course => course.courses_active === true).length;
+    //const coursesActive = coursesList.filter(course => course.courses_active === true).length;
     console.log("profesor-edit coursesActive", coursesActive);
-
     const coursesInactive = coursesList.filter(course => course.courses_active === false).length;
+    const coursesActive = totalCourses - coursesInactive; 
     console.log("profesor-edit coursesInactive", coursesInactive);
 
     return (
@@ -387,7 +367,7 @@ class ProfessorEditContainer extends Component {
         </div>
         <div className="dashboard-bills">
           <h3>Facturas</h3>
-          {/* <DashboardBills  enrollments={this.state.enrollments}/> */}
+          <DashboardBills  enrollments={this.state.enrollments}/>
         </div>
       </form>
     );

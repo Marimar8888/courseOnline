@@ -90,5 +90,6 @@ export const getEnrollmentsByProfessorId = (professorId, token) => {
     })
     .catch(error => {
         console.log("error getEnrollmentsByProfessorId:", error.response ? error.response.data : error.message);
+        throw error;
     });
 };
