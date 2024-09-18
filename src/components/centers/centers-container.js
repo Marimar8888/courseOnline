@@ -7,17 +7,17 @@ class CentersContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      centers_id: "",
-      centers_first_name: "",
-      centers_last_name: "",
-      centers_email: "",
-      centers_dni: "",
-      centers_address: "",
-      centers_city: "",
-      centers_postal: "",
-      centers_number_card: "",
-      centers_exp_date: "",
-      centers_cvc: ""
+      studyCenters_id: "",
+      studyCenters_name: "",
+      studyCenters_email: "",
+      studyCenters_cif: "",
+      studyCenters_address: "",
+      studyCenters_city: "",
+      studyCenters_postal: "",
+      studyCenters_number_card: "",
+      studyCenters_exp_date: "",
+      studyCenters_cvc: "",
+      studyCenters_active: true
     };
 
     this.handleCoursesClick = this.handleCoursesClick.bind(this);
@@ -27,8 +27,13 @@ class CentersContainer extends Component {
   }
 
   componentDidMount(){
-    const centerData = this.props;
-    console.log("componentDidMount centerData:", centerData) 
+    const {centersData} = this.props;
+    if (centersData) {
+      console.log(centersData);
+       this.setState({
+         ...centersData
+       });
+    }
 }
 
 
@@ -54,14 +59,11 @@ class CentersContainer extends Component {
   }
 
   render() {
-
     const { centersData } = this.props;
 
     if (!centersData) {
       return <p>Cargando datos del centros...</p>
     }
-
-    const totalCenters = centersData ? centersData.length : 0;
 
     return (
       <div className="dashboard-dates" >
@@ -69,37 +71,7 @@ class CentersContainer extends Component {
           <h3>Centers</h3>
           <CentersTable centersData={this.props.centersData}/>
         </div>
-        <div className="dashboard-courses">
-          <div className="dashboard-dates-title">
-            <h3>Cursos</h3>
-          </div>
-          <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(1)}>En curso...</div>
-            <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(2)}>Finalizados...</div>
-            <div className='dashboard-course-all' onClick={() => this.handleCoursesClick(3)}>Todos...</div>
-          </div>
-        </div>
-        <div className="dashboard-courses">
-          <div className="dashboard-dates-title">
-            <h3>Profesores</h3>
-          </div>
-          <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleProfessorsClick(1)}>En curso...</div>
-            <div className='dashboard-course-completed' onClick={() => this.handleProfessorsClick(2)}>Finalizados...</div>
-            <div className='dashboard-course-all' onClick={() => this.handleProfessorsClick(3)}>Todos...</div>
-          </div>
-        </div>
-        <div className="dashboard-courses">
-          <div className="dashboard-dates-title">
-            <h3>Estudiantes</h3>
-          </div>
-          <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleStudentsClick(1)}>En curso...</div>
-            <div className='dashboard-course-completed' onClick={() => this.handleStudentsClick(2)}>Finalizados...</div>
-            <div className='dashboard-course-all' onClick={() => this.handleStudentsClick(3)}>Todos...</div>
-          </div>
-        </div>
-      </div>
+       </div>
     );
   }
 }

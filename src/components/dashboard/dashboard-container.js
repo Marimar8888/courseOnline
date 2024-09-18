@@ -136,6 +136,7 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
+        console.log("centersData", response.data);
         this.setState({
           centersData: response.data
         });
