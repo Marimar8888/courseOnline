@@ -63,9 +63,7 @@ class ProfessorCreateContainer extends Component {
           isButtonEnabled: false,
         });
         this.props.handleProfessorCreated();
-
         this.props.history.push(`/dashboard/professor`);
-
       })
       .catch(error => {
         console.log("error handleSubmit", error);

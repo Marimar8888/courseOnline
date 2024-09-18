@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
 import CentersTable from './centers-table';
@@ -17,7 +19,8 @@ class CentersContainer extends Component {
       studyCenters_number_card: "",
       studyCenters_exp_date: "",
       studyCenters_cvc: "",
-      studyCenters_active: true
+      studyCenters_active: true,
+      isButtonEnabled: false,
     };
 
     this.handleCoursesClick = this.handleCoursesClick.bind(this);
@@ -35,8 +38,6 @@ class CentersContainer extends Component {
        });
     }
 }
-
-
 
   handleCentersClick = (type) => {
     const { courses } = this.props.centersData;
