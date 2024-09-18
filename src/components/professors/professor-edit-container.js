@@ -362,16 +362,6 @@ class ProfessorEditContainer extends Component {
               </div>
           </div>
         </div>
-        <div className="dashboard-courses">
-          <div className="dashboard-dates-title">
-            <h3>Centros</h3>
-          </div>
-          <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleCentersClick(1)}>En curso...</div>
-            <div className='dashboard-course-completed' onClick={() => this.handleCentersClick(2)}>Finalizados...</div>
-            <div className='dashboard-course-all' onClick={() => this.handleCentersClick(3)}>Todos...</div>
-          </div>
-        </div>
         <div className="dashboard-bills">
           <h3>Facturas</h3>
           <DashboardBills  enrollments={this.state.enrollments}/>

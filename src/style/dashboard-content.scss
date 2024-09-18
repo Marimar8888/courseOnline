@@ -1,6 +1,7 @@
 
     .dashboard-dates {
         margin: 0 auto;
+        width: 80%;
         @include input-element();
         @include base-grid();
 

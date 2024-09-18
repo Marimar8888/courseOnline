@@ -138,6 +138,7 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
+        console.log("getCenters centerData in dashboard:", response.data);
         this.setState({
           centersData: response.data
         });
@@ -333,7 +334,9 @@ class DashboardContainer extends Component {
                 <DashboardCenter
                   userId={userId}
                   showCenterContainer={this.state.showCenterContainer}
-                  handleCenterCreated={this.handleCenterCreated} />
+                  handleCenterCreated={this.handleCenterCreated} 
+                  updateCenterData={this.updateCenterData}
+                  centersData={centersData}/>
               )} />
             )}
             {this.state.showCenterContainer && (
@@ -341,7 +344,9 @@ class DashboardContainer extends Component {
                 <DashboardCenter
                   userId={userId}
                   showCenterContainer={this.state.showCenterContainer}
-                  handleCenterCreated={this.handleCenterCreated} />
+                  handleCenterCreated={this.handleCenterCreated} 
+                  updateCenterData={this.updateCenterData}
+                  centersData={centersData}/>
               )} />
             )}
             {this.state.showCenterContainer && (
@@ -349,7 +354,9 @@ class DashboardContainer extends Component {
                 <DashboardCenter
                   userId={userId}
                   showCenterContainer={this.state.showCenterContainer}
-                  handleCenterCreated={this.handleCenterCreated} />
+                  handleCenterCreated={this.handleCenterCreated} 
+                  updateCenterData={this.updateCenterData}
+                  centersData={centersData}/>
               )} />
             )}
             {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && !this.state.showCenterContainer && (
