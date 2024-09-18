@@ -56,11 +56,7 @@ class DashboardContainer extends Component {
   };
 
   handleCreateCenter() {
-    this.setState({
-      showCenterContainer: true
-    }, () => {
-      console.log("handleCreateCenter (updated):", this.state.showCenterContainer);
-    });
+    this.setState((prevState) => ({showCenterContainer: !prevState.showCenterContainer }))
   }
 
   handleProfessorCreated = () => {
