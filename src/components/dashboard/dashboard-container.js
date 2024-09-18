@@ -111,13 +111,14 @@ class DashboardContainer extends Component {
     const token = localStorage.getItem("token");
     axios
       .get(
-        `${API_URL}/all_dates/professor/${professorId}?page=${this.state.currentPage}&limit=${this.state.limit}`,
+        `${API_URL}/professor/all_dates/${professorId}?page=${this.state.currentPage}&limit=${this.state.limit}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
       .then(response => {
+        console.log("fechProfessorData:", response.data);
         this.setState({
           professorData: response.data
         });

@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import DashboardBills from '../dashboard/dashboard-bills';
 import { getEnrollmentsByProfessorId } from "../services/enrollment";
 import { ActiveStudents, InactiveStudents } from "../services/student"; 
+import ProfessorCentersTable from './professor-centers-table';
 
 class ProfessorEditContainer extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class ProfessorEditContainer extends Component {
       students: [],
       enrollments: [],
       activeStudents: [],
+      centers: [],
       inactiveStudents: [],
       isButtonEnabled: false
     };
@@ -48,6 +50,7 @@ class ProfessorEditContainer extends Component {
         ...professorData.professor,
         courses: professorData.courses.items || [],
         students: professorData.students || [],
+        centers: professorData.study_centers || [],
         isButtonEnabled: false,
       });
 
@@ -76,6 +79,7 @@ class ProfessorEditContainer extends Component {
           ...professorData.professor,
           courses: professorData.courses.items || [],
           students: professorData.students || [],
+          centers: professorData.study_centers || [],
         });
       }
     }
@@ -361,6 +365,12 @@ class ProfessorEditContainer extends Component {
               <p className='dashboard-course-number'>({totalStudents})</p>
               </div>
           </div>
+        </div>
+        <div className="dashboard-courses">
+          <div className="dashboard-dates-title">
+            <h3>Centros de trabajo</h3>
+          </div>
+          <ProfessorCentersTable centers={this.state.centers}/>
         </div>
         <div className="dashboard-bills">
           <h3>Facturas</h3>

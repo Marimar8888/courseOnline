@@ -4,7 +4,7 @@ import { API_URL } from '../utils/constant';
 
 /*------------------dashboard-container------------------ */
 
-export const fechStudentData = (studentId) => {
+const fechStudentData = (studentId) => {
     const token = localStorage.getItem("token");
     axios
       .get(
@@ -16,9 +16,6 @@ export const fechStudentData = (studentId) => {
         })
       .then(response => {
         console.log("fechStudentData dashboard-container", response.data);
-        // this.setState({
-        //   studentData: response.data
-        // });
         return response.data
 
       })
