@@ -3,7 +3,7 @@ import React from 'react';
 import CenterEditCreateContainer from '../centers/center-edit-create-container';
 import CentersEditContainer from '../centers/centers-edit-container';
 
-const DashboardCenter = ({ centersData, updateCentersData, userId, showCenterContainer, handleCenterCreated, handleEditCenter}) => {
+const DashboardCenter = ({ centersData, updateCentersData, userId, showCenterContainer, handleCenterCreated, handleEditCenter, centerToEdit}) => {
   
   const updateDashboarCentersData = (centerId) =>{
     updateCentersData(centerId)
@@ -14,8 +14,7 @@ const DashboardCenter = ({ centersData, updateCentersData, userId, showCenterCon
       userId={userId} 
       handleCenterCreated={handleCenterCreated}
       handleEditCenter={handleEditCenter}
-
-    />
+      centerToEdit={centerToEdit}/>
   ) : (
     <CentersEditContainer 
       centersData={centersData} 

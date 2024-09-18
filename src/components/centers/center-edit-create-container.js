@@ -24,6 +24,14 @@ class CenterEditCreateContainer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    if(this.props.centerToEdit) {
+      this.setState({
+        ...this.props.centerToEdit
+      })
+    }
+  }
+
   handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({

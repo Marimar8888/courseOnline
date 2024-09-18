@@ -21,6 +21,7 @@ class DashboardContainer extends Component {
       courses: null,
       showProfessorContainer: false,
       showCenterContainer: false,
+      centerToEdit: null,
       currentPage: 1,
       totalCount: 0,
       totalPages: 0,
@@ -44,9 +45,10 @@ class DashboardContainer extends Component {
     this.getUserId();
   }
 
-  handleEditCenter() {
+  handleEditCenter(center) {
     this.setState({
-      showCenterContainer: true
+      showCenterContainer: true,
+      centerToEdit: center
     })
   }
 
@@ -264,7 +266,7 @@ class DashboardContainer extends Component {
   }
 
   render() {
-    const { userRols, studentData, professorData, centersData, userId } = this.state;
+    const { userRols, studentData, professorData, centersData, userId, centerToEdit  } = this.state;
     const rolesIds = userRols.map(role => role.rols_id);
 
     const hasRole2 = rolesIds.includes(2); // Estudiante
@@ -344,7 +346,8 @@ class DashboardContainer extends Component {
                   handleCenterCreated={this.handleCenterCreated} 
                   updateCenterData={this.updateCenterData}
                   handleEditCenter={this.handleEditCenter} 
-                  centersData={centersData}/>
+                  centersData={centersData}
+                  centerToEdit={centerToEdit}/>
               )} />
             )}
             {this.state.showCenterContainer && (
@@ -355,7 +358,8 @@ class DashboardContainer extends Component {
                   handleCenterCreated={this.handleCenterCreated} 
                   updateCenterData={this.updateCenterData}
                   handleEditCenter={this.handleEditCenter} 
-                  centersData={centersData}/>
+                  centersData={centersData}
+                  centerToEdit={centerToEdit}/>
               )} />
             )}
             {this.state.showCenterContainer && (
@@ -366,7 +370,8 @@ class DashboardContainer extends Component {
                   handleCenterCreated={this.handleCenterCreated} 
                   updateCenterData={this.updateCenterData}
                   handleEditCenter={this.handleEditCenter} 
-                  centersData={centersData}/>
+                  centersData={centersData}
+                  centerToEdit={centerToEdit}/>
               )} />
             )}
             {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && !this.state.showCenterContainer && (
