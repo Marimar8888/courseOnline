@@ -36,11 +36,18 @@ class DashboardContainer extends Component {
     this.updateCentersData = this.updateCentersData.bind(this);
     this.handleCreateCenter = this.handleCreateCenter.bind(this);
     this.handleCenterCreated = this.handleCenterCreated.bind(this);
+    this.handleEditCenter = this.handleEditCenter.bind(this);
 
   }
 
   componentDidMount() {
     this.getUserId();
+  }
+
+  handleEditCenter() {
+    this.setState({
+      showCenterContainer: true
+    })
   }
 
   updateCentersData(centerId) {
@@ -324,7 +331,9 @@ class DashboardContainer extends Component {
               <Route path="/dashboard/center" exact render={() => (
                 <CentersContainer
                   centersData={centersData}
-                  updateCenterData={this.updateCenterData} />
+                  updateCenterData={this.updateCenterData}
+                  handleEditCenter={this.handleEditCenter} 
+                 />
               )} />
             )}
             {this.state.showCenterContainer && (
@@ -334,6 +343,7 @@ class DashboardContainer extends Component {
                   showCenterContainer={this.state.showCenterContainer}
                   handleCenterCreated={this.handleCenterCreated} 
                   updateCenterData={this.updateCenterData}
+                  handleEditCenter={this.handleEditCenter} 
                   centersData={centersData}/>
               )} />
             )}
@@ -344,6 +354,7 @@ class DashboardContainer extends Component {
                   showCenterContainer={this.state.showCenterContainer}
                   handleCenterCreated={this.handleCenterCreated} 
                   updateCenterData={this.updateCenterData}
+                  handleEditCenter={this.handleEditCenter} 
                   centersData={centersData}/>
               )} />
             )}
@@ -354,6 +365,7 @@ class DashboardContainer extends Component {
                   showCenterContainer={this.state.showCenterContainer}
                   handleCenterCreated={this.handleCenterCreated} 
                   updateCenterData={this.updateCenterData}
+                  handleEditCenter={this.handleEditCenter} 
                   centersData={centersData}/>
               )} />
             )}

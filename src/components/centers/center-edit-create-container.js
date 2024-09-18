@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
-class CenterCreateContainer extends Component {
+class CenterEditCreateContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -205,4 +205,4 @@ class CenterCreateContainer extends Component {
     );
   }
 }
-export default withRouter(CenterCreateContainer);
+export default withRouter(CenterEditCreateContainer);

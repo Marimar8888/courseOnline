@@ -70,7 +70,10 @@ class CentersContainer extends Component {
       <div className="dashboard-dates" >
         <div className="dashboard-headers">
           <h3>Centers</h3>
-          <CentersTable centersData={this.props.centersData}/>
+          <CentersTable 
+            centersData={this.props.centersData}
+            handleEditCenter={this.props.handleEditCenter} 
+            />
         </div>
        </div>
     );

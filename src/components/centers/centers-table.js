@@ -1,7 +1,7 @@
 import React from 'react';
 
 // const CentersTable = ({ centersData, handleEdit, handleActivate }) => {
-  const CentersTable = ({ centersData }) => {
+  const CentersTable = ({ centersData, handleEditCenter }) => {
   return (
     <table className="centers-table">
       <thead>
@@ -25,22 +25,13 @@ import React from 'react';
               <td data-label="Email" className="dashboard-center-email">{center.studyCenters_email}</td>
               <td data-label="Ciudad" className="dashboard-center-city">{center.studyCenters_city}</td>
               <td data-label="Editar">
-                <button >Editar</button>
+              <button onClick={() => handleEditCenter(center.studyCenters_id)}>Editar</button>
               </td>
               <td data-label="Activar">
                 <button >
                    Activar
                 </button>
               </td>
-            {/*   <td data-label="Editar">
-                <button onClick={() => handleEdit(center.center_id)}>Editar</button>
-              </td>
-              <td data-label="Activar">
-                <button onClick={() => handleActivate(center.center_id)}>
-                  {center.active ? "Desactivar" : "Activar"}
-                </button>
-              </td> */}
-
             </tr>
           ))
         )}
