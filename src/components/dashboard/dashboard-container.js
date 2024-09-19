@@ -144,7 +144,6 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
-        console.log("response fechStudentData:", response.data);
         this.setState({
           studentData: response.data
         });
@@ -166,7 +165,6 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
-        console.log("fechProfessorData:", response.data);
         this.setState({
           professorData: response.data
         });
@@ -188,7 +186,6 @@ class DashboardContainer extends Component {
           }
         })
       .then(response => {
-        console.log("centersData", response.data);
         this.setState({
           centersData: response.data
         });
@@ -326,7 +323,7 @@ class DashboardContainer extends Component {
             <NavLink to="/dashboard/professor" activeClassName="active-link">Profesor</NavLink>
           )}
           {hasRole4 && (
-            <NavLink to="/dashboard/center" activeClassName="active-link">Centro de Estudios</NavLink>
+            <NavLink to="/dashboard/center" activeClassName="active-link">Centro en propiedad</NavLink>
           )}
           {!hasRole3 && (
             <div className='btn-create-professor'>

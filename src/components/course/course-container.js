@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { API_URL } from '../utils/constant';
 
 //PEDIENTE DE HACER SCROLL INFINITO
 class CourseContainer extends Component {
@@ -17,9 +20,10 @@ class CourseContainer extends Component {
             limit: 10,
             courseModalIsOpen: false
         }
-
+        this.onScroll = this.onScroll.bind(this);
+        window.addEventListener("scroll", this.onScroll, false);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
-        this.handleNewCourseClick = this.handleNewCourseClick.bind(this);
+        this.handleNewCourseClick = this.handleNewCourseClick.bind(this);    
     }
 
     handleNewCourseClick() {
@@ -32,6 +36,46 @@ class CourseContainer extends Component {
     handleDeleteClick() {
         console.log("delete course click");
     }
+
+    onScroll() {
+           
+        if (
+            this.state.isLoading ||
+            this.state.courses.length === this.state.totalCount
+          ) {
+            return;
+          }
+            if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100) {
+                console.log("get more");
+            }
+            if (this.state.param) { 
+                this.getCoursesByType(1, this.state.param);  // Corrección: usa 1 directamente como argumento
+            } else {
+                this.getCoursesByType(1, this.state.param);  // De igual manera aquí
+            }
+    }
+
+    getCoursesByType = (professorId, TypeId) => {
+        const token = localStorage.getItem("token");
+        if (token) {
+          axios
+            .get(
+              `${API_URL}/courses/${professorId}/type/${TypeId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            )
+            .then((response) => {
+              console.log("getCoursesByType response: ", response);
+              this.setState({ courses: response.data.courses }); // Actualiza el estado con los cursos
+            })
+            .catch((error) => {
+              console.log("getCoursesByType error: ", error);
+            });
+        }
+      };
 
     render() {
         const { courses } = this.state;

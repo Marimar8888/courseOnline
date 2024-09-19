@@ -88,9 +88,7 @@ class StoreContainer extends Component {
                         console.log("User doesn´t have favorites");
                     }
                 })
-      
         }
-
     }
 
     getUserId(token) {
