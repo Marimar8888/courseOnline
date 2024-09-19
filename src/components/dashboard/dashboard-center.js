@@ -1,25 +1,22 @@
 import React from 'react';
 
 import CenterEditCreateContainer from '../centers/center-edit-create-container';
-import CentersEditContainer from '../centers/centers-edit-container';
+import CentersContainer from '../centers/centers-container';
 
-const DashboardCenter = ({ centersData, updateCentersData, userId, showCenterContainer, handleCenterCreated, handleEditCenter, centerToEdit, handleBack}) => {
-  
-  const updateDashboarCentersData = (centerId) =>{
-    updateCentersData(centerId)
-  }
-  
+const DashboardCenter = ({ centersData, updateCenterData, userId, showCenterContainer, handleCenterCreated, handleEditCenter, centerToEdit, handleBack }) => {
+
   return showCenterContainer ? (
-    <CenterEditCreateContainer 
-      userId={userId} 
+    <CenterEditCreateContainer
+      userId={userId}
       handleCenterCreated={handleCenterCreated}
       handleEditCenter={handleEditCenter}
       centerToEdit={centerToEdit}
-      handleBack={handleBack}/>
+      handleBack={handleBack} />
   ) : (
-    <CentersEditContainer 
-      centersData={centersData} 
-      updateDashboarCentersData={updateDashboarCentersData}  
+    <CentersContainer
+      centersData={centersData}
+      updateCenterData={updateCenterData}
+      handleEditCenter={handleEditCenter}
     />
   );
 };

@@ -145,6 +145,7 @@ class CenterEditCreateContainer extends Component {
       <form onSubmit={this.handleSubmit} className="dashboard-dates">
         <div className="dashboard-dates-header">
           <h2>Datos</h2>
+          <div className='dashboard-dates-header-button'>
           <button
             className={`btn-save ${this.state.isButtonEnabled ? 'btn' : ''}`}
             disabled={!this.state.isButtonEnabled}
@@ -154,6 +155,7 @@ class CenterEditCreateContainer extends Component {
           <button  type="button"  onClick={this.props.handleBack} className="btn-save" >
             VOLVER
           </button>
+          </div>
         </div>
         <div>
           <h3>Nombre, apellidos y dni</h3>

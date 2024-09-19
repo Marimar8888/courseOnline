@@ -339,7 +339,7 @@ class DashboardContainer extends Component {
             )}
             {hasRole4 && !this.state.showCenterContainer && (
               <Route path="/dashboard/center" exact render={() => (
-                <CentersContainer
+                <DashboardCenter
                   centersData={centersData}
                   updateCenterData={this.updateCenterData}
                   handleEditCenter={this.handleEditCenter} 
