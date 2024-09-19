@@ -73,6 +73,7 @@ class CentersContainer extends Component {
           <CentersTable 
             centersData={this.props.centersData}
             handleEditCenter={this.props.handleEditCenter} 
+            updateStudentData={this.props.updateStudentData}
             />
         </div>
        </div>

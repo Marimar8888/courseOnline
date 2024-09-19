@@ -38,11 +38,19 @@ class DashboardContainer extends Component {
     this.handleCreateCenter = this.handleCreateCenter.bind(this);
     this.handleCenterCreated = this.handleCenterCreated.bind(this);
     this.handleEditCenter = this.handleEditCenter.bind(this);
+    this.handleBack = this.handleBack.bind(this);
 
   }
 
   componentDidMount() {
     this.getUserId();
+  }
+
+  handleBack() {
+    this.setState({
+      showCenterContainer: false,
+      centerToEdit: null
+    })
   }
 
   handleEditCenter(center) {
@@ -347,7 +355,8 @@ class DashboardContainer extends Component {
                   updateCenterData={this.updateCenterData}
                   handleEditCenter={this.handleEditCenter} 
                   centersData={centersData}
-                  centerToEdit={centerToEdit}/>
+                  centerToEdit={centerToEdit}
+                  handleBack={this.handleBack}/>
               )} />
             )}
             {this.state.showCenterContainer && (
@@ -359,7 +368,8 @@ class DashboardContainer extends Component {
                   updateCenterData={this.updateCenterData}
                   handleEditCenter={this.handleEditCenter} 
                   centersData={centersData}
-                  centerToEdit={centerToEdit}/>
+                  centerToEdit={centerToEdit}
+                  handleBack={this.handleBack}/>
               )} />
             )}
             {this.state.showCenterContainer && (
@@ -371,7 +381,8 @@ class DashboardContainer extends Component {
                   updateCenterData={this.updateCenterData}
                   handleEditCenter={this.handleEditCenter} 
                   centersData={centersData}
-                  centerToEdit={centerToEdit}/>
+                  centerToEdit={centerToEdit}
+                  handleBack={this.handleBack}/>
               )} />
             )}
             {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && !this.state.showCenterContainer && (
