@@ -17,3 +17,16 @@
 .btn-edit {
     @include btn-edit();
 }
+
+.btn-active {
+    @include btn-save();
+    background-color: $blue;
+    &:hover {
+        background-color: darken($blue, 10%); 
+    }
+}
+
+.btn-disabled {
+    background-color: $mediumgrey; 
+    cursor: pointer;
+}

@@ -39,11 +39,46 @@ class DashboardContainer extends Component {
     this.handleCenterCreated = this.handleCenterCreated.bind(this);
     this.handleEditCenter = this.handleEditCenter.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.handleChangeStatusCenter = this.handleChangeStatusCenter.bind(this);
 
   }
 
   componentDidMount() {
     this.getUserId();
+  }
+
+  handleChangeStatusCenter(center) {
+    const statusCenter = center.studyCenters_active ? false : true;
+
+    console.log("handleChangeStatusCenter: ", center);
+    const token = localStorage.getItem("token");
+    axios({
+      method: 'patch',  
+      url: `${API_URL}/studycenter/status/${center.studyCenters_id}`, 
+      data: {
+        studyCenters_active: statusCenter
+      },
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => {
+        if (response.status === 200) {
+          console.log("response handleChangeStatusCenter:", response.data);
+          this.setState(prevState => ({
+            centersData: prevState.centersData.map(c =>
+              c.studyCenters_id === center.studyCenters_id
+                ? { ...c, studyCenters_active: statusCenter }
+                : c
+            )
+          }));
+        } else {
+          console.log(`Unexpected status code: ${response.status}`);
+        }
+      })
+      .catch(error => {
+        console.log("error handleChangeStatusCenter", error)
+      })
   }
 
   handleBack() {
@@ -73,7 +108,7 @@ class DashboardContainer extends Component {
   };
 
   handleCreateCenter() {
-    this.setState((prevState) => ({showCenterContainer: !prevState.showCenterContainer }))
+    this.setState((prevState) => ({ showCenterContainer: !prevState.showCenterContainer }))
   }
 
   handleProfessorCreated = () => {
@@ -111,7 +146,7 @@ class DashboardContainer extends Component {
       .then(response => {
         console.log("response fechStudentData:", response.data);
         this.setState({
-          studentData: response.data  
+          studentData: response.data
         });
 
       })
@@ -274,7 +309,7 @@ class DashboardContainer extends Component {
   }
 
   render() {
-    const { userRols, studentData, professorData, centersData, userId, centerToEdit  } = this.state;
+    const { userRols, studentData, professorData, centersData, userId, centerToEdit } = this.state;
     const rolesIds = userRols.map(role => role.rols_id);
 
     const hasRole2 = rolesIds.includes(2); // Estudiante
@@ -342,8 +377,9 @@ class DashboardContainer extends Component {
                 <DashboardCenter
                   centersData={centersData}
                   updateCenterData={this.updateCenterData}
-                  handleEditCenter={this.handleEditCenter} 
-                 />
+                  handleEditCenter={this.handleEditCenter}
+                  handleChangeStatusCenter={this.handleChangeStatusCenter}
+                />
               )} />
             )}
             {this.state.showCenterContainer && (
@@ -351,12 +387,12 @@ class DashboardContainer extends Component {
                 <DashboardCenter
                   userId={userId}
                   showCenterContainer={this.state.showCenterContainer}
-                  handleCenterCreated={this.handleCenterCreated} 
+                  handleCenterCreated={this.handleCenterCreated}
                   updateCenterData={this.updateCenterData}
-                  handleEditCenter={this.handleEditCenter} 
+                  handleEditCenter={this.handleEditCenter}
                   centersData={centersData}
                   centerToEdit={centerToEdit}
-                  handleBack={this.handleBack}/>
+                  handleBack={this.handleBack} />
               )} />
             )}
             {this.state.showCenterContainer && (
@@ -364,12 +400,12 @@ class DashboardContainer extends Component {
                 <DashboardCenter
                   userId={userId}
                   showCenterContainer={this.state.showCenterContainer}
-                  handleCenterCreated={this.handleCenterCreated} 
+                  handleCenterCreated={this.handleCenterCreated}
                   updateCenterData={this.updateCenterData}
-                  handleEditCenter={this.handleEditCenter} 
+                  handleEditCenter={this.handleEditCenter}
                   centersData={centersData}
                   centerToEdit={centerToEdit}
-                  handleBack={this.handleBack}/>
+                  handleBack={this.handleBack} />
               )} />
             )}
             {this.state.showCenterContainer && (
@@ -377,12 +413,12 @@ class DashboardContainer extends Component {
                 <DashboardCenter
                   userId={userId}
                   showCenterContainer={this.state.showCenterContainer}
-                  handleCenterCreated={this.handleCenterCreated} 
+                  handleCenterCreated={this.handleCenterCreated}
                   updateCenterData={this.updateCenterData}
-                  handleEditCenter={this.handleEditCenter} 
+                  handleEditCenter={this.handleEditCenter}
                   centersData={centersData}
                   centerToEdit={centerToEdit}
-                  handleBack={this.handleBack}/>
+                  handleBack={this.handleBack} />
               )} />
             )}
             {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && !this.state.showCenterContainer && (

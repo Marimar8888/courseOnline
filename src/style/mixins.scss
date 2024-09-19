@@ -25,7 +25,7 @@
     transition: all 0.5 ease-in-out;
     background-color: $blue;
     color: white;
-
+    min-width: 100px;
     &:active,
     &:focus {
         outline: none;
@@ -41,7 +41,7 @@
     background-color: $notificacion;
     cursor: not-allowed;
     border-radius: 5%;
-
+   
     &:hover {
         background-color: $warning;
     }
@@ -52,7 +52,7 @@
     background-color: $mediumgrey;
     cursor: not-allowed;
     border-radius: 5%;
-
+    min-width: 100px;
     &:hover {
         background-color: $grey;
     }

@@ -39,10 +39,6 @@ class CenterEditCreateContainer extends Component {
     }
   }
 
-  handleBack(event) {
-
-  }
-
   handleChange = (event) => {
     const studyCenterId = this.state.studyCenters_id;
     const { name, value } = event.target;
