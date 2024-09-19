@@ -25,11 +25,11 @@ import React from 'react';
               <td data-label="Email" className="dashboard-center-email">{center.studyCenters_email}</td>
               <td data-label="Ciudad" className="dashboard-center-city">{center.studyCenters_city}</td>
               <td data-label="Editar">
-              <button onClick={() => handleEditCenter(center)}>Editar</button>
+              <button onClick={() => handleEditCenter(center)} className='btn-edit'>Editar</button>
               </td>
               <td data-label="Activar">
-                <button >
-                   Activar
+                <button className='btn-save'>
+                   Desactivar
                 </button>
               </td>
             </tr>

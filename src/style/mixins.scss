@@ -47,6 +47,27 @@
     }
 }
 
+@mixin btn-edit {
+    @include base-btn;
+    background-color: $mediumgrey;
+    cursor: not-allowed;
+    border-radius: 5%;
+
+    &:hover {
+        background-color: $grey;
+    }
+
+    &:not(:disabled) {
+        @include base-btn();
+        background-color: $green;
+        cursor: pointer;
+        &:hover {
+            background-color: $dark-green;
+        }
+    }
+}
+
+
 
 /*--------- form styles ---------------*/
 

@@ -13,3 +13,7 @@
 .btn-back {
     @include btn-back();
 }
+
+.btn-edit {
+    @include btn-edit();
+}
