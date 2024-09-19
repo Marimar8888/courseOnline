@@ -9,3 +9,7 @@
 .btn-save {
     @include btn-save();
 }
+
+.btn-back {
+    @include btn-back();
+}

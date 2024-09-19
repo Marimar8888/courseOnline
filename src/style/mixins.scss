@@ -36,6 +36,18 @@
     }
 }
 
+@mixin btn-back {
+    @include base-btn;
+    background-color: $notificacion;
+    cursor: not-allowed;
+    border-radius: 5%;
+
+    &:hover {
+        background-color: $warning;
+    }
+}
+
+
 /*--------- form styles ---------------*/
 
 @mixin input-element {

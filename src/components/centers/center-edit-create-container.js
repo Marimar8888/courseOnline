@@ -152,7 +152,7 @@ class CenterEditCreateContainer extends Component {
           >
             GUARDAR
           </button>
-          <button  type="button"  onClick={this.props.handleBack} className="btn-save" >
+          <button  type="button"  onClick={this.props.handleBack} className="btn-back" >
             VOLVER
           </button>
           </div>
