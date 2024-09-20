@@ -53,7 +53,7 @@ class ProfessorEditContainer extends Component {
         centers: professorData.study_centers || [],
         isButtonEnabled: false,
       });
-      console.log("componentDidMount ProfessorEditContainer:", professorData.courses);
+
       if(professorData.professor.professors_id) {
         getEnrollmentsByProfessorId(professorData.professor.professors_id, token)
           .then (enrollments => {
@@ -87,7 +87,6 @@ class ProfessorEditContainer extends Component {
 
   filterCoursesByEnrollmentStatus = (courses, status) => {
     courses.filter(course => course.courses_active === status);
-    console.log("filterCoursesByEnrollmentStatus", courses);
     return courses;
   };
 
@@ -112,12 +111,14 @@ class ProfessorEditContainer extends Component {
       default:
         filteredCourses = [];
         break;
-    }
+    }   
 
     this.setState({ courses: filteredCourses }, () => {
       this.props.history.push({
         pathname: `/courses/${type}`,
-        state: { courses: this.state.courses,
+        state: { 
+          courses: this.state.courses,  
+          professor: this.state.professors_id
           }
       });
     });

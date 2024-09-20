@@ -21,3 +21,20 @@ export const getCoursesByStudentId = (StudentId, token) => {
     
     });
 };
+export const getCoursesByProfessorIdPagined = (token, professorId, typeId, currentPage, limit) => {
+    const url = `${API_URL}/courses/professor/${professorId}/type/${typeId}?page=${currentPage}&limit=${limit}`;
+
+    return axios
+        .get(`${url}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            return response.data; 
+        })
+        .catch(error => {
+            console.log("Error fetching courses", error);
+            throw error; 
+        });
+};

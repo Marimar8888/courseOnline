@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from 'axios';
 
 import CourseItem from './course-item';
+import { API_URL } from '../utils/constant';
+import { getUserIdFromAPI } from '../services/user';
+import { getProfessorIdByUserIdFromAPI } from '../services/professor';
+import { getCoursesByProfessorIdPagined } from '../services/course';
 
-//PEDIENTE DE HACER SCROLL INFINITO
+
 class CourseContainer extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            param: this.props.match.params.slug || null,
-            courses: (this.props.location && this.props.location.state && this.props.location.state.courses) || [],
+            courses: [],
+            professorId: "",
+            typeId: this.props.match.params.slug,
             currentPage: 1,
             totalCount: 0,
             totalPages: 0,
@@ -18,16 +25,112 @@ class CourseContainer extends Component {
             limit: 10,
             courseModalIsOpen: false
         }
-
+        this.hasUnmounted = false;
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleNewCourseClick = this.handleNewCourseClick.bind(this);
+        this.activateInfiniteScroll();
+    }
+
+    componentDidMount() {
+        this.activateInfiniteScroll();
+        const token = localStorage.getItem("token");
+    
+        if (token) {
+            getUserIdFromAPI(token)
+                .then(userId => getProfessorIdByUserIdFromAPI(userId, token))
+                .then(professor => {
+                    if (professor) {
+                        this.setState({
+                            professorId: professor.professors_id
+                        }, () => {
+                            const { professorId, typeId, currentPage, limit } = this.state;
+    
+                            getCoursesByProfessorIdPagined(token, professorId, typeId, currentPage, limit)
+                                .then(data => {
+                                    this.setState(prevState => ({
+                                        courses: [...prevState.courses, ...data.courses],
+                                        currentPage: prevState.currentPage + 1,
+                                        totalCount: data.total,
+                                        totalPages: data.pages,
+                                        isLoading: false
+                                    }));
+                                })
+                                .catch(error => {
+                                    this.setState({ isLoading: false });
+                                    console.error("Error fetching courses:", error);
+                                });
+                        });
+                    }
+                })
+                .catch(error => {
+                    this.setState({ isLoading: false });
+                    console.error("Error fetching professor or user data:", error);
+                });
+        }
+    }  
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.loggedInStatus !== this.props.loggedInStatus && this.props.loggedInStatus === "LOGGED_IN") {
+            this.getCourses();
+        }
+
+        if (this.props.match.params.slug !== prevProps.match.params.slug) {
+            this.setState({
+                typeId: this.props.match.params.slug || null
+            }, () => {
+                this.getCourses(token);
+            });
+
+        }
+    }
+
+    componentWillUnmount() {
+        this.hasUnmounted = true;
+        window.onscroll = null;
+    }
+
+    activateInfiniteScroll() {
+        window.onscroll = () => {
+            if (
+                window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
+            ) {
+                if (this.state.typeId) {
+                    if (this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
+                        const token = localStorage.getItem("token");
+                        const { professorId, typeId, currentPage, limit } = this.state;
+                        this.setState({ isLoading: true });
+                        getCoursesByProfessorIdPagined(token, professorId, typeId, currentPage, limit)
+                            .then(data => {
+                                if (this.hasUnmounted) {
+                                    console.log("activateInfiniteScroll during courses fetch, skipping state update.");
+                                } else {
+                                    console.log("activateInfiniteScroll Courses fetched getCoursesByProfessorIdPagined:", data);
+                                    this.setState(prevState => ({
+                                        courses: [...prevState.courses, ...data.courses],
+                                        currentPage: prevState.currentPage + 1,
+                                        totalCount: data.total,
+                                        totalPages: data.pages,
+                                        isLoading: false
+                                    }));
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error fetching courses:", error);
+                                if (!this.hasUnmounted) {
+                                    this.setState({ isLoading: false });
+                                }
+                            });
+                    }
+                }
+
+            }
+        };
     }
 
     handleNewCourseClick() {
         this.setState({
             courseModalIsOpen: true
         });
-
     }
 
     handleDeleteClick() {
@@ -35,60 +138,38 @@ class CourseContainer extends Component {
     }
 
     render() {
-        const { courses } = this.state;
-        console.log("Courses-container", courses);
+        const { courses = [] } = this.state;
         const { loggedInStatus } = this.props;
-
         if (loggedInStatus !== "LOGGED_IN") {
             this.props.history.push(`/`);
             return null;
         }
+
         return (
-            <div>
-                <CourseItem
-                    courses={courses}
-                    handleDeleteClick = {this.handleDeleteClick}
-                    handleNewCourseClick = {this.handleNewCourseClick}
-                />
-                {/* <div className="course-content-page-wrapper">
-                    {courses.length > 0 ? (
-                        <ul>
-                            {courses.map(course => {
-                                return (
-                                    <div className="course-content-item" key={course.courses_id}>
-                                        <div className='course-content-image' key={course.courses_id}>
-                                            <img
-                                                src={course.courses_image}
-                                                alt={course.courses_title}
-                                                style={{ maxWidth: '100%', height: 'auto' }}
-                                            />
-                                        </div>
-                                        <div className='course-content-text'>
-                                            <h2>{course.courses_title}</h2>
-
-                                            <p>{course.courses_content}</p>
-                                        </div>
-                                        <div className='course-icons'>
-                                            <a className="icon-trash" onClick={() => this.handleDeleteClick(course)}>
-                                                <FontAwesomeIcon icon="trash" />
-                                            </a>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </ul>
-                    ) : (
-                        <p>No hay cursos disponibles.</p>
-                    )}
-                    <div className="new-course-link">
-                        <a className="icon-plus-circle" onClick={this.handleNewCourseClick}>
-                            <FontAwesomeIcon icon="plus-circle" />
-                        </a>
+            <div className="course-container">
+                {courses.length > 0 ? (
+                    <div>
+                        {courses.map((course) => (
+                            <div key={course.courses_id}>
+                                <CourseItem
+                                    course={course}
+                                    handleDeleteClick={this.handleDeleteClick}
+                                />
+                            </div>
+                        ))}
                     </div>
-                </div> */}
+                ) : (
+                    <p>Consultando datos....</p>
+                )}
 
-            </div >
+                {this.state.isLoading && (
+                    <div className='content-loader'>
+                        <FontAwesomeIcon icon="spinner" spin />
+                    </div>
+                )}
+            </div>
         );
     }
 }
+
 export default withRouter(CourseContainer);

@@ -1,0 +1,12 @@
+.store-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    .course-container {
+        .content-loader {
+            @include content-loader();
+            margin: 0 auto;
+        }
+    }
+}
