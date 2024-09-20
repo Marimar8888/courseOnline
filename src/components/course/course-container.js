@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from 'axios';
 
 import CourseItem from './course-item';
-import { API_URL } from '../utils/constant';
 import { getUserIdFromAPI } from '../services/user';
 import { getProfessorIdByUserIdFromAPI } from '../services/professor';
-import { getCoursesByProfessorIdPagined } from '../services/course';
-
+import { getCoursesByProfessorIdPagined, getCoursesByStudentIdPagined } from '../services/course';
+import { getStudentIdByUserIdFromAPI } from '../services/student';
 
 class CourseContainer extends Component {
     constructor(props) {
@@ -17,6 +15,7 @@ class CourseContainer extends Component {
         this.state = {
             courses: [],
             professorId: "",
+            studentId: "",
             typeId: this.props.match.params.slug,
             currentPage: 1,
             totalCount: 0,
@@ -34,40 +33,74 @@ class CourseContainer extends Component {
     componentDidMount() {
         this.activateInfiniteScroll();
         const token = localStorage.getItem("token");
-    
         if (token) {
-            getUserIdFromAPI(token)
-                .then(userId => getProfessorIdByUserIdFromAPI(userId, token))
-                .then(professor => {
-                    if (professor) {
-                        this.setState({
-                            professorId: professor.professors_id
-                        }, () => {
-                            const { professorId, typeId, currentPage, limit } = this.state;
-    
-                            getCoursesByProfessorIdPagined(token, professorId, typeId, currentPage, limit)
-                                .then(data => {
-                                    this.setState(prevState => ({
-                                        courses: [...prevState.courses, ...data.courses],
-                                        currentPage: prevState.currentPage + 1,
-                                        totalCount: data.total,
-                                        totalPages: data.pages,
-                                        isLoading: false
-                                    }));
-                                })
-                                .catch(error => {
-                                    this.setState({ isLoading: false });
-                                    console.error("Error fetching courses:", error);
-                                });
-                        });
-                    }
-                })
-                .catch(error => {
-                    this.setState({ isLoading: false });
-                    console.error("Error fetching professor or user data:", error);
-                });
+            if (this.state.typeId == 1 || this.state.typeId == 2 || this.state.typeId == 4) {
+                getUserIdFromAPI(token)
+                    .then(userId => getStudentIdByUserIdFromAPI(userId, token))
+                    .then(student => {
+                        if (student) {
+                            this.setState({
+                                studentId: student.students_id
+                            }, () => {
+                                const { studentId, typeId, currentPage, limit } = this.state;
+                                getCoursesByStudentIdPagined(token, studentId, typeId, currentPage, limit)
+                                    .then(data => {
+                                        this.setState(prevState => ({
+                                            courses: [...prevState.courses, ...data.courses],
+                                            currentPage: prevState.currentPage + 1,
+                                            totalCount: data.total,
+                                            totalPages: data.pages,
+                                            isLoading: false
+                                        }));
+                                    })
+                                    .catch(error => {
+                                        this.setState({ isLoading: false });
+                                        console.error("Error getCoursesByStudentIdPagined courses:", error);
+                                    });
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        this.setState({ isLoading: false });
+                        console.error("Error getUserIdFromAPI courses:", error);
+                    })
+            } else if (this.state.typeId == 3 || this.state.typeId == 5 || this.state.typeId == 6) {
+                getUserIdFromAPI(token)
+                    .then(userId => getProfessorIdByUserIdFromAPI(userId, token))
+                    .then(professor => {
+                        if (professor) {
+                            this.setState({
+                                professorId: professor.professors_id
+                            }, () => {
+                                const { professorId, typeId, currentPage, limit } = this.state;
+
+                                getCoursesByProfessorIdPagined(token, professorId, typeId, currentPage, limit)
+                                    .then(data => {
+                                        this.setState(prevState => ({
+                                            courses: [...prevState.courses, ...data.courses],
+                                            currentPage: prevState.currentPage + 1,
+                                            totalCount: data.total,
+                                            totalPages: data.pages,
+                                            isLoading: false
+                                        }));
+                                    })
+                                    .catch(error => {
+                                        this.setState({ isLoading: false });
+                                        console.error("Error fetching courses:", error);
+                                    });
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        this.setState({ isLoading: false });
+                        console.error("Error fetching professor or user data:", error);
+                    });
+            }
+        } else {
+            this.props.history.push(`/`);
+            return null;
         }
-    }  
+    }
 
     componentDidUpdate(prevProps) {
         if (prevProps.loggedInStatus !== this.props.loggedInStatus && this.props.loggedInStatus === "LOGGED_IN") {
@@ -101,10 +134,7 @@ class CourseContainer extends Component {
                         this.setState({ isLoading: true });
                         getCoursesByProfessorIdPagined(token, professorId, typeId, currentPage, limit)
                             .then(data => {
-                                if (this.hasUnmounted) {
-                                    console.log("activateInfiniteScroll during courses fetch, skipping state update.");
-                                } else {
-                                    console.log("activateInfiniteScroll Courses fetched getCoursesByProfessorIdPagined:", data);
+                                if (!this.hasUnmounted) {
                                     this.setState(prevState => ({
                                         courses: [...prevState.courses, ...data.courses],
                                         currentPage: prevState.currentPage + 1,
@@ -122,7 +152,6 @@ class CourseContainer extends Component {
                             });
                     }
                 }
-
             }
         };
     }
@@ -144,24 +173,30 @@ class CourseContainer extends Component {
             this.props.history.push(`/`);
             return null;
         }
-
+    
         return (
             <div className="course-container">
-                {courses.length > 0 ? (
-                    <div>
-                        {courses.map((course) => (
-                            <div key={course.courses_id}>
-                                <CourseItem
-                                    course={course}
-                                    handleDeleteClick={this.handleDeleteClick}
-                                />
-                            </div>
-                        ))}
-                    </div>
+                {!this.state.isLoading && courses.length === 0 ? (
+                    <p>No hay cursos disponibles</p>
                 ) : (
-                    <p>Consultando datos....</p>
+                    <div>
+                        {courses.length > 0 ? (
+                            <div>
+                                {courses.map((course) => (
+                                    <div key={course.courses_id}>
+                                        <CourseItem
+                                            course={course}
+                                            handleDeleteClick={this.handleDeleteClick}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p>Consultando datos....</p>
+                        )}
+                    </div>
                 )}
-
+    
                 {this.state.isLoading && (
                     <div className='content-loader'>
                         <FontAwesomeIcon icon="spinner" spin />

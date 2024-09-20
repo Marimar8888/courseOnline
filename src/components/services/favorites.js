@@ -29,7 +29,6 @@ export const getCoursesFavoritesByUserId = (UserId, token) => {
     })
     .then(response => {
         if(response.status === 200){
-            console.log("getCoursesFavoritesByUserId:", response.data);
             return response.data;
         }
     })

@@ -85,7 +85,7 @@ class StudentEditContainer extends Component {
     setStateAndRedirect(type, filteredCourses) {
         this.setState({ courses: filteredCourses }, () => {
             this.props.history.push({
-                pathname: `/courses/${type}`,
+                pathname: `/courses/s/${type}`,
                 state: { courses: this.state.courses }
             });
         });
@@ -112,7 +112,6 @@ class StudentEditContainer extends Component {
             case 4:
                 getCoursesFavoritesByUserId(userId, token)
                     .then(favoriteCourses => {
-                        console.log("Cursos favoritos obtenidos:", favoriteCourses);
                         this.setStateAndRedirect(type, favoriteCourses);
                     })
                     .catch(error => {

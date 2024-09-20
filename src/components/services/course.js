@@ -21,6 +21,8 @@ export const getCoursesByStudentId = (StudentId, token) => {
     
     });
 };
+
+/* -----------DASHBOARD courses-container.js -----------*/
 export const getCoursesByProfessorIdPagined = (token, professorId, typeId, currentPage, limit) => {
     const url = `${API_URL}/courses/professor/${professorId}/type/${typeId}?page=${currentPage}&limit=${limit}`;
 
@@ -34,7 +36,25 @@ export const getCoursesByProfessorIdPagined = (token, professorId, typeId, curre
             return response.data; 
         })
         .catch(error => {
-            console.log("Error fetching courses", error);
+            console.log("Error getCoursesByStudentIdPagined courses", error);
+            throw error; 
+        });
+};
+
+export const getCoursesByStudentIdPagined = (token, studentId, typeId, currentPage, limit) => {
+    const url = `${API_URL}/courses/student/${studentId}/type/${typeId}?page=${currentPage}&limit=${limit}`;
+
+    return axios
+        .get(`${url}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            return response.data; 
+        })
+        .catch(error => {
+            console.log("Error getCoursesByStudentIdPagined courses", error);
             throw error; 
         });
 };

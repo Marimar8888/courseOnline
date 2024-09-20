@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { API_URL } from '../utils/constant'; 
 
+/* -----------DASHBOARD courses-container.js -----------*/
 export const getProfessorByIdFromAPI = (userId, token) => {
     return axios.get(`${API_URL}/professor/userId/${userId}`, {
         headers: {
@@ -42,3 +43,5 @@ export const getProfessorIdByUserIdFromAPI = (userId, token) => {
         return null;
     });
 };
+
+/* */

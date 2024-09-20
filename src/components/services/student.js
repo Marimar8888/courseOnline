@@ -24,7 +24,7 @@ const fechStudentData = (studentId) => {
       })
   };
 
-  export const getStudentId =(userId)=> {
+ /*  export const getStudentId =(userId)=> {
     const token = localStorage.getItem("token");
     return axios
       .get(
@@ -42,7 +42,59 @@ const fechStudentData = (studentId) => {
       .catch(error => {
         console.log("error getStudentId", error)
       })
-  };
+  }; */
+
+  
+/* ------------ DASHBOARD professor-edit-container.js------------------------------*/
+
+export const ActiveStudents =(enrollments) => {
+  const activeStudents = [];
+
+  enrollments.forEach(enrollment => {
+      if (!enrollment.enrollments_finalized) {
+          if (!activeStudents.includes(enrollment.enrollments_student_id)) {
+              activeStudents.push(enrollment.enrollments_student_id);
+          }
+      }
+  });
+  return activeStudents;
+};
+
+export const InactiveStudents =(enrollments) => {
+  const InactiveStudents = [];
+
+  enrollments.forEach(enrollment => {
+      if (enrollment.enrollments_finalized) {
+          if (!InactiveStudents.includes(enrollment.enrollments_student_id)) {
+              InactiveStudents.push(enrollment.enrollments_student_id);
+          }
+      }
+  });
+  return InactiveStudents;
+};
+
+
+/* -----------DASHBOARD courses-container.js -----------*/
+export const getStudentIdByUserIdFromAPI = (userId, token) => {
+return axios.get(`${API_URL}/student/user_id/${userId}`, {
+    headers: {
+        Authorization: `Bearer ${token}`
+    }
+})
+.then(response => {
+    if (response.status === 200) {
+        return response.data;
+    } else {
+        console.log("Professor not found");
+        return null;
+    }
+})
+.catch(error => {
+    console.log("Error getProfessorById:", error);
+    return null;
+});
+};
+
 
 /*------------------cart-paying.js------------------------*/
 
@@ -106,33 +158,3 @@ export const buildFormStudent = (userId, studentData) => {
     return studentFormData;
 
 }
-
-/* ------------ professor-edit-container.js------------------------------*/
-
-export const ActiveStudents =(enrollments) => {
-    const activeStudents = [];
-
-    enrollments.forEach(enrollment => {
-        if (!enrollment.enrollments_finalized) {
-            if (!activeStudents.includes(enrollment.enrollments_student_id)) {
-                activeStudents.push(enrollment.enrollments_student_id);
-            }
-        }
-    });
-    return activeStudents;
-};
-
-export const InactiveStudents =(enrollments) => {
-    const InactiveStudents = [];
-
-    enrollments.forEach(enrollment => {
-        if (enrollment.enrollments_finalized) {
-            if (!InactiveStudents.includes(enrollment.enrollments_student_id)) {
-                InactiveStudents.push(enrollment.enrollments_student_id);
-            }
-        }
-    });
-    return InactiveStudents;
-};
-
-

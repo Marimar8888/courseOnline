@@ -256,6 +256,22 @@ class App extends Component {
               <Route path="/contact" component={Contact} />
               <Route path="/dashboard" component={Dashboard} />
               <Route
+                path="/courses/p/:slug"
+                render={props => (
+                  <Courses
+                    {...props}
+                    loggedInStatus={this.state.loggedInStatus} />
+                )}
+              />
+              <Route
+                path="/courses/s/:slug"
+                render={props => (
+                  <Courses
+                    {...props}
+                    loggedInStatus={this.state.loggedInStatus} />
+                )}
+              />
+              <Route
                 path="/courses/:slug"
                 render={props => (
                   <Courses
