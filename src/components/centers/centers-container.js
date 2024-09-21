@@ -32,7 +32,6 @@ class CentersContainer extends Component {
   componentDidMount(){
     const {centersData} = this.props;
     if (centersData) {
-      console.log(centersData);
        this.setState({
          ...centersData
        });

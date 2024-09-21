@@ -27,11 +27,11 @@ class CourseContainer extends Component {
         this.hasUnmounted = false;
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleNewCourseClick = this.handleNewCourseClick.bind(this);
-        this.activateInfiniteScroll();
+        this.onScroll = this.onScroll.bind(this);
+        window.addEventListener("scroll", this.onScroll, false);
     }
 
     componentDidMount() {
-        this.activateInfiniteScroll();
         const token = localStorage.getItem("token");
         if (token) {
             if (this.state.typeId == 1 || this.state.typeId == 2 || this.state.typeId == 4) {
@@ -122,38 +122,38 @@ class CourseContainer extends Component {
         window.onscroll = null;
     }
 
-    activateInfiniteScroll() {
-        window.onscroll = () => {
-            if (
-                window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
-            ) {
-                if (this.state.typeId) {
-                    if (this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
-                        const token = localStorage.getItem("token");
-                        const { professorId, typeId, currentPage, limit } = this.state;
-                        this.setState({ isLoading: true });
-                        getCoursesByProfessorIdPagined(token, professorId, typeId, currentPage, limit)
-                            .then(data => {
-                                if (!this.hasUnmounted) {
-                                    this.setState(prevState => ({
-                                        courses: [...prevState.courses, ...data.courses],
-                                        currentPage: prevState.currentPage + 1,
-                                        totalCount: data.total,
-                                        totalPages: data.pages,
-                                        isLoading: false
-                                    }));
-                                }
-                            })
-                            .catch(error => {
-                                console.error("Error fetching courses:", error);
-                                if (!this.hasUnmounted) {
-                                    this.setState({ isLoading: false });
-                                }
-                            });
-                    }
+
+    onScroll() {
+        if (
+            window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
+        ) {
+            if (this.state.typeId) {
+                if (this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
+                    const token = localStorage.getItem("token");
+                    const { professorId, typeId, currentPage, limit } = this.state;
+                    this.setState({ isLoading: true });
+                    getCoursesByProfessorIdPagined(token, professorId, typeId, currentPage, limit)
+                        .then(data => {
+                            if (!this.hasUnmounted) {
+                                this.setState(prevState => ({
+                                    courses: [...prevState.courses, ...data.courses],
+                                    currentPage: prevState.currentPage + 1,
+                                    totalCount: data.total,
+                                    totalPages: data.pages,
+                                    isLoading: false
+                                }));
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error fetching courses:", error);
+                            if (!this.hasUnmounted) {
+                                this.setState({ isLoading: false });
+                            }
+                        });
                 }
             }
-        };
+        }
+
     }
 
     handleNewCourseClick() {
@@ -173,30 +173,25 @@ class CourseContainer extends Component {
             this.props.history.push(`/`);
             return null;
         }
-    
         return (
-            <div className="course-container">
+            <div className="course-content-page-wrapper">
+
                 {!this.state.isLoading && courses.length === 0 ? (
                     <p>No hay cursos disponibles</p>
                 ) : (
-                    <div>
-                        {courses.length > 0 ? (
-                            <div>
-                                {courses.map((course) => (
-                                    <div key={course.courses_id}>
-                                        <CourseItem
-                                            course={course}
-                                            handleDeleteClick={this.handleDeleteClick}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p>Consultando datos....</p>
-                        )}
-                    </div>
+                    courses.length > 0 && (
+                        <div>
+                            {courses.map((course) => (
+                                <div key={course.courses_id}>
+                                    <CourseItem
+                                        course={course}
+                                        handleDeleteClick={this.handleDeleteClick}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )
                 )}
-    
                 {this.state.isLoading && (
                     <div className='content-loader'>
                         <FontAwesomeIcon icon="spinner" spin />

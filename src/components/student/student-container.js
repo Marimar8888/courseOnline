@@ -10,7 +10,9 @@ class StudentContainer extends Component {
 
     render() {
         return (
-            <div>Student Container</div>
+            <div className='student-container'>
+                Student Container
+            </div>
         )
     }
 }

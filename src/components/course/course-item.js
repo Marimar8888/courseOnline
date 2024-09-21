@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CourseItem = ({ course, handleDeleteClick, handleNewCourseClick }) => {
     return (
-        <div className="course-content-page-wrapper">
+        <div>
             <div className="course-content-item" key={course.courses_id}>
                 <div className="course-content-image" key={course.courses_id}>
                     <img
@@ -30,7 +30,7 @@ const CourseItem = ({ course, handleDeleteClick, handleNewCourseClick }) => {
                     <FontAwesomeIcon icon="plus-circle" />
                 </a>
             </div>
-        </div >
+        </div>
     );
 };
 

@@ -1,14 +1,14 @@
-.collection-page-wrapper {
+.student-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
     min-height: 73vh;
-    .course-container {
-        
-        .content-loader {
+      
+    .content-loader {
             @include content-loader();
             margin: 0 auto;
-        }
     }
+    
 }
+
