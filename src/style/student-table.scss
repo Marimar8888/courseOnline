@@ -1,0 +1,22 @@
+.student-active-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    min-height: 73vh;
+
+    .student-active-header {}
+
+    @include table-container();
+
+}
+
+.student-inactive-container{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    min-height: 73vh;
+    @include table-container();
+}

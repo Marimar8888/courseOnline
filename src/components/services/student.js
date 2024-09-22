@@ -73,6 +73,24 @@ export const InactiveStudents =(enrollments) => {
   return InactiveStudents;
 };
 
+/*---------- student-container.js ---------------------*/
+
+export const getStudentsByStatusAndByProfessorId = (professorId, token, typeId, currentPage, limit) => {
+  const url = `${API_URL}//students/status/professor/${professorId}/type/${typeId}?page=${currentPage}&limit=${limit}`;
+  return axios
+      .get(`${url}`, {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }
+      })
+      .then(response => {
+          return response.data; 
+      })
+      .catch(error => {
+          console.log("Error getStudentsByStatusAndByProfessorId students", error);
+          throw error; 
+      });
+};
 
 /* -----------DASHBOARD courses-container.js -----------*/
 export const getStudentIdByUserIdFromAPI = (userId, token) => {

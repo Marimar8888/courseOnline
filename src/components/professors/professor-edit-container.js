@@ -13,6 +13,7 @@ class ProfessorEditContainer extends Component {
     super(props);
     this.state = {
       professors_id: "",
+      professors_user_id: "",
       professors_first_name: "",
       professors_last_name: "",
       professors_email: "",
@@ -44,7 +45,6 @@ class ProfessorEditContainer extends Component {
   componentDidMount() {
     const { professorData } = this.props;
     const token = localStorage.getItem("token");
-
     if (professorData) {
       this.setState({
         ...professorData.professor,
@@ -125,7 +125,13 @@ class ProfessorEditContainer extends Component {
   }
 
   handleStudentsClick = (type) => {
-    this.props.history.push(`/students/${type}`);
+    this.setState({ type }, () => {
+      this.props.history.push({
+        pathname: `/students/${type}`,
+        professors_id: this.state.professors_user_id,
+        professors_user_id: this.state.professors_user_id
+      });
+    });
   }
 
   handleCentersClick = (type) => {
@@ -204,6 +210,7 @@ class ProfessorEditContainer extends Component {
 
   render() {
     const { professorData } = this.props;
+    
     if (!professorData) {
       return <p>Cargando datos del profesor...</p>
     }

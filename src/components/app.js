@@ -21,6 +21,7 @@ import Professors from './dashboard/pages/professors';
 import Store from './pages/store';
 import CartDetails from './cart-shopping/cart-details';
 import CartPaying from './cart-shopping/cart-paying';
+import StudentContainer from './student/student-container';
 
 
 class App extends Component {
@@ -279,7 +280,14 @@ class App extends Component {
                     loggedInStatus={this.state.loggedInStatus} />
                 )}
               />
-              <Route path="/students/:slug" component={Students} />
+              <Route 
+                path="/students/:slug" 
+                render={props => (
+                  <StudentContainer 
+                    {...props}
+                    loggedInStatus={this.state.loggedInStatus} />
+                )}
+              />
               <Route path="/centers/:slug" component={Centers} />
               <Route path="/professors/:slug" component={Professors} />
               <Route path="/cart" render={() => (
