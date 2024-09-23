@@ -59,7 +59,7 @@ class StudentContainer extends Component {
         console.log("studentsData render:", studentsData);
         console.log("typeId render:", typeId);
         if (studentsData.length === 0) {
-            return <div>No hay datos para mostrar.</div>;
+            return <div className='student-nobody-container'>No hay datos para mostrar.</div>;
         }
         return (
             <div className='student-container'>

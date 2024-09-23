@@ -1,3 +1,12 @@
+.student-nobody-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    min-height: 73vh;
+    @include table-container();
+}
+
 .student-active-container {
     display: flex;
     flex-direction: column;

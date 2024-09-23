@@ -3,10 +3,12 @@ import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import CourseItem from './course-item';
+import CourseModal from '../modals/course-modal';
 import { getUserIdFromAPI } from '../services/user';
 import { getProfessorIdByUserIdFromAPI } from '../services/professor';
 import { getCoursesByProfessorIdPagined, getCoursesByStudentIdPagined } from '../services/course';
 import { getStudentIdByUserIdFromAPI } from '../services/student';
+
 
 class CourseContainer extends Component {
     constructor(props) {
@@ -27,6 +29,7 @@ class CourseContainer extends Component {
         this.hasUnmounted = false;
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleNewCourseClick = this.handleNewCourseClick.bind(this);
+        this.handleModalClose = this.handleModalClose.bind(this);
         this.onScroll = this.onScroll.bind(this);
         window.addEventListener("scroll", this.onScroll, false);
     }
@@ -153,7 +156,12 @@ class CourseContainer extends Component {
                 }
             }
         }
+    }
 
+    handleModalClose() {
+        this.setState({
+            courseModalIsOpen: false
+        })
     }
 
     handleNewCourseClick() {
@@ -175,7 +183,10 @@ class CourseContainer extends Component {
         }
         return (
             <div className="course-content-page-wrapper">
-
+                <CourseModal
+                    modalIsOpen={this.state.courseModalIsOpen}
+                    handleModalClose={this.handleModalClose}
+                />
                 {!this.state.isLoading && courses.length === 0 ? (
                     <p>No hay cursos disponibles</p>
                 ) : (
@@ -185,6 +196,7 @@ class CourseContainer extends Component {
                                 <div key={course.courses_id}>
                                     <CourseItem
                                         course={course}
+                                        handleNewCourseClick={this.handleNewCourseClick}
                                         handleDeleteClick={this.handleDeleteClick}
                                     />
                                 </div>
