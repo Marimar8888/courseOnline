@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { addCourse } from "../services/course";
+
 export default class CourseForm extends Component {
     constructor(props) {
         super(props);
@@ -20,8 +22,35 @@ export default class CourseForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    buildForm() {
+        let formData = new FormData();
+
+        formData.append("courses_title", this.state.courses_title);
+        formData.append("courses_active", this.state.courses_active === true ? 'true' : 'false');
+        //formData.append("courses_content", this.state.courses_content);
+        //formData.append("courses_image", this.state.courses_image);
+        formData.append("courses_price", this.state.courses_price);
+        formData.append("courses_discounted_price", this.state.courses_discounted_price);
+        formData.append("courses_professor_id", this.state.courses_professor_id);
+        formData.append("courses_studycenter_id", this.state.courses_studycenter_id);
+        formData.append("courses_category_id", this.state.courses_category_id);
+
+        return formData;
+    }
+
     handleSubmit(event) {
-        this.props.handleSuccessfullFormSubmission(this.state);
+        const token = localStorage.getItem("token");
+        if(token){
+            addCourse(this.buildForm(), token)
+            .then(data => {
+                this.setState({ ...data });  
+                this.props.handleSuccessfullFormSubmission(this.state);
+            })
+            .catch(error => {
+                console.log("Error al agregar el curso:", error);
+            });
+        }
+      
         event.preventDefault();
     }
 
@@ -44,11 +73,10 @@ export default class CourseForm extends Component {
                     />
 
                     <input
-                        type="text"
-                        onChange={this.handleChange}
+                        type="checkbox"
+                        onChange={(e) => this.setState({ courses_active: e.target.checked })}
                         name="courses_active"
-                        placeholder="Course status"
-                        value={this.state.courses_active}
+                        checked={this.state.courses_active}
                     />
                 </div>
                 <div className="three-column">
