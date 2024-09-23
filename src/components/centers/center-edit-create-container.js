@@ -30,12 +30,10 @@ class CenterEditCreateContainer extends Component {
 
   componentDidMount() {
     if (this.props.centerToEdit) {
-      console.log("componentDidMount center edit:", this.props.centerToEdit);
       this.setState({
         ...this.props.centerToEdit,
         editMod: true
       })
-      console.log("componentDidMount center edit:", this.props.centerToEdit);
     }
   }
 
@@ -56,14 +54,11 @@ class CenterEditCreateContainer extends Component {
     const token = localStorage.getItem("token");
     const formData = this.buildForm();
     const studyCenterId = this.state.stydyCenters_id
-    console.log("handleSubmit editMod:", this.state.editMod);
 
     if (this.state.editMod) {
       this.setState({
         urlAPI: this.state.urlAPI,
         methodAPI: this.state.methodAPI
-      }, () => {
-        console.log("handleSubmit center url:", this.state.urlAPI);
       });
     }
     axios
@@ -109,7 +104,6 @@ class CenterEditCreateContainer extends Component {
       .catch(error => {
         console.log("error handleSubmit", error);
       })
-
   }
 
   buildForm() {
@@ -126,13 +120,11 @@ class CenterEditCreateContainer extends Component {
       "studyCenters_exp_date",
       "studyCenters_cvc"
     ];
-
     centerFormData.append("studyCenters_user_id", this.state.studyCenters_user_id);
 
     fields.forEach(field => {
       centerFormData.append(field, this.state[field]);
     });
-
     return centerFormData
   }
 
