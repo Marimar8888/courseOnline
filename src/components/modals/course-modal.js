@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import ReactModal from "react-modal";
 
+import CourseForm from "../course/course-form";
+
+ReactModal.setAppElement(".app-wrapper");
+
 export default class CourseModal extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +31,7 @@ export default class CourseModal extends Component {
                 onRequestClose={() => {
                     this.props.handleModalClose();
                 }}>
-                <h1>I'm a Modall!!</h1>
+                <CourseForm />
             </ReactModal>
         );
     }

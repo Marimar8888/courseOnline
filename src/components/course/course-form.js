@@ -1,147 +1,23 @@
 import React, { Component } from "react";
-//import axios from "axios";
-//import DropzoneComponent from "react-dropzone-component";
-
-//import RichTextEditor from "../form/rich-text-editor";
 
 export default class CourseForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            // id: "",
-            // title: "",
-            // course_status: "",
-            // content: "",
-            // featured_image: "",
-            // apiUrl: "",
-            // apiAction: "post"
-        };
-
-        // this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
-        // this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
-        // this.componentConfig = this.componentConfig.bind(this);
-        // this.djsConfig = this.djsConfig.bind(this);
-        // this.handleFeaturedImageDrop = this.handleFeaturedImageDrop.bind(this);
-        // this.deleteImage = this.deleteImage.bind(this);
-        // this.featuredImageRef = React.createRef();
+            courses_id: "",
+            courses_title: "",
+            courses_active: "",
+            courses_content: "",
+            courses_image: "",
+            courses_price: "",
+            courses_discounted_price: "",
+            courses_professor_id: "",
+            courses_studycenter_id: "",
+            courses_category_id: ""
+        };       
     }
-    // deleteImage(imageType) {
-    //     axios
-    //         .delete(
-    //             `https://alonsomarimar.devcamp.space/portfolio/delete-portfolio-blog-image/${this.props.blog.id
-    //             }?image_type=${imageType}`,
-    //             { withCredentials: true }
-    //         )
-    //         .then(response => {
-    //             this.props.handleFeaturedImageDelete();
-    //         })
-    //         .catch(error => {
-    //             console.log("deleteImage error", error);
-    //         });
-    // }
-
-    // componentWillMount() {
-    //     if (this.props.editMode) {
-    //         this.setState({
-    //             id: this.props.blog.id,
-    //             title: this.props.blog.title,
-    //             blog_status: this.props.blog.blog_status,
-    //             content: this.props.blog.content,
-    //             apiUrl: `https://alonsomarimar.devcamp.space/portfolio/portfolio_blogs/${this.props.blog.id}`,
-    //             apiAction: "patch"
-    //         });
-    //     }
-    // }
-    // componentConfig() {
-    //     return {
-    //         iconFiletypes: [".jpg", ".png"],
-    //         showFiletypeIcon: true,
-    //         postUrl: "https://httpbin.org/post"
-    //     };
-    // }
-
-    // djsConfig() {
-    //     return {
-    //         addRemoveLinks: true,
-    //         maxFiles: 1
-    //     };
-    // }
-
-    // handleFeaturedImageDrop() {
-    //     return {
-    //         addedfile: file => this.setState({ featured_image: file })
-    //     };
-    // }
-
-    // handleRichTextEditorChange(content) {
-    //     this.setState({ content });
-    // }
-
-    // buildForm() {
-    //     let studentFormData = new FormData();
     
-    //     studentFormData.append("students_first_name", this.state.students_first_name);
-    //     studentFormData.append("students_last_name", this.state.students_last_name);
-    //     studentFormData.append("students_email", this.state.students_email);
-    //     studentFormData.append("students_dni", this.state.students_dni);
-    //     studentFormData.append("students_address", this.state.students_address);
-    //     studentFormData.append("students_city", this.state.students_city);
-    //     studentFormData.append("students_postal", this.state.students_postal);
-    //     studentFormData.append("students_number_card", this.state.students_number_card);
-    //     studentFormData.append("students_exp_date", this.state.students_exp_date);
-    //     studentFormData.append("students_cvc", this.state.students_cvc);
-    
-    //     // Si hay un campo opcional o condicional
-    //     if (this.state.students_user_id) {
-    //       studentFormData.append("students_user_id", this.state.students_user_id);
-    //     }
-    
-    //     return studentFormData;
-    // }
-
-    handleSubmit() {
-        // axios({
-        //     method: this.state.apiAction,
-        //     url: this.state.apiUrl,
-        //     data: this.buildForm(),
-        //     withCredentials: true
-        // })
-        //     .then(response => {
-        //         if (this.state.featured_image) {
-        //             this.featuredImageRef.current.dropzone.removeAllFiles();
-        //         }
-
-        //         this.setState({
-        //             title: "",
-        //             blog_status: "",
-        //             content: "",
-        //             featured_image: ""
-        //         });
-
-        //         if (this.props.editMode) {
-        //             this.props.handleUpdateFormSubmission(
-        //                 response.data.portfolio_blog);
-        //         } else {
-        //             this.props.handleSuccessfullFormSubmission(
-        //                 response.data.portfolio_blog
-        //             );
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.log("handleSubmit for blog error", error);
-        //     });
-
-        // event.preventDefault();
-    }
-
-    // handleChange(event) {
-    //     this.setState({
-    //         [event.target.name]: event.target.value
-    //     });
-    // }
-
     render() {
         return (
             <form onSubmit={this.handleSubmit} className="course-form-wrapper">
@@ -149,53 +25,68 @@ export default class CourseForm extends Component {
                     <input
                         type="text"
                         //onChange={this.handleChange}
-                        name="title"
+                        name="courses_title"
                         placeholder="Course Title"
-                        //value={this.state.title}
+                        //value={this.state.courses_title}
+                    />
+
+                    <input
+                        type="text"
+                        //onChange={this.handleChange}
+                        name="courses_active"
+                        placeholder="Course status"
+                        //value={this.state.courses_active}
+                    />
+                </div>
+                <div className="three-column">
+                    <input
+                        type="text"
+                        //onChange={this.handleChange}
+                        name="courses_price"
+                        placeholder="Course price"
+                        //value={this.state.courses_price}
                     />
 
                     <input
                         type="text"
                         //onChange={this.handleChange}
                         //name="blog_status"
-                        placeholder="Course status"
-                        //value={this.state.blog_status}
+                        placeholder="Course price discounted"
+                        //value={this.state.courses_discounted_price}
+                    />
+                    <input
+                        type="text"
+                        //onChange={this.handleChange}
+                        name="courses_category_id"
+                        placeholder="Course category"
+                        //value={this.state.courses_category_id}
+                    />
+                </div>
+                <div className="two-column">
+                    <input
+                        type="text"
+                        //onChange={this.handleChange}
+                        name="courses_professor_id"
+                        placeholder="Course professor"
+                        //value={this.state.courses_professor_id}
+                    />
+
+                    <input
+                        type="text"
+                        //onChange={this.handleChange}
+                        //name="courses_studycenter_id"
+                        placeholder="Course study center"
+                        //value={this.state.courses_studycenter_id}
                     />
                 </div>
 
+
                 <div className="one-column">
-                    {/* <RichTextEditor
-                        handleRichTextEditorChange={this.handleRichTextEditorChange}
-                        editMode={this.props.editMode}
-                        contentToEdit={
-                            this.props.editMode && this.props.blog.content
-                                ? this.props.blog.content
-                                : null
-                        }
-                    /> */}
+              
                 </div>
 
                 <div className="image-uploaders">
-                    {/* {this.props.editMode && this.props.blog.featured_image_url ? (
-                        <div className="blog-manager-image-wrapper">
-                            <img src={this.props.blog.featured_image_url} />
-
-                            <div className="image-removal-link">
-                                <a onClick={() => this.deleteImage("featured_image")}> */}
-                                    Remove file
-                                {/* </a>
-                            </div>
-                        </div>
-                    ) : ( */}
-                        {/* <DropzoneComponent
-                            ref={this.featuredImageRef}
-                            config={this.componentConfig()}
-                            djsConfig={this.djsConfig()}
-                            eventHandlers={this.handleFeaturedImageDrop()}
-                        >
-                            <div className="dz-message">Featured Image</div>
-                        </DropzoneComponent>
-                    )} */}
+                 
                 </div>
 
                 <button className="btn">Save</button>
