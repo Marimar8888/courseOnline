@@ -21,6 +21,11 @@ export default class CourseModal extends Component {
                 backgroundColor: "rgba(1,1,1,0.75)"
             }
         }
+        this.handleSuccessfullFormSubmission = this.handleSuccessfullFormSubmission.bind(this);
+    }
+
+    handleSuccessfullFormSubmission(course){
+        console.log("handleSuccessfullFormSubmission course form", course);
     }
 
     render() {
@@ -31,7 +36,9 @@ export default class CourseModal extends Component {
                 onRequestClose={() => {
                     this.props.handleModalClose();
                 }}>
-                <CourseForm />
+                <CourseForm 
+                    handleSuccessfullFormSubmission={this.handleSuccessfullFormSubmission}
+                />
             </ReactModal>
         );
     }

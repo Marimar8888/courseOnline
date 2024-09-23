@@ -7,7 +7,7 @@ export default class CourseForm extends Component {
         this.state = {
             courses_id: "",
             courses_title: "",
-            courses_active: "",
+            courses_active: true,
             courses_content: "",
             courses_image: "",
             courses_price: "",
@@ -16,6 +16,19 @@ export default class CourseForm extends Component {
             courses_studycenter_id: "",
             courses_category_id: ""
         };       
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(event) {
+        this.props.handleSuccessfullFormSubmission(this.state);
+        event.preventDefault();
+    }
+
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
     }
     
     render() {
@@ -24,59 +37,59 @@ export default class CourseForm extends Component {
                 <div className="two-column">
                     <input
                         type="text"
-                        //onChange={this.handleChange}
+                        onChange={this.handleChange}
                         name="courses_title"
                         placeholder="Course Title"
-                        //value={this.state.courses_title}
+                        value={this.state.courses_title}
                     />
 
                     <input
                         type="text"
-                        //onChange={this.handleChange}
+                        onChange={this.handleChange}
                         name="courses_active"
                         placeholder="Course status"
-                        //value={this.state.courses_active}
+                        value={this.state.courses_active}
                     />
                 </div>
                 <div className="three-column">
                     <input
                         type="text"
-                        //onChange={this.handleChange}
+                        onChange={this.handleChange}
                         name="courses_price"
                         placeholder="Course price"
-                        //value={this.state.courses_price}
+                        value={this.state.courses_price}
                     />
 
                     <input
                         type="text"
-                        //onChange={this.handleChange}
-                        //name="blog_status"
+                        onChange={this.handleChange}
+                        name="courses_discounted_price"
                         placeholder="Course price discounted"
-                        //value={this.state.courses_discounted_price}
+                        value={this.state.courses_discounted_price}
                     />
                     <input
                         type="text"
-                        //onChange={this.handleChange}
+                        onChange={this.handleChange}
                         name="courses_category_id"
                         placeholder="Course category"
-                        //value={this.state.courses_category_id}
+                        value={this.state.courses_category_id}
                     />
                 </div>
                 <div className="two-column">
                     <input
                         type="text"
-                        //onChange={this.handleChange}
+                        onChange={this.handleChange}
                         name="courses_professor_id"
                         placeholder="Course professor"
-                        //value={this.state.courses_professor_id}
+                        value={this.state.courses_professor_id}
                     />
 
                     <input
                         type="text"
-                        //onChange={this.handleChange}
-                        //name="courses_studycenter_id"
+                        onChange={this.handleChange}
+                        name="courses_studycenter_id"
                         placeholder="Course study center"
-                        //value={this.state.courses_studycenter_id}
+                        value={this.state.courses_studycenter_id}
                     />
                 </div>
 
