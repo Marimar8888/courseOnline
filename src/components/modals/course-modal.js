@@ -25,7 +25,7 @@ export default class CourseModal extends Component {
     }
 
     handleSuccessfullFormSubmission(course){
-        console.log("handleSuccessfullFormSubmission course form", course);
+        this.props.handleSuccessNewCourseSubmission(course);
     }
 
     render() {

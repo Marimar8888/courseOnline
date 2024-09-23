@@ -16,11 +16,14 @@ export default class CourseForm extends Component {
             courses_discounted_price: "",
             courses_professor_id: "",
             courses_studycenter_id: "",
-            courses_category_id: ""
-        };       
+            courses_category_id: "",
+            isSubmitting: false
+        };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+       
     }
+
 
     buildForm() {
         let formData = new FormData();
@@ -39,19 +42,34 @@ export default class CourseForm extends Component {
     }
 
     handleSubmit(event) {
-        const token = localStorage.getItem("token");
-        if(token){
-            addCourse(this.buildForm(), token)
-            .then(data => {
-                this.setState({ ...data });  
-                this.props.handleSuccessfullFormSubmission(this.state);
-            })
-            .catch(error => {
-                console.log("Error al agregar el curso:", error);
-            });
-        }
-      
         event.preventDefault();
+    
+        const token = localStorage.getItem("token");
+        if (token) {
+            this.setState({ isSubmitting: true });
+            addCourse(this.buildForm(), token)
+                .then(data => {
+                    if (this.props.handleSuccessfullFormSubmission) {
+                        this.setState({
+                            courses_title: "",
+                            courses_active: true,
+                            //courses_content: "",
+                            // courses_image: "",
+                            courses_price: "",
+                            courses_discounted_price: "",
+                            courses_professor_id: "",
+                            courses_studycenter_id: "",
+                            courses_category_id: "",
+                            isSubmitting: false
+                        });
+                        this.props.handleSuccessfullFormSubmission(data);
+                    }
+                })
+                .catch(error => {
+                    console.log("Error al agregar el curso:", error);
+                    this.setState({ isSubmitting: false }); 
+                });
+        }
     }
 
     handleChange(event) {
@@ -59,7 +77,7 @@ export default class CourseForm extends Component {
             [event.target.name]: event.target.value
         })
     }
-    
+
     render() {
         return (
             <form onSubmit={this.handleSubmit} className="course-form-wrapper">
@@ -123,11 +141,11 @@ export default class CourseForm extends Component {
 
 
                 <div className="one-column">
-              
+
                 </div>
 
                 <div className="image-uploaders">
-                 
+
                 </div>
 
                 <button className="btn">Save</button>

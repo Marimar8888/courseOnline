@@ -30,6 +30,7 @@ class CourseContainer extends Component {
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleNewCourseClick = this.handleNewCourseClick.bind(this);
         this.handleModalClose = this.handleModalClose.bind(this);
+        this.handleSuccessNewCourseSubmission = this.handleSuccessNewCourseSubmission.bind(this);
         this.onScroll = this.onScroll.bind(this);
         window.addEventListener("scroll", this.onScroll, false);
     }
@@ -158,6 +159,15 @@ class CourseContainer extends Component {
         }
     }
 
+    handleSuccessNewCourseSubmission(course) {
+        console.log("handleSuccessNewCourseSubmission", course);
+        this.setState({
+            courses: [course].concat(this.state.courses),
+            courseModalIsOpen: false
+        })
+       
+    }
+
     handleModalClose() {
         this.setState({
             courseModalIsOpen: false
@@ -186,6 +196,7 @@ class CourseContainer extends Component {
                 <CourseModal
                     modalIsOpen={this.state.courseModalIsOpen}
                     handleModalClose={this.handleModalClose}
+                    handleSuccessNewCourseSubmission={this.handleSuccessNewCourseSubmission}
                 />
                 {!this.state.isLoading && courses.length === 0 ? (
                     <p>No hay cursos disponibles</p>
