@@ -29,7 +29,6 @@
   align-items: center;
   justify-content: center;
   position: fixed;
-  /* Asegúrate de que el overlay cubra toda la pantalla */
   top: 0;
   left: 0;
   width: 100%;
@@ -57,3 +56,31 @@
 
   }
 }
+
+/*---------------- Modal create-edit course (course-form.js--------------------------*/
+
+.course-form-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .two-column {
+    @include base-grid;
+    @include input-element;
+    grid-template-columns: 2fr 2fr;
+  }
+  .three-column {
+    @include input-element;
+    @include base-grid;
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+
+  .one-column {
+
+  }
+
+  .image-uploaders {
+
+  }
+
+}
+

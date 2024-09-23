@@ -185,7 +185,7 @@ class CourseContainer extends Component {
     }
 
     render() {
-        const { courses = [] } = this.state;
+        const { courses = [], typeId } = this.state;
         const { loggedInStatus } = this.props;
         if (loggedInStatus !== "LOGGED_IN") {
             this.props.history.push(`/`);
@@ -207,6 +207,7 @@ class CourseContainer extends Component {
                                 <div key={course.courses_id}>
                                     <CourseItem
                                         course={course}
+                                        typeId={typeId}
                                         handleNewCourseClick={this.handleNewCourseClick}
                                         handleDeleteClick={this.handleDeleteClick}
                                     />

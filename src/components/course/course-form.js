@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { addCourse } from "../services/course";
 
 export default class CourseForm extends Component {
@@ -86,7 +85,7 @@ export default class CourseForm extends Component {
                         type="text"
                         onChange={this.handleChange}
                         name="courses_title"
-                        placeholder="Course Title"
+                        placeholder="Titulo del Curso"
                         value={this.state.courses_title}
                     />
 
@@ -102,7 +101,7 @@ export default class CourseForm extends Component {
                         type="text"
                         onChange={this.handleChange}
                         name="courses_price"
-                        placeholder="Course price"
+                        placeholder="Precio"
                         value={this.state.courses_price}
                     />
 
@@ -110,14 +109,14 @@ export default class CourseForm extends Component {
                         type="text"
                         onChange={this.handleChange}
                         name="courses_discounted_price"
-                        placeholder="Course price discounted"
+                        placeholder="Precio con descuento"
                         value={this.state.courses_discounted_price}
                     />
                     <input
                         type="text"
                         onChange={this.handleChange}
                         name="courses_category_id"
-                        placeholder="Course category"
+                        placeholder="Categoria"
                         value={this.state.courses_category_id}
                     />
                 </div>
@@ -126,7 +125,7 @@ export default class CourseForm extends Component {
                         type="text"
                         onChange={this.handleChange}
                         name="courses_professor_id"
-                        placeholder="Course professor"
+                        placeholder="Nombre professor"
                         value={this.state.courses_professor_id}
                     />
 
@@ -134,7 +133,7 @@ export default class CourseForm extends Component {
                         type="text"
                         onChange={this.handleChange}
                         name="courses_studycenter_id"
-                        placeholder="Course study center"
+                        placeholder="Nombre Centro estudios"
                         value={this.state.courses_studycenter_id}
                     />
                 </div>
@@ -148,7 +147,7 @@ export default class CourseForm extends Component {
 
                 </div>
 
-                <button className="btn">Save</button>
+                <button className="btn-save">Save</button>
             </form>
         );
     }

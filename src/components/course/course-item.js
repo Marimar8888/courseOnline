@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const CourseItem = ({ course, handleDeleteClick, handleNewCourseClick }) => {
+const CourseItem = ({ course, typeId, handleDeleteClick, handleNewCourseClick }) => {
     return (
         <div>
             <div className="course-content-item" key={course.courses_id}>
@@ -25,11 +25,14 @@ const CourseItem = ({ course, handleDeleteClick, handleNewCourseClick }) => {
                     </a>
                 </div>
             </div>
-            <div className="new-course-link">
-                <a className="icon-plus-circle" onClick={handleNewCourseClick}>
-                    <FontAwesomeIcon icon="plus-circle" />
-                </a>
-            </div>
+            {(typeId == 3 || typeId == 5) && (
+                <div className="new-course-link">
+                    <a className="icon-plus-circle" onClick={handleNewCourseClick}>
+                        <FontAwesomeIcon icon="plus-circle" />
+                    </a>
+                </div>
+            )}
+
         </div>
     );
 };
