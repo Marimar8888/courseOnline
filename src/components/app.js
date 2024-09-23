@@ -213,6 +213,7 @@ class App extends Component {
       <Route key="professors" path="/professors/:slug" render={props => (
         <Professors {...props} />
       )} />
+
     ];
   }
 
@@ -255,7 +256,6 @@ class App extends Component {
               />
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
-              <Route path="/dashboard" component={Dashboard} />
               <Route
                 path="/courses/p/:slug"
                 render={props => (
@@ -280,10 +280,10 @@ class App extends Component {
                     loggedInStatus={this.state.loggedInStatus} />
                 )}
               />
-              <Route 
-                path="/students/:slug" 
+              <Route
+                path="/students/:slug"
                 render={props => (
-                  <StudentContainer 
+                  <StudentContainer
                     {...props}
                     loggedInStatus={this.state.loggedInStatus} />
                 )}

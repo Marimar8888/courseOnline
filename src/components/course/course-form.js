@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { addCourse } from "../services/course";
 
+import RichTextEditor from "../forms/rich-text-editor";
+
 export default class CourseForm extends Component {
     constructor(props) {
         super(props);
@@ -140,7 +142,7 @@ export default class CourseForm extends Component {
 
 
                 <div className="one-column">
-
+                    <RichTextEditor/>
                 </div>
 
                 <div className="image-uploaders">
