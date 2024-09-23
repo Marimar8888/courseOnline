@@ -27,11 +27,22 @@
         .course-content-text {
             display: flex;
             justify-content: space-between;
-           
+
+            h2 {
+                max-width: 200px;
+            }
+
+            p {
+                width: 550px; 
+                text-align: left;
+            }
+
             .course-content-text-title {
                 padding-right: 20px;
                 max-width: 70%;
+
             }
+
 
             .course-content-rest {
                 display: flex;
