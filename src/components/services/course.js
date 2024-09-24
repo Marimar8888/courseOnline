@@ -72,10 +72,30 @@ export const addCourse = (formData, token) => {
             } 
         })
         .then(response => {
-            console.log("addCourse", response);
             return response.data;
         })
         .catch(error => {
             console.log("error addCourse:", error);      
         })
 };
+
+/*------------ Blog-Details-------------*/
+
+export const getCourseByIdFromAPI = (id, token) => {
+    const url = `${API_URL}/course/${id}`;
+    return axios({
+        method: "get",
+        url: `${url}`,
+        headers: {
+             'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => {
+        console.log("getCourseById", response);
+        return response.data;
+    })
+    .catch(error => {
+        console.log("error getCourseById", error);
+    })
+
+}

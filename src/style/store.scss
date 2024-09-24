@@ -12,67 +12,74 @@
     .course-content-item {
         display: grid;
         width: 100%;
-        grid-template-columns: 1fr 3.5fr 0.5fr;
+        grid-template-columns: 1fr 3.5fr 0.5fr 0.5fr 0.5fr;
         gap: 20px;
         margin-bottom: 20px;
 
         .course-content-image {
-
             img {
                 max-width: 100%;
+                min-width: 200px;
                 height: auto;
             }
         }
 
         .course-content-text {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
 
             h2 {
-                max-width: 200px;
+                width: 100%;
+                margin: 0px;
             }
 
             p {
-                width: 550px; 
+                width: 600px;
                 text-align: left;
+                min-height: 100px;
             }
+        }
 
-            .course-content-text-title {
-                padding-right: 20px;
-                max-width: 70%;
+        .course-content-text-title {
+            padding-right: 20px;
+            max-width: 70%;
+        }
 
-            }
+        .course-content-rest {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
 
-
-            .course-content-rest {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
+            .course-content-price {
                 justify-content: center;
+                text-align: center;
+                font-weight: 700;
+            }
 
-                .course-content-price {
-                    justify-content: center;
-                    text-align: center;
-                    font-weight: 700;
-                }
+            .course-content-price-through {
+                color: gray;
+                text-decoration: line-through;
+            }
 
-                .course-content-price-through {
-                    color: gray; 
-                    text-decoration: line-through;
-                }
+            .course-content-discounted-price {
+                justify-content: center;
+                text-align: center;
+                color: red;
+                font-weight: 700;
+            }
 
-                .course-content-discounted-price {
-                    justify-content: center;
-                    text-align: center;
-                    color: red;
-                    font-weight: 700;
-                }
 
-                .btn-add-cart {
+        }
 
-                }
+        .course-content-button {
+            display: flex;
+            align-items: center;
+
+            .btn-add-cart {
 
             }
+
         }
 
         .course-icons {
@@ -90,12 +97,6 @@
             }
 
         }
-
-        .course-content-image img {
-            width: 100%;
-            height: auto;
-        }
-
 
     }
 

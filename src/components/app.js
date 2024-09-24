@@ -15,6 +15,7 @@ import Footer from './footer/footer';
 import StoreContainer from './store/store-container';
 import Dashboard from './pages/dashboard';
 import Courses from './dashboard/pages/courses';
+import CourseDetails from './course/course-details';
 import Centers from "./dashboard/pages/centers";
 import Students from "./dashboard/pages/students";
 import Professors from './dashboard/pages/professors';
@@ -280,6 +281,7 @@ class App extends Component {
                     loggedInStatus={this.state.loggedInStatus} />
                 )}
               />
+              <Route path="/c/:slug" component={CourseDetails} />
               <Route
                 path="/students/:slug"
                 render={props => (

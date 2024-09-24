@@ -1,5 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const CourseItem = ({ course, typeId, handleDeleteClick, handleNewCourseClick }) => {
     return (
@@ -13,7 +14,9 @@ const CourseItem = ({ course, typeId, handleDeleteClick, handleNewCourseClick })
                     />
                 </div>
                 <div className="course-content-text">
-                    <h2>{course.courses_title}</h2>
+                <Link to={`/c/${course.courses_id}`}>       
+                        <h2>{course.courses_title}</h2>
+                    </Link>
                     <p>{course.courses_content}</p>
                 </div>
                 <div className="course-icons">

@@ -318,7 +318,8 @@ class StoreContainer extends Component {
                                     <h2>{course.courses_title}</h2>
                                     <p>{course.courses_content}</p>
                                 </div>
-                                <div className='course-content-rest'>
+                            </div>
+                            <div className='course-content-rest'>
                                     {discounted != null ? (
                                         <div>
                                             <div className='course-content-price-through'>
@@ -333,16 +334,16 @@ class StoreContainer extends Component {
                                             {course.courses_price} €
                                         </div>
                                     )}
-
-                                    <div className='btn-add-cart'>
-                                        <button
-                                            className='btn'
-                                            onClick={() => this.props.addToCart(course)}
-                                            disabled={isCourseInCart}
-                                        >
-                                            {isCourseInCart ? 'Seleccionado' : 'Añadir a la cesta'}
-                                        </button>
-                                    </div>
+                            </div>
+                            <div className='course-content-button'>
+                                <div className='btn-add-cart'>
+                                    <button
+                                        className='btn'
+                                        onClick={() => this.props.addToCart(course)}
+                                        disabled={isCourseInCart}
+                                    >
+                                        {isCourseInCart ? 'Seleccionado' : 'Añadir a la cesta'}
+                                    </button>
                                 </div>
                             </div>
                             <div className='course-icons'>
