@@ -187,10 +187,12 @@ class CourseContainer extends Component {
     render() {
         const { courses = [], typeId } = this.state;
         const { loggedInStatus } = this.props;
+    
         if (loggedInStatus !== "LOGGED_IN") {
             this.props.history.push(`/`);
             return null;
         }
+    
         return (
             <div className="course-content-page-wrapper">
                 <CourseModal
@@ -198,23 +200,23 @@ class CourseContainer extends Component {
                     handleModalClose={this.handleModalClose}
                     handleSuccessNewCourseSubmission={this.handleSuccessNewCourseSubmission}
                 />
+    
                 {!this.state.isLoading && courses.length === 0 ? (
                     <p>No hay cursos disponibles</p>
                 ) : (
-                    courses.length > 0 && (
-                        <div>
-                            {courses.map((course) => (
-                                <div key={course.courses_id}>
-                                    <CourseItem
-                                        course={course}
-                                        typeId={typeId}
-                                        handleNewCourseClick={this.handleNewCourseClick}
-                                        handleDeleteClick={this.handleDeleteClick}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    )
+                    courses.map(course => {
+                        return (
+                            <div className="course-content-item" key={course.courses_id}>
+                                <CourseItem
+                                    key={course.id}
+                                    course={course}
+                                    typeId={typeId}
+                                    handleNewCourseClick={this.handleNewCourseClick}
+                                    handleDeleteClick={this.handleDeleteClick}
+                                />
+                            </div>
+                        );
+                    })
                 )}
                 {this.state.isLoading && (
                     <div className='content-loader'>
@@ -225,5 +227,4 @@ class CourseContainer extends Component {
         );
     }
 }
-
 export default withRouter(CourseContainer);

@@ -8,36 +8,41 @@ export default class CourseForm extends Component {
         super(props);
 
         this.state = {
-            courses_id: "",
-            courses_title: "",
-            courses_active: true,
-            courses_content: "",
-            courses_image: "",
-            courses_price: "",
-            courses_discounted_price: "",
-            courses_professor_id: "",
-            courses_studycenter_id: "",
-            courses_category_id: "",
+            id: "",
+            title: "",
+            active: true,
+            content: "",
+            image: "",
+            price: "",
+            discounted_price: "",
+            professor_id: "",
+            studycenter_id: "",
+            category_id: "",
             isSubmitting: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
        
+    }
+
+    handleRichTextEditorChange(content) {
+        this.setState({ content });
     }
 
 
     buildForm() {
         let formData = new FormData();
 
-        formData.append("courses_title", this.state.courses_title);
-        formData.append("courses_active", this.state.courses_active === true ? 'true' : 'false');
-        //formData.append("courses_content", this.state.courses_content);
-        //formData.append("courses_image", this.state.courses_image);
-        formData.append("courses_price", this.state.courses_price);
-        formData.append("courses_discounted_price", this.state.courses_discounted_price);
-        formData.append("courses_professor_id", this.state.courses_professor_id);
-        formData.append("courses_studycenter_id", this.state.courses_studycenter_id);
-        formData.append("courses_category_id", this.state.courses_category_id);
+        formData.append("courses_title", this.state.title);
+        formData.append("courses_active", this.state.active === true ? 'true' : 'false');
+        formData.append("courses_content", this.state.content);
+        //formData.append("courses_image", this.state.image);
+        formData.append("courses_price", this.state.price);
+        formData.append("courses_discounted_price", this.state.discounted_price);
+        formData.append("courses_professor_id", this.state.professor_id);
+        formData.append("courses_studycenter_id", this.state.studycenter_id);
+        formData.append("courses_category_id", this.state.category_id);
 
         return formData;
     }
@@ -52,15 +57,16 @@ export default class CourseForm extends Component {
                 .then(data => {
                     if (this.props.handleSuccessfullFormSubmission) {
                         this.setState({
-                            courses_title: "",
-                            courses_active: true,
-                            //courses_content: "",
+                            id: "",
+                            title: "",
+                            active: true,
+                            content: "",
                             // courses_image: "",
-                            courses_price: "",
-                            courses_discounted_price: "",
-                            courses_professor_id: "",
-                            courses_studycenter_id: "",
-                            courses_category_id: "",
+                            price: "",
+                            discounted_price: "",
+                            professor_id: "",
+                            studycenter_id: "",
+                            category_id: "",
                             isSubmitting: false
                         });
                         this.props.handleSuccessfullFormSubmission(data);
@@ -86,63 +92,65 @@ export default class CourseForm extends Component {
                     <input
                         type="text"
                         onChange={this.handleChange}
-                        name="courses_title"
+                        name="title"
                         placeholder="Titulo del Curso"
-                        value={this.state.courses_title}
+                        value={this.state.title}
                     />
 
                     <input
                         type="checkbox"
-                        onChange={(e) => this.setState({ courses_active: e.target.checked })}
-                        name="courses_active"
-                        checked={this.state.courses_active}
+                        onChange={(e) => this.setState({ active: e.target.checked })}
+                        name="active"
+                        checked={this.state.active}
                     />
                 </div>
                 <div className="three-column">
                     <input
                         type="text"
                         onChange={this.handleChange}
-                        name="courses_price"
+                        name="price"
                         placeholder="Precio"
-                        value={this.state.courses_price}
+                        value={this.state.price}
                     />
 
                     <input
                         type="text"
                         onChange={this.handleChange}
-                        name="courses_discounted_price"
+                        name="discounted_price"
                         placeholder="Precio con descuento"
-                        value={this.state.courses_discounted_price}
+                        value={this.state.discounted_price}
                     />
                     <input
                         type="text"
                         onChange={this.handleChange}
-                        name="courses_category_id"
+                        name="category_id"
                         placeholder="Categoria"
-                        value={this.state.courses_category_id}
+                        value={this.state.category_id}
                     />
                 </div>
                 <div className="two-column">
                     <input
                         type="text"
                         onChange={this.handleChange}
-                        name="courses_professor_id"
+                        name="professor_id"
                         placeholder="Nombre professor"
-                        value={this.state.courses_professor_id}
+                        value={this.state.professor_id}
                     />
 
                     <input
                         type="text"
                         onChange={this.handleChange}
-                        name="courses_studycenter_id"
+                        name="studycenter_id"
                         placeholder="Nombre Centro estudios"
-                        value={this.state.courses_studycenter_id}
+                        value={this.state.studycenter_id}
                     />
                 </div>
 
 
                 <div className="one-column">
-                    <RichTextEditor/>
+                    <RichTextEditor
+                        handleRichTextEditorChange = {this.handleRichTextEditorChange}
+                    />
                 </div>
 
                 <div className="image-uploaders">
