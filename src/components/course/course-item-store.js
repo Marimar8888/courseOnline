@@ -17,7 +17,11 @@ const CourseItemStore = ({ course, isCourseInCart, onAddToCart, onFavoriteClick,
             <div className="course-content-text">
                 <div className="course-content-text-title">
                     <h2>{course.courses_title}</h2>
-                    <p>{course.courses_content}</p>
+                    <Truncate lines={5} ellipsis={
+                        <span>
+                              ...<Link className="link-read-more" to={`/c/${course.courses_id}`}>Leer más</Link>
+                        </span>
+                    }><p>{course.courses_content}</p></Truncate>
                 </div>
             </div>
             <div className="course-content-rest">

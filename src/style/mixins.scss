@@ -350,3 +350,17 @@
       }
     }
   }
+
+  /*-------------Links-------------------------*/
+
+  @mixin link-read-more {
+    color: $blue; 
+    text-decoration: none; 
+    font-weight: 600;
+    transition: color 0.3s;
+
+    &:hover {
+        color: $dark-blue; 
+    }
+}
+  

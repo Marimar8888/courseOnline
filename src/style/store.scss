@@ -35,6 +35,9 @@
                     width: 100%;
                     margin: 0px;
                 }
+                .link-read-more {
+                    @include link-read-more();
+                }
             }          
         }
 

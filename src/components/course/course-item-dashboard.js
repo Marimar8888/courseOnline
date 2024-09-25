@@ -24,7 +24,7 @@ const CourseItemDashboard = ({ course, typeId, handleDeleteClick, handleNewCours
                     <div className="course-content-text-content">
                         <Truncate lines={5} ellipsis={
                             <span>
-                                ...<Link to={`/c/${course.courses_id}`}>Leer más</Link>
+                                ...<Link className="link-read-more" to={`/c/${course.courses_id}`}>Leer más</Link>
                             </span>
                         }><p>{course.courses_content}</p></Truncate>
 

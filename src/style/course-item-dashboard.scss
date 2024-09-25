@@ -29,6 +29,9 @@
             }
             .course-content-text-content {
                 width: 750px;
+                .link-read-more {
+                    @include link-read-more();
+                }
                 p {
                     text-align: left;
                     min-height: 200px;
