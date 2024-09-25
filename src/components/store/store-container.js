@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
 import { API_URL } from '../utils/constant';
-import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
-import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import CourseItemStore from '../course/course-item-store';
 import LoginNotification from '../modals/login-notification';
 
 class StoreContainer extends Component {
@@ -52,7 +51,6 @@ class StoreContainer extends Component {
             }, this.loadCourses);
         }
     }
-
 
     componentWillUnmount() {
         this.hasUnmounted = true;
@@ -200,7 +198,6 @@ class StoreContainer extends Component {
                         this.getAllCourses();
                     }
                 }
-
             }
         };
     }
@@ -238,7 +235,6 @@ class StoreContainer extends Component {
                     this.setState({ isLoading: false });
                 }
             });
-
     }
 
     getCategoryItem() {
@@ -293,9 +289,9 @@ class StoreContainer extends Component {
         this.setState({ isModalOpen: false });
     }
 
-
     render() {
         const { cartCourses = [] } = this.props;
+
         return (
             <div className="course-content-page-wrapper">
                 {this.state.categoryName && (
@@ -304,57 +300,17 @@ class StoreContainer extends Component {
 
                 {this.state.courses.map(course => {
                     const isCourseInCart = cartCourses.some(cartCourse => cartCourse.courses_id === course.courses_id);
-                    const discounted = course.courses_discounted_price;
+                    const isFavorite = this.state.favorites.includes(course.courses_id);
+
                     return (
-                        <div className="course-content-item" key={course.courses_id}>
-                            <div className='course-content-image'>
-                                <img
-                                    src={course.courses_image}
-                                    alt={course.courses_title}
-                                />
-                            </div>
-                            <div className='course-content-text'>
-                                <div className='course-content-text-title'>
-                                    <h2>{course.courses_title}</h2>
-                                    <p>{course.courses_content}</p>
-                                </div>
-                            </div>
-                            <div className='course-content-rest'>
-                                    {discounted != null ? (
-                                        <div>
-                                            <div className='course-content-price-through'>
-                                                {course.courses_price} €
-                                            </div>
-                                            <div className='course-content-discounted-price'>
-                                                {course.courses_discounted_price} €
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className='course-content-price'>
-                                            {course.courses_price} €
-                                        </div>
-                                    )}
-                            </div>
-                            <div className='course-content-button'>
-                                <div className='btn-add-cart'>
-                                    <button
-                                        className='btn'
-                                        onClick={() => this.props.addToCart(course)}
-                                        disabled={isCourseInCart}
-                                    >
-                                        {isCourseInCart ? 'Seleccionado' : 'Añadir a la cesta'}
-                                    </button>
-                                </div>
-                            </div>
-                            <div className='course-icons'>
-                                <a
-                                    className="icon-star"
-                                    onClick={() => this.handleFavoriteClick(course.courses_id)}
-                                >
-                                    <FontAwesomeIcon icon={this.state.favorites.includes(course.courses_id) ? faStarSolid : faStarRegular} />
-                                </a>
-                            </div>
-                        </div>
+                        <CourseItemStore
+                            key={course.courses_id}
+                            course={course}
+                            isCourseInCart={isCourseInCart}
+                            onAddToCart={this.props.addToCart}
+                            onFavoriteClick={this.handleFavoriteClick}
+                            isFavorite={isFavorite}
+                        />
                     );
                 })}
 
@@ -362,6 +318,7 @@ class StoreContainer extends Component {
                     <div className='content-loader'>
                         <FontAwesomeIcon icon="spinner" spin />
                     </div>
+
                 )}
 
                 <LoginNotification
