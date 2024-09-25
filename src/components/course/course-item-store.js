@@ -21,7 +21,7 @@ const CourseItemStore = ({ course, isCourseInCart, onAddToCart, onFavoriteClick,
                         <span>
                               ...<Link className="link-read-more" to={`/c/${course.courses_id}`}>Leer más</Link>
                         </span>
-                    }><p>{course.courses_content}</p></Truncate>
+                    }><p>{striptags(course.courses_content)}</p></Truncate>
                 </div>
             </div>
             <div className="course-content-rest">

@@ -26,7 +26,7 @@ const CourseItemDashboard = ({ course, typeId, handleDeleteClick, handleNewCours
                             <span>
                                 ...<Link className="link-read-more" to={`/c/${course.courses_id}`}>Leer más</Link>
                             </span>
-                        }><p>{course.courses_content}</p></Truncate>
+                        }><p>{striptags(course.courses_content)}</p></Truncate>
 
                     </div>
 
