@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactHtmlParser from 'react-html-parser';
 
 import { getCourseByIdFromAPI } from '../services/course';
 
@@ -36,9 +37,10 @@ export default class CourseDetails extends Component {
         const discounted = courses_discounted_price;
         return (
             <div className='course-details-wrapper'>
+                {courses_image ?
                 <div className='course-details-image'>
                     <img src={courses_image} />
-                </div>
+                </div> : null }
                 <div className='course-details-text'>
                     <div className='course-details-text-header'>
                         <h1>{courses_title}</h1>
@@ -61,7 +63,7 @@ export default class CourseDetails extends Component {
                     </div>
                 </div>
                 <div className='course-details-content'>
-                    {courses_content}
+                    {ReactHtmlParser(courses_content)}
                 </div>
             </div>
         )
