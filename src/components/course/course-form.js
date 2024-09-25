@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { addCourse } from "../services/course";
 
 import RichTextEditor from "../forms/rich-text-editor";
+import CourseFormFields from "../forms/course-form-fields";
 
 export default class CourseForm extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ export default class CourseForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
-       
+
     }
 
     handleRichTextEditorChange(content) {
@@ -49,7 +50,7 @@ export default class CourseForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-    
+
         const token = localStorage.getItem("token");
         if (token) {
             this.setState({ isSubmitting: true });
@@ -74,7 +75,7 @@ export default class CourseForm extends Component {
                 })
                 .catch(error => {
                     console.log("Error al agregar el curso:", error);
-                    this.setState({ isSubmitting: false }); 
+                    this.setState({ isSubmitting: false });
                 });
         }
     }
@@ -88,7 +89,7 @@ export default class CourseForm extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit} className="course-form-wrapper">
-                <div className="two-column">
+                {/* <div className="two-column">
                     <input
                         type="text"
                         onChange={this.handleChange}
@@ -144,12 +145,16 @@ export default class CourseForm extends Component {
                         placeholder="Nombre Centro estudios"
                         value={this.state.studycenter_id}
                     />
-                </div>
+                </div> */}
 
-
+                <CourseFormFields
+                    state={this.state}
+                    handleChange={this.handleChange}
+                    setActive={(active) => this.setState({ active })}
+                />
                 <div className="one-column">
                     <RichTextEditor
-                        handleRichTextEditorChange = {this.handleRichTextEditorChange}
+                        handleRichTextEditorChange={this.handleRichTextEditorChange}
                     />
                 </div>
 
