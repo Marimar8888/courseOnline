@@ -64,6 +64,7 @@
   flex-direction: column;
   max-height: 80vh;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-bottom: 20px;
 
   .two-column {
@@ -78,7 +79,7 @@
   }
 
   .one-column {
-
+    
   }
 
   .image-uploaders {

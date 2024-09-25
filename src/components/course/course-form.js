@@ -156,7 +156,6 @@ export default class CourseForm extends Component {
                 <div className="image-uploaders">
 
                 </div>
-
                 <button className="btn-save">Save</button>
             </form>
         );
