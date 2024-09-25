@@ -24,13 +24,11 @@ export default class CourseForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
-
     }
 
     handleRichTextEditorChange(content) {
         this.setState({ content });
     }
-
 
     buildForm() {
         let formData = new FormData();
@@ -89,65 +87,7 @@ export default class CourseForm extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit} className="course-form-wrapper">
-                {/* <div className="two-column">
-                    <input
-                        type="text"
-                        onChange={this.handleChange}
-                        name="title"
-                        placeholder="Titulo del Curso"
-                        value={this.state.title}
-                    />
-
-                    <input
-                        type="checkbox"
-                        onChange={(e) => this.setState({ active: e.target.checked })}
-                        name="active"
-                        checked={this.state.active}
-                    />
-                </div>
-                <div className="three-column">
-                    <input
-                        type="text"
-                        onChange={this.handleChange}
-                        name="price"
-                        placeholder="Precio"
-                        value={this.state.price}
-                    />
-
-                    <input
-                        type="text"
-                        onChange={this.handleChange}
-                        name="discounted_price"
-                        placeholder="Precio con descuento"
-                        value={this.state.discounted_price}
-                    />
-                    <input
-                        type="text"
-                        onChange={this.handleChange}
-                        name="category_id"
-                        placeholder="Categoria"
-                        value={this.state.category_id}
-                    />
-                </div>
-                <div className="two-column">
-                    <input
-                        type="text"
-                        onChange={this.handleChange}
-                        name="professor_id"
-                        placeholder="Nombre professor"
-                        value={this.state.professor_id}
-                    />
-
-                    <input
-                        type="text"
-                        onChange={this.handleChange}
-                        name="studycenter_id"
-                        placeholder="Nombre Centro estudios"
-                        value={this.state.studycenter_id}
-                    />
-                </div> */}
-
-                <CourseFormFields
+                 <CourseFormFields
                     state={this.state}
                     handleChange={this.handleChange}
                     setActive={(active) => this.setState({ active })}

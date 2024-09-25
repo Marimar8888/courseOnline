@@ -1,11 +1,13 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import Truncate from "react-truncate";
+import striptags from "striptags";
 
-const CourseItem = ({ course, typeId, handleDeleteClick, handleNewCourseClick }) => {
+const CourseItemDashboard = ({ course, typeId, handleDeleteClick, handleNewCourseClick }) => {
     return (
         <div>
-            <div className="course-content-item" key={course.courses_id}>
+            <div className="course-content-item-dashboard" key={course.courses_id}>
                 <div className="course-content-image" key={course.courses_id}>
                     <img
                         src={course.courses_image}
@@ -14,10 +16,20 @@ const CourseItem = ({ course, typeId, handleDeleteClick, handleNewCourseClick })
                     />
                 </div>
                 <div className="course-content-text">
-                <Link to={`/c/${course.courses_id}`}>       
-                        <h2>{course.courses_title}</h2>
-                    </Link>
-                    <p>{course.courses_content}</p>
+                    <div className="course-content-text-title">
+                        <Link to={`/c/${course.courses_id}`}>
+                            <h2>{course.courses_title}</h2>
+                        </Link>
+                    </div>
+                    <div className="course-content-text-content">
+                        <Truncate lines={5} ellipsis={
+                            <span>
+                                ...<Link to={`/c/${course.courses_id}`}>Leer más</Link>
+                            </span>
+                        }><p>{course.courses_content}</p></Truncate>
+
+                    </div>
+
                 </div>
                 <div className="course-icons">
                     <a
@@ -40,4 +52,4 @@ const CourseItem = ({ course, typeId, handleDeleteClick, handleNewCourseClick })
     );
 };
 
-export default CourseItem;
+export default CourseItemDashboard;

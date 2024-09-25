@@ -27,22 +27,15 @@
         .course-content-text {
             display: flex;
             flex-direction: column;
+            width: 100%;
 
-            h2 {
+            .course-content-text-title {
                 width: 100%;
-                margin: 0px;
-            }
-
-            p {
-                width: 600px;
-                text-align: left;
-                min-height: 100px;
-            }
-        }
-
-        .course-content-text-title {
-            padding-right: 20px;
-            max-width: 70%;
+                h2 {
+                    width: 100%;
+                    margin: 0px;
+                }
+            }          
         }
 
         .course-content-rest {
@@ -68,8 +61,6 @@
                 color: red;
                 font-weight: 700;
             }
-
-
         }
 
         .course-content-button {
@@ -88,10 +79,6 @@
             justify-content: center;
             margin: 0 auto;
 
-            .icon-trash {
-                @include icon-trash();
-            }
-
             .icon-star {
                 @include icon-start();
             }
@@ -99,12 +86,4 @@
         }
 
     }
-
-    .new-course-link {
-        .icon-plus-circle {
-            @include icon-plus-circle();
-        }
-
-    }
-
 }

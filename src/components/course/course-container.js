@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import CourseItem from './course-item';
+import CourseItemDashboard from './course-item-dashboard';
 import CourseModal from '../modals/course-modal';
 import { getUserIdFromAPI } from '../services/user';
 import { getProfessorIdByUserIdFromAPI } from '../services/professor';
@@ -206,8 +206,8 @@ class CourseContainer extends Component {
                 ) : (
                     courses.map(course => {
                         return (
-                            <div className="course-content-item" key={course.courses_id}>
-                                <CourseItem
+                            <div  key={course.courses_id}>
+                                <CourseItemDashboard
                                     key={course.id}
                                     course={course}
                                     typeId={typeId}
