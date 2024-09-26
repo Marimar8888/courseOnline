@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { addCourse } from "../services/course";
+import DropzoneComponent from "react-dropzone-component";
 
 import RichTextEditor from "../forms/rich-text-editor";
 import CourseFormFields from "../forms/course-form-fields";
+import { API_URL } from "../utils/constant";
 
 export default class CourseForm extends Component {
     constructor(props) {
@@ -19,12 +21,49 @@ export default class CourseForm extends Component {
             professor_id: "",
             studycenter_id: "",
             category_id: "",
-            isSubmitting: false
+            isSubmitting: false,
+            apiUrl: `${API_URL}/course`,
+            apiAction: "post"
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
+
+        this.conponentConfig = this.componentConfig.bind(this);
+        this.djsConfig = this.djsConfig.bind(this);
+        this.handleImageDrop = this.handleImageDrop.bind(this);
     }
+
+    componentConfig() {
+        return {
+            iconFiletypes: [".jpg", ".png"],
+            showFiletypeIcon: true,
+            postUrl: this.state.apiUrl
+        };
+    }
+
+    djsConfig() {
+        return {
+            autoProcessQueue: false,
+            addRemoveLinks: true,
+            maxFiles: 1
+        };
+    }
+
+    handleImageDrop() {
+        return {
+
+            addedfile: file => {
+                console.log("Archivo añadido:", file);
+                this.setState({ image: file })
+            }
+        };
+    }
+
+    handleRichTextEditorChange(content) {
+        this.setState({ content });
+    }
+
 
     handleRichTextEditorChange(content) {
         this.setState({ content });
@@ -36,12 +75,15 @@ export default class CourseForm extends Component {
         formData.append("courses_title", this.state.title);
         formData.append("courses_active", this.state.active === true ? 'true' : 'false');
         formData.append("courses_content", this.state.content);
-        //formData.append("courses_image", this.state.image);
         formData.append("courses_price", this.state.price);
         formData.append("courses_discounted_price", this.state.discounted_price);
         formData.append("courses_professor_id", this.state.professor_id);
         formData.append("courses_studycenter_id", this.state.studycenter_id);
         formData.append("courses_category_id", this.state.category_id);
+
+        if (this.state.image && this.state.image instanceof File) {
+            formData.append("file", this.state.image);
+          }
 
         return formData;
     }
@@ -60,7 +102,7 @@ export default class CourseForm extends Component {
                             title: "",
                             active: true,
                             content: "",
-                            // courses_image: "",
+                            courses_image: "",
                             price: "",
                             discounted_price: "",
                             professor_id: "",
@@ -87,7 +129,7 @@ export default class CourseForm extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit} className="course-form-wrapper">
-                 <CourseFormFields
+                <CourseFormFields
                     state={this.state}
                     handleChange={this.handleChange}
                     setActive={(active) => this.setState({ active })}
@@ -97,11 +139,18 @@ export default class CourseForm extends Component {
                         handleRichTextEditorChange={this.handleRichTextEditorChange}
                     />
                 </div>
-
                 <div className="image-uploaders">
-
+                    <DropzoneComponent
+                        config={this.componentConfig()}
+                        djsConfig={this.djsConfig()}
+                        eventHandlers={this.handleImageDrop()}
+                    >
+                        <div className="dz-message">Image Principal</div>
+                    </DropzoneComponent>
                 </div>
+
                 <button className="btn-save">Save</button>
+
             </form>
         );
     }

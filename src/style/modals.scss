@@ -60,33 +60,82 @@
 /*---------------- Modal create-edit course (course-form.js--------------------------*/
 
 .course-form-wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   max-height: 80vh;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 20px;
 
   .two-column {
     @include base-grid;
     @include input-element;
     grid-template-columns: 2fr 2fr;
   }
+
   .three-column {
     @include input-element;
     @include base-grid;
     grid-template-columns: 1fr 1fr 2fr;
   }
 
-  .one-column {
-    
-  }
+  .one-column {}
 
   .image-uploaders {
+    @include base-grid();
+    grid-template-columns: 180px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+
+    .dropzone .dz-message {
+      text-align: center;
+      margin: 2.5em 0;
+    }
+    
+
+    div.filepicker {
+      text-align: center;
+      padding: 5px;
+      background-color: #E1E1E1;
+      border-radius: 5px;
+      min-height: 60px;
+      border: 2px dashed #C7C7C7;
+
+    }
+
+    .filepicker-file-icon {
+      position: relative;
+      display: inline-block;
+      margin: 1.5em 0 2.5em 0;
+      padding-left: 45px;
+      color: black;
+    }
+
+    .filepicker-file-icon::before {
+      position: absolute;
+      top: -7px;
+      left: 0;
+      width: 29px;
+      height: 34px;
+      content: "";
+      border: solid 2px #7F7F7F;
+      border-radius: 2px;
+    }
+
+    .filepicker-file-icon::after {
+      font-size: 11px;
+      line-height: 1.3;
+      position: absolute;
+      top: 9px;
+      left: -4px;
+      padding: 0 2px;
+      content: "file";
+      content: attr(data-filetype);
+      text-align: right;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+      background-color: #000;
+    }
 
   }
-
-
-
+    
 }
-

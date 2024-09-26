@@ -16,7 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { 
-    faStar as faStarRegular 
+    faStar as faStarRegular
 } from '@fortawesome/free-regular-svg-icons'; 
 
 const Icons = () => {
