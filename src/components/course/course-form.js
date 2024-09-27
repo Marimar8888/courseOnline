@@ -36,8 +36,8 @@ export default class CourseForm extends Component {
         this.imageRef = React.createRef();
     }
 
-    componentDidMount(){
-        if(this.props.editMode){
+    componentDidMount() {
+        if (this.props.editMode) {
             console.log("componentDidMount course:", this.props.course);
             this.setState({
                 id: this.props.course.courses_id,
@@ -103,7 +103,7 @@ export default class CourseForm extends Component {
 
         if (this.state.image && this.state.image instanceof File) {
             formData.append("file", this.state.image);
-          }
+        }
 
         return formData;
     }
@@ -116,7 +116,7 @@ export default class CourseForm extends Component {
             this.setState({ isSubmitting: true });
             addCourse(this.buildForm(), token)
                 .then(data => {
-                    if(this.state.image){
+                    if (this.state.image) {
                         this.imageRef.current.dropzone.removeAllFiles();
                     }
                     if (this.props.handleSuccessfullFormSubmission) {
@@ -162,20 +162,31 @@ export default class CourseForm extends Component {
                         handleRichTextEditorChange={this.handleRichTextEditorChange}
                         editMode={this.props.editMode}
                         contentToEdit={
-                            this.props.editMode && this.props.course.courses_content 
-                            ? this.props.course.courses_content 
-                            : null}
+                            this.props.editMode && this.props.course.courses_content
+                                ? this.props.course.courses_content
+                                : null}
                     />
                 </div>
                 <div className="image-uploaders">
-                    <DropzoneComponent
-                        ref={this.imageRef}
-                        config={this.componentConfig()}
-                        djsConfig={this.djsConfig()}
-                        eventHandlers={this.handleImageDrop()}
-                    >
-                        <div className="dz-message">Image Principal</div>
-                    </DropzoneComponent>
+                    {this.props.editMode && this.props.course.courses_image ? (
+                        <div className="course-manager-image-wrapper">
+                            <img src={this.props.course.courses_image} />
+
+                            <div className="image-removal-link">
+                                <a>Remove file</a>
+                            </div>
+
+                        </div>
+                    ) : (
+                        <DropzoneComponent
+                            ref={this.imageRef}
+                            config={this.componentConfig()}
+                            djsConfig={this.djsConfig()}
+                            eventHandlers={this.handleImageDrop()}
+                        >
+                            <div className="dz-message">Image Principal</div>
+                        </DropzoneComponent>
+                    )}
                 </div>
 
                 <button className="btn-save">Save</button>
