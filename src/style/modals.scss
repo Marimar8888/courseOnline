@@ -107,6 +107,14 @@
     grid-template-columns: 180px;
     margin: 0 auto;
     margin-bottom: 20px;
+
+    .course-manager-image-wrapper{
+       width: 200px;
+        img {
+          width: 100%;
+          object-fit: cover;
+        }
+    }
       
     /* --- Dropzone --- */
     

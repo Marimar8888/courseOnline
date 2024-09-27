@@ -14,10 +14,19 @@ export default class CourseDetails extends Component {
         };
 
         this.handleEditClick = this.handleEditClick.bind(this);
+        this.handleImageDelete = this.handleImageDelete.bind(this);
     }
 
     componentDidMount() {
         this.getCourseItem();
+    }
+
+    handleImageDelete() {
+        this.setState({
+            courseItem: {
+                image: ""
+            }
+        })
     }
 
     handleEditClick() {
@@ -48,7 +57,11 @@ export default class CourseDetails extends Component {
 
         const contentManager = () => {
             if (this.state.editMode) {
-                return <CourseForm  editMode={this.state.editMode} course={this.state.courseItem}/>;
+                return <CourseForm  
+                    editMode={this.state.editMode} 
+                    course={this.state.courseItem}
+                    handleImageDelete = {this.handleImageDelete}
+                    />;
             } else {
                 return (
                     <div>

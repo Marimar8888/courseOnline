@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { addCourse } from "../services/course";
 import DropzoneComponent from "react-dropzone-component";
 
 import RichTextEditor from "../forms/rich-text-editor";
 import CourseFormFields from "../forms/course-form-fields";
+import { addCourse, delete_course_image } from "../services/course";
 import { API_URL } from "../utils/constant";
 
 export default class CourseForm extends Component {
@@ -32,7 +32,7 @@ export default class CourseForm extends Component {
         this.conponentConfig = this.componentConfig.bind(this);
         this.djsConfig = this.djsConfig.bind(this);
         this.handleImageDrop = this.handleImageDrop.bind(this);
-
+        this.deleteImage = this.deleteImage.bind(this);
         this.imageRef = React.createRef();
     }
 
@@ -70,9 +70,15 @@ export default class CourseForm extends Component {
         };
     }
 
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+
     handleImageDrop() {
         return {
-
             addedfile: file => {
                 console.log("Archivo añadido:", file);
                 this.setState({ image: file })
@@ -89,23 +95,16 @@ export default class CourseForm extends Component {
         this.setState({ content });
     }
 
-    buildForm() {
-        let formData = new FormData();
-
-        formData.append("courses_title", this.state.title);
-        formData.append("courses_active", this.state.active === true ? 'true' : 'false');
-        formData.append("courses_content", this.state.content);
-        formData.append("courses_price", this.state.price);
-        formData.append("courses_discounted_price", this.state.discounted_price);
-        formData.append("courses_professor_id", this.state.professor_id);
-        formData.append("courses_studycenter_id", this.state.studycenter_id);
-        formData.append("courses_category_id", this.state.category_id);
-
-        if (this.state.image && this.state.image instanceof File) {
-            formData.append("file", this.state.image);
+    deleteImage(event){
+        event.preventDefault();
+        const courseId = this.state.id
+        const token = localStorage.getItem("token");
+        if (token && courseId) {
+            delete_course_image(courseId, token)
+                .then(response => {
+                    this.props.handleImageDelete();
+            })
         }
-
-        return formData;
     }
 
     handleSubmit(event) {
@@ -143,11 +142,25 @@ export default class CourseForm extends Component {
         }
     }
 
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
+    buildForm() {
+        let formData = new FormData();
+
+        formData.append("courses_title", this.state.title);
+        formData.append("courses_active", this.state.active === true ? 'true' : 'false');
+        formData.append("courses_content", this.state.content);
+        formData.append("courses_price", this.state.price);
+        formData.append("courses_discounted_price", this.state.discounted_price);
+        formData.append("courses_professor_id", this.state.professor_id);
+        formData.append("courses_studycenter_id", this.state.studycenter_id);
+        formData.append("courses_category_id", this.state.category_id);
+
+        if (this.state.image && this.state.image instanceof File) {
+            formData.append("file", this.state.image);
+        }
+
+        return formData;
     }
+
 
     render() {
         return (
@@ -173,7 +186,7 @@ export default class CourseForm extends Component {
                             <img src={this.props.course.courses_image} />
 
                             <div className="image-removal-link">
-                                <a>Remove file</a>
+                                <a onClick={this.deleteImage}>Remove file</a>
                             </div>
 
                         </div>

@@ -76,7 +76,27 @@ export const addCourse = (formData, token) => {
         })
         .catch(error => {
             console.log("error addCourse:", error);      
-        })
+        });
+};
+
+export const delete_course_image = (courseId, token) => {
+    const url = `${API_URL}/course/${courseId}/delete-image`;
+    console.log("delete_course_image: ", url);
+    return axios 
+    ({
+        method: "delete",
+        url: `${url}`,
+        headers: {
+            'Authorization': `Bearer ${token}`
+        } 
+    })
+    .then(response => {
+        console.log("deleteImage:", response)
+        return response;
+    })
+    .catch(error => {
+        console.log("error deleteImage:", error);
+    });
 };
 
 /*------------ Blog-Details-------------*/
@@ -98,4 +118,4 @@ export const getCourseByIdFromAPI = (id, token) => {
         console.log("error getCourseById", error);
     })
 
-}
+};
