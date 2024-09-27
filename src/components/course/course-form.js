@@ -32,6 +32,8 @@ export default class CourseForm extends Component {
         this.conponentConfig = this.componentConfig.bind(this);
         this.djsConfig = this.djsConfig.bind(this);
         this.handleImageDrop = this.handleImageDrop.bind(this);
+
+        this.imageRef = React.createRef();
     }
 
     componentConfig() {
@@ -96,13 +98,16 @@ export default class CourseForm extends Component {
             this.setState({ isSubmitting: true });
             addCourse(this.buildForm(), token)
                 .then(data => {
+                    if(this.state.image){
+                        this.imageRef.current.dropzone.removeAllFiles();
+                    }
                     if (this.props.handleSuccessfullFormSubmission) {
                         this.setState({
                             id: "",
                             title: "",
                             active: true,
                             content: "",
-                            courses_image: "",
+                            image: "",
                             price: "",
                             discounted_price: "",
                             professor_id: "",
@@ -141,6 +146,7 @@ export default class CourseForm extends Component {
                 </div>
                 <div className="image-uploaders">
                     <DropzoneComponent
+                        ref={this.imageRef}
                         config={this.componentConfig()}
                         djsConfig={this.djsConfig()}
                         eventHandlers={this.handleImageDrop()}

@@ -77,14 +77,26 @@
     grid-template-columns: 1fr 1fr 2fr;
   }
 
-  .one-column {}
+  .one-column {
+
+    .DraftEditor-root {
+      border-radius: 3px;
+      border: 1px solid $offwhite;
+      padding: 10px;
+      margin-bottom: 20px;
+      min-height: 200px;
+    }
+
+  }
 
   .image-uploaders {
     @include base-grid();
     grid-template-columns: 180px;
     margin: 0 auto;
     margin-bottom: 20px;
-
+      
+    /* --- Dropzone --- */
+    
     .dropzone .dz-message {
       text-align: center;
       margin: 2.5em 0;
@@ -139,3 +151,4 @@
   }
     
 }
+
