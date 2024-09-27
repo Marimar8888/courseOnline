@@ -17,6 +17,21 @@ export default class RichTextEditor extends Component {
         this.uploadFile = this.uploadFile.bind(this);
     }
 
+    componentDidMount() {
+        if(this.props.editMode && this.props.contentToEdit){
+            const blocksFromHtml = htmlToDraft(this.props.contentToEdit);
+            if (blocksFromHtml) {
+                const { contentBlocks, entityMap } = blocksFromHtml;
+
+                if (contentBlocks) {
+                    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+                    const editorState = EditorState.createWithContent(contentState);
+                    this.setState({ editorState });
+                }
+            }
+        }
+    }
+
     onEditorStateChange(editorState) {
         this.setState(
             { editorState },

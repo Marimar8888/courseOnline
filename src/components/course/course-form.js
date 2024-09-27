@@ -36,6 +36,24 @@ export default class CourseForm extends Component {
         this.imageRef = React.createRef();
     }
 
+    componentDidMount(){
+        if(this.props.editMode){
+            console.log("componentDidMount course:", this.props.course);
+            this.setState({
+                id: this.props.course.courses_id,
+                title: this.props.course.courses_title,
+                content: this.props.course.courses_content || null,
+                image: this.props.course.courses_image || null,
+                price: this.props.course.courses_price,
+                discounted_price: this.props.course.courses_discounted_price || "",
+                professor_id: this.props.course.professor,
+                studycenter_id: this.props.course.studycenter || "",
+                category_id: this.props.course.category,
+                active: this.props.course.courses_active
+            })
+        }
+    }
+
     componentConfig() {
         return {
             iconFiletypes: [".jpg", ".png"],
@@ -142,6 +160,11 @@ export default class CourseForm extends Component {
                 <div className="one-column">
                     <RichTextEditor
                         handleRichTextEditorChange={this.handleRichTextEditorChange}
+                        editMode={this.props.editMode}
+                        contentToEdit={
+                            this.props.editMode && this.props.course.courses_content 
+                            ? this.props.course.courses_content 
+                            : null}
                     />
                 </div>
                 <div className="image-uploaders">
