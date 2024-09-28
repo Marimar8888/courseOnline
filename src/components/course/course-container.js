@@ -6,7 +6,7 @@ import CourseItemDashboard from './course-item-dashboard';
 import CourseModal from '../modals/course-modal';
 import { getUserIdFromAPI } from '../services/user';
 import { getProfessorIdByUserIdFromAPI } from '../services/professor';
-import { getCoursesByProfessorIdPagined, getCoursesByStudentIdPagined } from '../services/course';
+import { getCoursesByProfessorIdPagined, getCoursesByStudentIdPagined, deleteCourse } from '../services/course';
 import { getStudentIdByUserIdFromAPI } from '../services/student';
 
 
@@ -24,7 +24,7 @@ class CourseContainer extends Component {
             totalPages: 0,
             isLoading: true,
             limit: 10,
-            courseModalIsOpen: false
+            courseModalIsOpen: false,
         }
         this.hasUnmounted = false;
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -179,8 +179,14 @@ class CourseContainer extends Component {
         });
     }
 
-    handleDeleteClick() {
-        console.log("delete course click");
+    handleDeleteClick(course) {
+        const token = localStorage.getItem("token");
+        deleteCourse(course.courses_id, token)
+            .then(response => {
+                this.setState(prevState => ({
+                    courses: prevState.courses.filter(c => c.courses_id !== course.courses_id)
+                }));
+            })
     }
 
     render() {

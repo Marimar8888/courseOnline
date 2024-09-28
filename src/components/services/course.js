@@ -98,7 +98,7 @@ export const delete_course_image = (courseId, token) => {
     });
 };
 
-/*------------ Blog-Details-------------*/
+/*------------ Course-Details-------------*/
 
 export const getCourseByIdFromAPI = (id, token) => {
     const url = `${API_URL}/course/${id}`;
@@ -110,7 +110,6 @@ export const getCourseByIdFromAPI = (id, token) => {
         }
     })
     .then(response => {
-        console.log("getCourseById", response);
         return response.data;
     })
     .catch(error => {
@@ -118,3 +117,20 @@ export const getCourseByIdFromAPI = (id, token) => {
     })
 
 };
+
+export const deleteCourse = (id, token) => {
+    const url = `${API_URL}/course/${id}`;
+    return axios({
+        method: "delete",
+        url: `${url}`,
+        headers: {
+             'Authorization': `Bearer ${token}`
+        }
+    }) 
+    .then(response => { 
+        return response;
+    })
+    .catch(error => {
+        console.log("error deleteCourse", error);
+    })
+} 
