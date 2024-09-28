@@ -15,10 +15,21 @@ export default class CourseDetails extends Component {
 
         this.handleEditClick = this.handleEditClick.bind(this);
         this.handleImageDelete = this.handleImageDelete.bind(this);
+        this.handleUpdateFormSubmission = this.handleUpdateFormSubmission.bind(this);
     }
 
     componentDidMount() {
         this.getCourseItem();
+    }
+
+    handleUpdateFormSubmission(course) {
+        console.log("handleUpdateFormSubmission", course);
+        this.setState({
+            courseItem: course,
+            editMode: false
+        }, () => {
+            console.log("handleUpdateFormSubmission courseItem", this.state.courseItem);
+        });
     }
 
     handleImageDelete() {
@@ -57,11 +68,14 @@ export default class CourseDetails extends Component {
 
         const contentManager = () => {
             if (this.state.editMode) {
-                return <CourseForm  
-                    editMode={this.state.editMode} 
-                    course={this.state.courseItem}
-                    handleImageDelete = {this.handleImageDelete}
-                    />;
+                return(
+                    <CourseForm  
+                        editMode={this.state.editMode} 
+                        course={this.state.courseItem}
+                        handleImageDelete = {this.handleImageDelete}
+                        handleUpdateFormSubmission = {this.handleUpdateFormSubmission}
+                    />
+                );
             } else {
                 return (
                     <div>

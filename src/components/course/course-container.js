@@ -122,8 +122,8 @@ class CourseContainer extends Component {
     }
 
     componentWillUnmount() {
-        this.hasUnmounted = true;
         window.onscroll = null;
+        this.hasUnmounted = true;
     }
 
 
@@ -160,7 +160,6 @@ class CourseContainer extends Component {
     }
 
     handleSuccessNewCourseSubmission(course) {
-        console.log("handleSuccessNewCourseSubmission", course);
         this.setState({
             courses: [course].concat(this.state.courses),
             courseModalIsOpen: false

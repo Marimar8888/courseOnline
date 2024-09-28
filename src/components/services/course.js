@@ -60,22 +60,25 @@ export const getCoursesByStudentIdPagined = (token, studentId, typeId, currentPa
 };
 
 /*---------------Course-form.js------------------- */
-export const addCourse = (formData, token) => {
-    const url = `${API_URL}/course`;
+export const addOrUpdateCourse = (apiUrl, apiAction, formData, token) => {
+    console.log("addOrUpdateCourse apiUrl", apiUrl);
+    console.log("addOrUpdateCourse apiAction", apiAction);
+
     return axios
         ({
-            method: "post",
-            url: `${url}`,
+            method: apiAction,
+            url: apiUrl,
             data: formData,
             headers: {
                 'Authorization': `Bearer ${token}`
             } 
         })
         .then(response => {
+            console.log("addOrUpdateCourse response", response.data);
             return response.data;
         })
         .catch(error => {
-            console.log("error addCourse:", error);      
+            console.log("error addOrUpdateCourse:", error);      
         });
 };
 
