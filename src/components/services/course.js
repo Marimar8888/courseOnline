@@ -61,9 +61,6 @@ export const getCoursesByStudentIdPagined = (token, studentId, typeId, currentPa
 
 /*---------------Course-form.js------------------- */
 export const addOrUpdateCourse = (apiUrl, apiAction, formData, token) => {
-    console.log("addOrUpdateCourse apiUrl", apiUrl);
-    console.log("addOrUpdateCourse apiAction", apiAction);
-
     return axios
         ({
             method: apiAction,
@@ -74,7 +71,6 @@ export const addOrUpdateCourse = (apiUrl, apiAction, formData, token) => {
             } 
         })
         .then(response => {
-            console.log("addOrUpdateCourse response", response.data);
             return response.data;
         })
         .catch(error => {

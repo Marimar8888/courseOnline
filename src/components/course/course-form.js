@@ -40,6 +40,7 @@ class CourseForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
+        this.toggleActive = this.toggleActive.bind(this);
 
         this.conponentConfig = this.componentConfig.bind(this);
         this.djsConfig = this.djsConfig.bind(this);
@@ -50,7 +51,6 @@ class CourseForm extends Component {
 
     componentDidMount() {
         if (this.props.editMode) {
-            console.log("componentDidMount course:", this.props.course);
             this.setState({
                 id: this.props.course.courses_id,
                 title: this.props.course.courses_title,
@@ -78,7 +78,7 @@ class CourseForm extends Component {
             })
         }
     }
-
+    
     componentConfig() {
         return {
             iconFiletypes: [".jpg", ".png"],
@@ -95,6 +95,11 @@ class CourseForm extends Component {
         };
     }
 
+    toggleActive() {
+        const newActiveState = !this.state.active; 
+        this.setState({ active: newActiveState });
+    }
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
@@ -105,7 +110,6 @@ class CourseForm extends Component {
     handleImageDrop() {
         return {
             addedfile: file => {
-                console.log("Archivo añadido:", file);
                 this.setState({ image: file })
             }
         };
@@ -134,14 +138,12 @@ class CourseForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log("handleSubmit editMode:", this.props.editMode);
         const token = localStorage.getItem("token");
         if (token) {
             this.setState({ isSubmitting: true });
             addOrUpdateCourse(this.state.apiUrl, this.state.apiAction, this.buildForm(), token)
                 .then(data => {
                     const courseId = this.state.id;
-                    console.log("Respuesta del servidor:", data);
                     if (this.state.image && this.imageRef.current && this.imageRef.current.dropzone) {
                         this.imageRef.current.dropzone.removeAllFiles();
                     }
@@ -162,14 +164,12 @@ class CourseForm extends Component {
 
                     });
                     if (this.props.editMode) {
-                        console.log("addOrUpdateCourse actualización curso", this.props.editMode);
                         this.setState({ isSubmitting: false });
                         this.props.handleUpdateFormSubmission(data);
                         this.props.history.push(`/c/${courseId}`);
                     } else {
                         this.setState({ isSubmitting: false });
                         this.props.handleSuccessfullFormSubmission(data);
-                        console.log("addOrUpdateCourse creación curso", this.props.editMode);
                     }
                 })
                 .catch(error => {
@@ -210,38 +210,9 @@ class CourseForm extends Component {
         if (this.state.image !== this.state.previousState.image && this.state.image instanceof File) {
             formData.append("file", this.state.image);
         }
-            
-        console.log("Contenido del FormData antes de enviar:");
-        for (const [key, value] of formData.entries()) {
-            console.log(key, value);
-        }
     
         return formData;
     }
-
-    // buildForm() {
-    //     let formData = new FormData();
-
-    //     formData.append("courses_title", this.state.title);
-    //     formData.append("courses_active", this.state.active === true ? 'true' : 'false');
-    //     formData.append("courses_content", this.state.content);
-    //     formData.append("courses_price", this.state.price);
-    //     formData.append("courses_discounted_price", this.state.discounted_price);
-    //     formData.append("courses_professor_id", this.state.professor_id);
-    //     formData.append("courses_studycenter_id", this.state.studycenter_id);
-    //     formData.append("courses_category_id", this.state.category_id);
-
-    //     if (this.state.image && this.state.image instanceof File) {
-    //         formData.append("file", this.state.image);
-    //     }
-    //     console.log("Contenido del FormData antes de enviar:");
-    //     for (const [key, value] of formData.entries()) {
-    //         console.log(key, value);
-    //     }
-
-    //     return formData;
-    // }
-
 
     render() {
         return (
@@ -249,7 +220,7 @@ class CourseForm extends Component {
                 <CourseFormFields
                     state={this.state}
                     handleChange={this.handleChange}
-                    setActive={(active) => this.setState({ active })}
+                    setActive={this.toggleActive} 
                 />
                 <div className="one-column">
                     <RichTextEditor

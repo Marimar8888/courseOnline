@@ -14,7 +14,17 @@ const CourseFormFields = ({ state, handleChange, setActive }) => {
 
                 <input
                     type="checkbox"
-                    onChange={(e) => setActive({ active: e.target.checked })}
+                    onChange={(e) => {
+                        
+                        if (setActive) {
+                            setActive({ active: e.target.checked });
+                        } else {
+                           
+                            handleChange({
+                                target: { name: 'active', value: true },
+                            });
+                        }
+                    }}
                     name="active"
                     checked={state.active}
                 />
