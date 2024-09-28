@@ -22,9 +22,16 @@
             display: flex;
             flex-direction: column;
             width: 750px;
+         
             .course-content-text-title {
-                h2 {
-                    margin: 0px;
+                a {
+                    text-decoration: none; 
+                    color: inherit; 
+                    cursor: pointer;
+
+                    h2 {
+                        margin: 0px; 
+                    }
                 }
             }
             .course-content-text-content {

@@ -24,7 +24,9 @@
         flex-direction: row;
         justify-content: space-between;    
         .course-details-text-header{
-
+            h1 {
+                cursor: pointer;
+            }
         }
         .course-details-text-price{
             display: flex;
