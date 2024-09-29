@@ -5,6 +5,10 @@ import { withRouter } from "react-router-dom";
 import RichTextEditor from "../forms/rich-text-editor";
 import CourseFormFields from "../forms/course-form-fields";
 import { addOrUpdateCourse, delete_course_image } from "../services/course";
+import { getProfessorByProfessorIdFromAPI, getProfessorIdByUserIdFromAPI } from "../services/professor";
+import { categoryNamesFromAPI } from '../services/category';
+import { studyCentersNamesFromAPI } from '../services/center';
+import { getUserIdFromAPI } from "../services/user";
 import { API_URL } from "../utils/constant";
 
 class CourseForm extends Component {
@@ -20,8 +24,11 @@ class CourseForm extends Component {
             price: "",
             discounted_price: "",
             professor_id: "",
+            professor: [],
             studycenter_id: "",
+            studycenter_names: [],
             category_id: "",
+            category_names: [],
             isSubmitting: false,
             apiUrl: `${API_URL}/course`,
             apiAction: "post",
@@ -41,6 +48,9 @@ class CourseForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
+        this.getProfessorName = this.getProfessorName.bind(this);
+        this.getCategoryNames = this.getCategoryNames.bind(this);
+        this.getStudyCentersNames = this.getStudyCentersNames.bind(this);
 
         this.conponentConfig = this.componentConfig.bind(this);
         this.djsConfig = this.djsConfig.bind(this);
@@ -50,7 +60,8 @@ class CourseForm extends Component {
     }
 
     componentDidMount() {
-        if (this.props.editMode) {
+        const token = localStorage.getItem("token");
+        if (this.props.editMode && token) {
             this.setState({
                 id: this.props.course.courses_id,
                 title: this.props.course.courses_title,
@@ -76,9 +87,49 @@ class CourseForm extends Component {
                     active: this.props.course.courses_active,
                 }
             })
+            this.getProfessorName(this.props.course.professor, token);
+            this.getCategoryNames();
+            this.getStudyCentersNames(this.props.course.professor, token);
+        } else {
+            getUserIdFromAPI(token)
+                .then(response => {
+                    this.setState({
+                        professor_id: response
+                    }, () => {
+                        this.getProfessorName(this.state.professor_id, token);
+                        this.getStudyCentersNames(this.state.professor_id, token);
+                    });
+                })
+            this.getCategoryNames();
         }
     }
-    
+
+    getCategoryNames() {
+        categoryNamesFromAPI()
+            .then(response => {
+                this.setState({ category_names: response });
+            })
+    }
+
+    getProfessorName(professorId, token) {
+        getProfessorByProfessorIdFromAPI(professorId, token)
+            .then(response => {
+                this.setState({ professor: response });
+            })
+    }
+
+    getStudyCentersNames(professorId, token) {
+        studyCentersNamesFromAPI(professorId, token)
+            .then(response => {
+                if (Array.isArray(response)) {
+                    this.setState({ studycenter_names: response });
+                }
+            })
+
+
+    }
+
+
     componentConfig() {
         return {
             iconFiletypes: [".jpg", ".png"],
@@ -96,7 +147,7 @@ class CourseForm extends Component {
     }
 
     toggleActive() {
-        const newActiveState = !this.state.active; 
+        const newActiveState = !this.state.active;
         this.setState({ active: newActiveState });
     }
 
@@ -181,7 +232,7 @@ class CourseForm extends Component {
     buildForm() {
 
         let formData = new FormData();
-       
+
         if (this.state.title !== this.state.previousState.title) {
             formData.append("courses_title", this.state.title);
         }
@@ -206,11 +257,11 @@ class CourseForm extends Component {
         if (this.state.category_id !== this.state.previousState.category_id) {
             formData.append("courses_category_id", this.state.category_id);
         }
-    
+
         if (this.state.image !== this.state.previousState.image && this.state.image instanceof File) {
             formData.append("file", this.state.image);
         }
-    
+
         return formData;
     }
 
@@ -220,7 +271,7 @@ class CourseForm extends Component {
                 <CourseFormFields
                     state={this.state}
                     handleChange={this.handleChange}
-                    setActive={this.toggleActive} 
+                    setActive={this.toggleActive}
                 />
                 <div className="one-column">
                     <RichTextEditor

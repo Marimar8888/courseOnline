@@ -15,11 +15,11 @@ const CourseFormFields = ({ state, handleChange, setActive }) => {
                 <input
                     type="checkbox"
                     onChange={(e) => {
-                        
+
                         if (setActive) {
                             setActive({ active: e.target.checked });
                         } else {
-                           
+
                             handleChange({
                                 target: { name: 'active', value: true },
                             });
@@ -45,30 +45,41 @@ const CourseFormFields = ({ state, handleChange, setActive }) => {
                     placeholder="Precio con descuento"
                     value={state.discounted_price}
                 />
-                <input
-                    type="text"
+                <select
+                    name="category_id" 
+                    value={state.category_id || ''} 
                     onChange={handleChange}
-                    name="category_id"
-                    placeholder="Categoria"
-                    value={state.category_id}
-                />
+                    className="select-element"
+                >
+                    <option value="">Select Category</option>
+                    {state.category_names.map(category => (
+                        <option key={category.categories_id} value={category.categories_id}>
+                            {category.categories_name}
+                        </option>
+                    ))}
+                </select>
             </div>
             <div className="two-column">
                 <input
                     type="text"
-                    onChange={handleChange}
                     name="professor_id"
                     placeholder="Nombre professor"
-                    value={state.professor_id}
+                    value={state.professor.professors_last_name + " " + state.professor.professors_first_name} 
+                    readOnly
                 />
-
-                <input
-                    type="text"
+                <select
+                    name="studycenter_id" 
+                    value={state.studycenter_id || ''}
                     onChange={handleChange}
-                    name="studycenter_id"
-                    placeholder="Nombre Centro estudios"
-                    value={state.studycenter_id}
-                />
+                    className="select-element"
+                >
+                    <option value="">Select Center</option>
+                    {state.studycenter_names.map(center => (
+                        <option key={center.id} value={center.id}>
+                            {center.name}
+                        </option>
+                    ))}
+                </select>
             </div>
 
         </div>

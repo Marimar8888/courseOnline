@@ -80,7 +80,6 @@ export const addOrUpdateCourse = (apiUrl, apiAction, formData, token) => {
 
 export const delete_course_image = (courseId, token) => {
     const url = `${API_URL}/course/${courseId}/delete-image`;
-    console.log("delete_course_image: ", url);
     return axios 
     ({
         method: "delete",
@@ -133,4 +132,5 @@ export const deleteCourse = (id, token) => {
     .catch(error => {
         console.log("error deleteCourse", error);
     })
-} 
+}; 
+
