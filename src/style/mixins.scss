@@ -173,7 +173,19 @@
 
 /*-------------Form create,edit course-------------*/
 
-
+@mixin select-element {
+    border: 1px solid $blue;
+    font-weight: 300;
+    font-size: 1.1em;
+    color: $grey;
+    width: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+    max-height: 40px;
+    background-color: transparent;
+    outline: none;
+    font-family: "Titillium Web", sans-serif;
+}
 
 /*-------------- dashborar styles -----------------*/
 
