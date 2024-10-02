@@ -35,7 +35,7 @@ class App extends Component {
     this.state = {
       loggedInStatus: "NOT_LOGGED_IN",
       isRegisterModalOpen: false,
-      isModalOpen: false,
+      isPasswordModalOpen: false,
       cartCourses: initialCartCourses
     };
 
