@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { API_URL } from '../utils/constant';
+import EmailRecovery from './email-recovery';
 
 export default class Login extends Component {
   constructor(props) {
@@ -10,13 +11,18 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      errorText: ""
+      errorText: "",
+      showEmailRecovery: false
     };
     this.isMountedComponent = false;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRegisterClick = this.handleRegisterClick.bind(this);
-    
+    this.toggleEmailRecovery = this.toggleEmailRecovery.bind(this);
+  }
+
+  toggleEmailRecovery() {
+    this.setState({ showEmailRecovery: !this.state.showEmailRecovery });
   }
 
   handleRegisterClick() {
@@ -109,6 +115,9 @@ export default class Login extends Component {
   }
 
   render() {
+    if(this.state.showEmailRecovery){
+      return <EmailRecovery toggleEmailRecovery={this.toggleEmailRecovery}/>
+    }
     return (
       <div>
         <div className='title-login'>
@@ -141,7 +150,7 @@ export default class Login extends Component {
           <button className="btn" type="submit">Login</button>
 
           <div className="links-login-modal-wrapper">
-            <p className="link-forgot-pass">He olvidado la contraseña</p>
+            <p className="link-forgot-pass"  onClick={this.toggleEmailRecovery}>He olvidado la contraseña</p>
             <p className="link-register">¿No tienes una cuenta? 
               <span className="register-link" onClick={this.handleRegisterClick}>Regístrate</span>
             </p>

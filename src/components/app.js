@@ -23,6 +23,7 @@ import Store from './pages/store';
 import CartDetails from './cart-shopping/cart-details';
 import CartPaying from './cart-shopping/cart-paying';
 import StudentContainer from './student/student-container';
+import ChangePassword from './auth/change-password';
 
 
 class App extends Component {
@@ -305,7 +306,7 @@ class App extends Component {
                   clearCart={this.clearCart}
                 />
               )} />
-
+              <Route path="/reset-password" component={ChangePassword} />
 
               {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedPages()) : null}
               <Route component={NoMatch} />
