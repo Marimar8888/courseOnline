@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { API_URL } from '../utils/constant';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,8 @@ const Contact = () => {
     acceptConditions: false
   });
 
+  const [message, setMessage] = useState('');
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -17,11 +21,43 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Formulario enviado:', formData);
-    //TODO
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = buildFormContact();
+  
+    axios({
+      method: "post",
+      url: `${API_URL}/contact`,
+      data: formData
+    })
+    .then(response => {
+      console.log('Formulario enviado con éxito:', response.data);
+      setMessage('Formulario enviado correctamente.');
+        setFormData({
+          name: '',
+          subject: '',
+          description: '',
+          email: '',
+          acceptConditions: false,
+        });
+    })
+    .catch(error => {
+      console.log("Error al enviar el formulario:", error);
+      setMessage('Hubo un error al enviar el formulario.');
+    });
   };
+
+  const buildFormContact = () => {
+    let contactFormData = new FormData();
+    contactFormData.append("contacts_name", formData.name);
+    contactFormData.append("contacts_email", formData.email);
+    contactFormData.append("contacts_subject", formData.subject);
+    contactFormData.append("contacts_message", formData.description);
+    contactFormData.append("contacts_check", formData.acceptConditions ? 'true' : 'false');
+  
+    return contactFormData;
+  };
+  
 
   return (
     <div className='content-page-wrapper'>
@@ -71,6 +107,7 @@ const Contact = () => {
               required
             ></textarea>
           </div>
+          {message && <p className="message">{message}</p>}
           <div className="form-group form-check">
             <input
               type="checkbox"
@@ -85,7 +122,6 @@ const Contact = () => {
           </div>
           <button 
           type="submit" 
-          //className="submit-btn" 
           className={`btn-save ${formData.acceptConditions ? 'btn' : ''}`}
           disabled={!formData.acceptConditions}>Enviar</button>
         </form>
