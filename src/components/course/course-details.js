@@ -10,7 +10,8 @@ export default class CourseDetails extends Component {
         this.state = {
             currentId: this.props.match.params.slug,
             courseItem: {},
-            editMode: false
+            editMode: false,
+            editingPermission: this.props.location.state.editingPermission || false
         };
 
         this.handleEditClick = this.handleEditClick.bind(this);
@@ -23,12 +24,9 @@ export default class CourseDetails extends Component {
     }
 
     handleUpdateFormSubmission(course) {
-        console.log("handleUpdateFormSubmission", course);
         this.setState({
             courseItem: course,
             editMode: false
-        }, () => {
-            console.log("handleUpdateFormSubmission courseItem", this.state.courseItem);
         });
     }
 
@@ -41,7 +39,6 @@ export default class CourseDetails extends Component {
     }
 
     handleEditClick() {
-        console.log("handle Edit Click");
         this.setState({ editMode: true });
     }
 
@@ -67,7 +64,7 @@ export default class CourseDetails extends Component {
         const discounted = courses_discounted_price;
 
         const contentManager = () => {
-            if (this.state.editMode) {
+            if (this.state.editMode && this.state.editingPermission) {
                 return(
                     <CourseForm  
                         editMode={this.state.editMode} 
@@ -85,7 +82,11 @@ export default class CourseDetails extends Component {
                             </div> : null}
                         <div className='course-details-text'>
                             <div className='course-details-text-header'>
-                                <h1 onClick={this.handleEditClick}>{courses_title}</h1>
+                                {this.state.editingPermission ? (
+                                    <h1 className="title-with-click" onClick={this.handleEditClick}>{courses_title}</h1>
+                                ) : (
+                                    <h1>{courses_title}</h1>
+                                )}
                             </div>
                             <div className='course-details-text-price'>
                                 {discounted != null ? (

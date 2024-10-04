@@ -24,7 +24,7 @@
         flex-direction: row;
         justify-content: space-between;    
         .course-details-text-header{
-            h1 {
+            h1.title-with-click {
                 cursor: pointer;
             }
         }

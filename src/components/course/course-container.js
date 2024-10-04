@@ -25,6 +25,7 @@ class CourseContainer extends Component {
             isLoading: true,
             limit: 10,
             courseModalIsOpen: false,
+            editingPermission: this.props.editingPermission || false,
         }
         this.hasUnmounted = false;
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -85,7 +86,8 @@ class CourseContainer extends Component {
                                             currentPage: prevState.currentPage + 1,
                                             totalCount: data.total,
                                             totalPages: data.pages,
-                                            isLoading: false
+                                            isLoading: false,
+                                            editingPermission: true
                                         }));
                                     })
                                     .catch(error => {
@@ -190,7 +192,7 @@ class CourseContainer extends Component {
     }
 
     render() {
-        const { courses = [], typeId } = this.state;
+        const { courses = [], typeId, editingPermission } = this.state;
         const { loggedInStatus } = this.props;
     
         if (loggedInStatus !== "LOGGED_IN") {
@@ -216,6 +218,7 @@ class CourseContainer extends Component {
                                     key={course.id}
                                     course={course}
                                     typeId={typeId}
+                                    editingPermission={editingPermission}
                                     handleNewCourseClick={this.handleNewCourseClick}
                                     handleDeleteClick={this.handleDeleteClick}
                                 />

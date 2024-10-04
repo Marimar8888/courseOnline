@@ -262,7 +262,7 @@ class App extends Component {
                 path="/courses/p/:slug"
                 render={props => (
                   <Courses
-                    {...props}
+                    editingPermission = "true"
                     loggedInStatus={this.state.loggedInStatus} />
                 )}
               />
@@ -271,18 +271,25 @@ class App extends Component {
                 render={props => (
                   <Courses
                     {...props}
+                    editingPermission = "false"
                     loggedInStatus={this.state.loggedInStatus} />
                 )}
               />
               <Route
                 path="/courses/:slug"
                 render={props => (
-                  <Courses
+                  <Courses 
                     {...props}
-                    loggedInStatus={this.state.loggedInStatus} />
+                    loggedInStatus={this.state.loggedInStatus}
+                  />
                 )}
               />
-              <Route path="/c/:slug" component={CourseDetails} />
+              <Route 
+                path="/c/:slug" 
+                render={props => (
+                <CourseDetails {...props}/>
+                )}  
+              />
               <Route
                 path="/students/:slug"
                 render={props => (

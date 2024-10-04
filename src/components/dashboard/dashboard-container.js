@@ -50,7 +50,6 @@ class DashboardContainer extends Component {
   handleChangeStatusCenter(center) {
     const statusCenter = center.studyCenters_active ? false : true;
 
-    console.log("handleChangeStatusCenter: ", center);
     const token = localStorage.getItem("token");
     axios({
       method: 'patch',  
@@ -64,7 +63,6 @@ class DashboardContainer extends Component {
     })
       .then(response => {
         if (response.status === 200) {
-          console.log("response handleChangeStatusCenter:", response.data);
           this.setState(prevState => ({
             centersData: prevState.centersData.map(c =>
               c.studyCenters_id === center.studyCenters_id

@@ -23,27 +23,6 @@ const fechStudentData = (studentId) => {
         console.log("error fechStudentData", error)
       })
   };
-
- /*  export const getStudentId =(userId)=> {
-    const token = localStorage.getItem("token");
-    return axios
-      .get(
-        `${API_URL}/student/user_id/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-      .then(response => {
-        const studentId = response.data.students_id;
-        fechStudentData(studentId);
-
-      })
-      .catch(error => {
-        console.log("error getStudentId", error)
-      })
-  }; */
-
   
 /* ------------ DASHBOARD professor-edit-container.js------------------------------*/
 
@@ -125,7 +104,6 @@ export const getStudentByIdFromAPI = (userId, token) => {
         .then(response => {
             if (response.status === 200) {
                 const newStudent = response.data;
-                console.log("student.js getStudentByIdFromAPI", newStudent);
                 return newStudent;
             } else {
                 console.log("Student not found");

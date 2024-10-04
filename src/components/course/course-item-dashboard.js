@@ -4,7 +4,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Truncate from "react-truncate";
 import striptags from "striptags";
 
-const CourseItemDashboard = ({ course, typeId, handleDeleteClick, handleNewCourseClick }) => {
+const CourseItemDashboard = ({ course, typeId, handleDeleteClick, handleNewCourseClick, editingPermission }) => {
     return (
         <div>
             <div className="course-content-item-dashboard" key={course.courses_id}>
@@ -17,7 +17,12 @@ const CourseItemDashboard = ({ course, typeId, handleDeleteClick, handleNewCours
                 </div>
                 <div className="course-content-text">
                     <div className="course-content-text-title">
-                        <Link to={`/c/${course.courses_id}`}>
+                        <Link 
+                             to={{ 
+                                pathname: `/c/${course.courses_id}`, 
+                                state: { editingPermission } 
+                            }}
+                        >
                             <h2>{course.courses_title}</h2>
                         </Link>
                     </div>

@@ -6,7 +6,7 @@ import CourseContainer from "../../course/course-container"
 export default function Courses(props) {
   return (
     <div className="collection-page-wrapper">
-      <CourseContainer loggedInStatus={props.loggedInStatus}/>
+      <CourseContainer loggedInStatus={props.loggedInStatus} editingPermision={props.editingPermision}/>
     </div>
   )
 }

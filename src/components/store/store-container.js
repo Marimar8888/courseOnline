@@ -21,7 +21,8 @@ class StoreContainer extends Component {
             userId: "",
             favorites: [],
             isModalOpen: false,
-            modalMessage: ""
+            modalMessage: "",
+            editingPermission: false
         };
         this.hasUnmounted = false;
         this.activateInfiniteScroll();
@@ -310,6 +311,7 @@ class StoreContainer extends Component {
                             onAddToCart={this.props.addToCart}
                             onFavoriteClick={this.handleFavoriteClick}
                             isFavorite={isFavorite}
+                            editingPermission={this.editingPermission}
                         />
                     );
                 })}

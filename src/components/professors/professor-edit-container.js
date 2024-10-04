@@ -119,7 +119,7 @@ class ProfessorEditContainer extends Component {
         state: { 
           courses: this.state.courses,  
           professor: this.state.professors_id
-          }
+        }
       });
     });
   }

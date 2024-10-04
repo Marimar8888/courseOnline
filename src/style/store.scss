@@ -31,10 +31,17 @@
 
             .course-content-text-title {
                 width: 100%;
-                h2 {
-                    width: 100%;
-                    margin: 0px;
+                a {
+                    text-decoration: none; 
+                    color: inherit; 
+                    cursor: pointer;
+
+                    h2 {
+                        width: 100%;
+                        margin: 0px; 
+                    }
                 }
+
                 .link-read-more {
                     @include link-read-more();
                 }

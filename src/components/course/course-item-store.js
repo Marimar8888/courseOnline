@@ -6,7 +6,7 @@ import striptags from "striptags";
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 
-const CourseItemStore = ({ course, isCourseInCart, onAddToCart, onFavoriteClick, isFavorite }) => {
+const CourseItemStore = ({ course, isCourseInCart, onAddToCart, onFavoriteClick, isFavorite, editingPermission }) => {
     const discounted = course.courses_discounted_price;
 
     return (
@@ -16,10 +16,17 @@ const CourseItemStore = ({ course, isCourseInCart, onAddToCart, onFavoriteClick,
             </div>
             <div className="course-content-text">
                 <div className="course-content-text-title">
-                    <h2>{course.courses_title}</h2>
+                    <Link
+                        to={{
+                            pathname: `/c/${course.courses_id}`,
+                            state: { editingPermission }
+                        }}
+                    >
+                        <h2>{course.courses_title}</h2>
+                    </Link>
                     <Truncate lines={5} ellipsis={
                         <span>
-                              ...<Link className="link-read-more" to={`/c/${course.courses_id}`}>Leer más</Link>
+                            ...<Link className="link-read-more" to={`/c/${course.courses_id}`} >Leer más</Link>
                         </span>
                     }><p>{striptags(course.courses_content)}</p></Truncate>
                 </div>
