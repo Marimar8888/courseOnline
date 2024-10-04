@@ -51,16 +51,16 @@ const NavBarContainer = (props) => {
 
       <div className="left-side">
         <div className="nav-link-wrapper">
-          <NavLink exact to="/" activeClassName="nav-link-active">Home</NavLink>
+          <NavLink exact to="/" activeClassName="nav-link-active">INICIO</NavLink>
         </div>
         <div className="nav-link-wrapper">
-          <NavLink exact to="/store" activeClassName="nav-link-active">Store</NavLink>
+          <NavLink exact to="/store" activeClassName="nav-link-active">TIENDA</NavLink>
         </div>
         <div className="nav-link-wrapper">
-          <NavLink to="/about" activeClassName="nav-link-active">About</NavLink>
+          <NavLink to="/teach" activeClassName="nav-link-active">ENSEÑA CON NOSOTROS</NavLink>
         </div>
         <div className="nav-link-wrapper">
-          <NavLink to="/contact" activeClassName="nav-link-active">Contact</NavLink>
+          <NavLink to="/contact" activeClassName="nav-link-active">CONTACTO</NavLink>
         </div>
         {props.loggedInStatus === "LOGGED_IN" ? (dynamicLink("/dashboard", "Panel de control")) : null}
       </div>

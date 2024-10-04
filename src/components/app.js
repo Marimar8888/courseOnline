@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import NavBarContainer from './navigation/navbar-container';
 import Home from "./pages/home";
-import About from "./pages/about";
+import Teach from "./pages/teach";
 import Contact from "./pages/contact";
 import Icons from "./helpers/icons";
 import NoMatch from "./pages/no-match";
@@ -256,7 +256,7 @@ class App extends Component {
                   />
                 )}
               />
-              <Route path="/about" component={About} />
+              <Route path="/teach" component={Teach} />
               <Route path="/contact" component={Contact} />
               <Route
                 path="/courses/p/:slug"
