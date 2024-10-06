@@ -36,7 +36,8 @@ class App extends Component {
       loggedInStatus: "NOT_LOGGED_IN",
       isRegisterModalOpen: false,
       isPasswordModalOpen: false,
-      cartCourses: initialCartCourses
+      cartCourses: initialCartCourses,
+      isMenuOpen: false,
     };
 
     this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
@@ -48,6 +49,7 @@ class App extends Component {
     this.openRegisterModal = this.openRegisterModal.bind(this);
     this.closeRegisterModal = this.closeRegisterModal.bind(this);
     this.openLoginModal = this.openLoginModal.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
 
   }
 
@@ -70,6 +72,16 @@ class App extends Component {
     if (prevState.cartCourses !== this.state.cartCourses) {
       localStorage.setItem("cartCourses", JSON.stringify(this.state.cartCourses));
     }
+  }
+
+  toggleMenu() {
+    console.log("toggleMenu isMenuOpen", this.state.isMenuOpen);
+    this.setState((prevState) => ({
+      isMenuOpen: !prevState.isMenuOpen
+    }), () => {
+      console.log("ismenuOpen:", this.state.isMenuOpen);
+    });
+
   }
 
   addToCart = (course) => {
@@ -231,6 +243,8 @@ class App extends Component {
               checkTokenValidity={this.checkTokenValidity.bind(this)}
               cartCourses={this.state.cartCourses}
               removeFromCart={this.removeFromCart}
+              isMenuOpen={this.state.isMenuOpen}
+              toggleMenu={this.toggleMenu}
             />
             <Switch>
               <Route exact path="/" component={Home} />
@@ -256,13 +270,18 @@ class App extends Component {
                   />
                 )}
               />
-              <Route path="/teach" component={Teach} />
+              <Route
+                path="/teach"
+                render={(props) => (
+                  <Teach {...props} openRegisterModal={this.openRegisterModal} />
+                )}
+              />
               <Route path="/contact" component={Contact} />
               <Route
                 path="/courses/p/:slug"
                 render={props => (
                   <Courses
-                    editingPermission = "true"
+                    editingPermission="true"
                     loggedInStatus={this.state.loggedInStatus} />
                 )}
               />
@@ -271,24 +290,24 @@ class App extends Component {
                 render={props => (
                   <Courses
                     {...props}
-                    editingPermission = "false"
+                    editingPermission="false"
                     loggedInStatus={this.state.loggedInStatus} />
                 )}
               />
               <Route
                 path="/courses/:slug"
                 render={props => (
-                  <Courses 
+                  <Courses
                     {...props}
                     loggedInStatus={this.state.loggedInStatus}
                   />
                 )}
               />
-              <Route 
-                path="/c/:slug" 
+              <Route
+                path="/c/:slug"
                 render={props => (
-                <CourseDetails {...props}/>
-                )}  
+                  <CourseDetails {...props} />
+                )}
               />
               <Route
                 path="/students/:slug"

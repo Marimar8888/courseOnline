@@ -7,16 +7,17 @@
 
   .right-side {
     display: flex;
-    justify-content: space-evenly;
-    min-width: 200px;
-    width: 10%;
-    padding: 0 15px 0 0;
+    justify-content: right;
+    min-width: 350px;
+    width: 30%;
+
     font-size: 1.1em;
     font-family: "Titillium Web", sans-serif;
     @include nav-icon();
 
     .cart-icon-wrapper {
       position: relative;
+      margin-right: 20px;
     }
 
     .cart-item-count {
@@ -57,15 +58,161 @@
     a {
       color: $grey;
       text-decoration: none;
+
       &:hover {
         color: black;
       }
     }
 
     .nav-link-active {
-     
+
       border-bottom: 1px solid black;
       color: black;
+    }
+  }
+
+  .hamburger-menu {
+    display: none;
+  }
+
+  .menu-container {
+    display: none;
+  }
+
+}
+
+/* ------------ Responsive ------------------ */
+
+@media (max-width: 1024px) {
+
+  .nav-wrapper {
+    position: relative;
+    flex-direction: column;
+    padding: 10px;
+    width: 100vw;
+
+    .left-side {
+      display: none;
+    }
+
+    .right-side {
+      display: flex;
+      position: absolute;
+      top: 20px;
+      right: 50px;
+      justify-content: right;
+      width: 60%;
+
+      .cart-icon-wrapper {
+        font-size: 0.8rem; 
+      }
+
+      .sing-icon-wrapper {
+        font-size: 0.8rem;
+      }
+    }
+
+    .hamburger-menu {
+      display: block;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .menu-container {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      width: 50%;
+      max-width: 300px;
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+      z-index: 10;
+
+      .nav-link-wrapper {
+        box-sizing: border-box;  
+        padding: 15px;
+        width: 100%;
+        height: auto;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+
+        a {
+          text-align: left;
+          color: #000;
+        }
+      }
+    }
+
+    .menu-open {
+      display: flex;
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  .nav-wrapper {
+    position: relative;
+    flex-direction: column;
+    padding: 10px;
+    width: 100vw;
+
+    .hamburger-menu {
+      display: block;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .left-side {
+      display: none;
+    }
+
+    .right-side {
+      display: flex;
+      justify-content: right;
+      width: 60%;
+      min-width: 200px;
+
+      .cart-icon-wrapper {
+        font-size: 0.5rem;
+      }
+
+      .sing-icon-wrapper {
+        font-size: 0.5rem;
+      }
+    }
+
+    .menu-container {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      width: 45%;
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+      z-index: 10;
+
+      .nav-link-wrapper {
+        box-sizing: border-box;  
+        padding: 15px;
+        width: 100%;
+        height: auto;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+
+        a {
+          text-align: left;
+          color: #000;
+        }
+      }
+    }
+
+    .menu-open {
+      display: flex;
+      width: 50%;
     }
   }
 }

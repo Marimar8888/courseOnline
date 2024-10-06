@@ -1,7 +1,8 @@
 .ReactModal__Content,
 .ReactModal__Content--after-open {
   height: 80vh;
-  overflow: hidden !important
+  overflow: hidden !important;
+  z-index: 9999; 
 }
 
 .errorText {
@@ -44,6 +45,7 @@
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 9998; 
 }
 
 .modal-notificacion-wrapper {
@@ -181,7 +183,18 @@
     }
 
   }
+   
+}
 
-    
+@media (max-width: 1024px) and (min-width: 768px) {
+  .ReactModal__Content {
+    z-index: 1000; 
+  }
+}
+
+@media (max-width: 768px) {
+  .ReactModal__Content {
+    z-index: 1000; 
+  }
 }
 

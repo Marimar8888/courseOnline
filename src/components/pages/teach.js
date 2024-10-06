@@ -5,13 +5,14 @@ import happyTogether from "./../../../static/assets/images/home/community-young-
 import people from "./../../../static/assets/images/home/people-collage-design.jpg";
 
 
-export default function () {
+const Teach = ({openRegisterModal}) =>{
+
   return (
     <div className="content-page-wrapper">
       <div className='content-page-header'>
       <h1 className="header-title">Ven a formar a estudiantes</h1>
       <h3 className="header-subtitle">Cambia tu vida y la de miles de personas.</h3>
-      <button className="btn">Empieza ya</button>
+      <button className="btn" onClick={openRegisterModal}>Empieza ya</button>
         <img className="header-image" src={woman} alt="header home image" />
       </div>
       <div className='content-page-content-1'>
@@ -56,8 +57,9 @@ export default function () {
       <div className='content-page-content-3'>
         <h1>Conviértete en formador ahora</h1>
         <span>Únete a nosotros mediante la tienda virtual de aprendizaje en línea.</span>
-        <button className="btn">Empezar</button>
+        <button className="btn" onClick={openRegisterModal}>Empezar</button>
       </div>
     </div>
   )
 }
+export default Teach;

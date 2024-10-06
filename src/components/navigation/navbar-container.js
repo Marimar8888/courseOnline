@@ -7,12 +7,20 @@ import CartShopping from '../cart-shopping/cart-shopping';
 const NavBarContainer = (props) => {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { cartCourses, removeFromCart } = props;
-
+  const { cartCourses, removeFromCart, isMenuOpen, toggleMenu } = props;
+  console.log("isMenuOpen in NavBar:", isMenuOpen);
   if (typeof props.openModal !== 'function') {
     console.error('openModal is not defined or not a function');
     return null;
   }
+  const handleMenuLinkClick = () => {
+    toggleMenu(); 
+  };
+
+
+  const handleHamburgerClick = () => {
+    toggleMenu();
+  };
 
   useEffect(() => {
     props.checkTokenValidity();
@@ -46,8 +54,10 @@ const NavBarContainer = (props) => {
   const userName = localStorage.getItem('user_name');
 
   return (
-
     <div className="nav-wrapper">
+      <div className="hamburger-menu" onClick={handleHamburgerClick}>
+        <FontAwesomeIcon icon="bars" />
+      </div>
 
       <div className="left-side">
         <div className="nav-link-wrapper">
@@ -66,7 +76,7 @@ const NavBarContainer = (props) => {
       </div>
 
       <div className="right-side">
-        <div className="cart-icon-wrapper"> 
+        <div className="cart-icon-wrapper">
           {userName ? userName : ""}
           <a className="nav-icon" onClick={handleToggleCart}>
             <FontAwesomeIcon icon="cart-shopping" className='cart-icon' />
@@ -77,17 +87,35 @@ const NavBarContainer = (props) => {
             )}
           </a>
         </div>
-        <div>
-        {props.loggedInStatus === "LOGGED_IN" ? (
+        <div className="sing-icon-wrapper">
+          {props.loggedInStatus === "LOGGED_IN" ? (
             <a onClick={handleSignOut}>
-              <FontAwesomeIcon icon="sign-out-alt"  className='sing-icon'/>
+              <FontAwesomeIcon icon="sign-out-alt" className='sing-icon' />
             </a>) : (
             <a onClick={props.openModal} className="nav-icon">
-              <FontAwesomeIcon icon="door-open" className='sing-icon'/>
+              <FontAwesomeIcon icon="door-open" className='sing-icon' />
             </a>
           )}
         </div>
       </div>
+
+      {/* Menú desplegable cuando se hace clic en la hamburguesa */}
+      <div className={`menu-container ${isMenuOpen ? 'menu-open' : ''}`}>
+        <div className="nav-link-wrapper" onClick={handleMenuLinkClick}>
+          <NavLink exact to="/" activeClassName="nav-link-active">INICIO</NavLink>
+        </div>
+        <div className="nav-link-wrapper" onClick={handleMenuLinkClick}>
+          <NavLink exact to="/store" activeClassName="nav-link-active">TIENDA</NavLink>
+        </div>
+        <div className="nav-link-wrapper" onClick={handleMenuLinkClick}>
+          <NavLink to="/teach" activeClassName="nav-link-active">ENSEÑA CON NOSOTROS</NavLink>
+        </div>
+        <div className="nav-link-wrapper" onClick={handleMenuLinkClick}>
+          <NavLink to="/contact" activeClassName="nav-link-active">CONTACTO</NavLink>
+        </div>
+        {props.loggedInStatus === "LOGGED_IN" ? (dynamicLink("/dashboard", "Panel de control")) : null}
+      </div>
+
       {isCartOpen && <CartShopping isOpen={isCartOpen} cartCourses={cartCourses} removeFromCart={removeFromCart} />}
     </div>
 
