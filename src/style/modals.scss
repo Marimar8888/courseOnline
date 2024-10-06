@@ -3,6 +3,7 @@
   height: 80vh;
   overflow: hidden !important;
   z-index: 9999; 
+  max-width: 80%;
 }
 
 .errorText {
@@ -21,16 +22,15 @@
 }
 
 
-
-
 /* -------------------- Modal aviso loguear ----------*/
 
 .Modal {
   background: white;
   border-radius: 4px;
   padding: 20px;
-  width: 400px;
-  height: 200px;
+  width: 80%;
+  max-width: 400px;
+  height: auto;
   margin: 0 auto;
   position: relative;
 }
