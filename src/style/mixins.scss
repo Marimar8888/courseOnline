@@ -274,7 +274,7 @@
     color: $blue;
 }
 
-@mixin icon-start {
+@mixin icon-star {
     font-size: 2.5em;
     color: $blue;
     cursor: pointer;
@@ -284,6 +284,15 @@
         color: $dark-blue;
     }
 
+}
+
+@mixin icon-star-small {
+    display: none; 
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    font-size: 1.5em; 
+ 
 }
 
 /*-----------tables------------*/

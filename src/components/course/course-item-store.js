@@ -13,6 +13,9 @@ const CourseItemStore = ({ course, isCourseInCart, onAddToCart, onFavoriteClick,
         <div className="course-content-item" key={course.courses_id}>
             <div className="course-content-image">
                 <img src={course.courses_image} alt={course.courses_title} />
+                <div className="icon-star-small" onClick={() => onFavoriteClick(course.courses_id)}>
+                    <FontAwesomeIcon icon={isFavorite ? faStarSolid : faStarRegular} />
+                </div>
             </div>
             <div className="course-content-text">
                 <div className="course-content-text-title">
@@ -25,7 +28,7 @@ const CourseItemStore = ({ course, isCourseInCart, onAddToCart, onFavoriteClick,
                         <h2>{course.courses_title}</h2>
                     </Link>
                     <Truncate lines={5} ellipsis={
-                        <span>
+                        <span className="course-content-text-description">
                             ...<Link className="link-read-more" to={`/c/${course.courses_id}`} >Leer más</Link>
                         </span>
                     }><p>{striptags(course.courses_content)}</p></Truncate>
@@ -33,7 +36,7 @@ const CourseItemStore = ({ course, isCourseInCart, onAddToCart, onFavoriteClick,
             </div>
             <div className="course-content-rest">
                 {discounted != null ? (
-                    <div>
+                    <div className="course-content-prices">
                         <div className="course-content-price-through">
                             {course.courses_price} €
                         </div>
