@@ -10,9 +10,9 @@ const Teach = ({openRegisterModal}) =>{
   return (
     <div className="content-page-wrapper">
       <div className='content-page-header'>
-      <h1 className="header-title">Ven a formar a estudiantes</h1>
-      <h3 className="header-subtitle">Cambia tu vida y la de miles de personas.</h3>
-      <button className="btn" onClick={openRegisterModal}>Empieza ya</button>
+        <h1 className="header-title">Ven a formar a estudiantes</h1>
+        <h3 className="header-subtitle">Cambia tu vida y la de miles de personas.</h3>
+        <button className="btn" onClick={openRegisterModal}>Empieza ya</button>
         <img className="header-image" src={woman} alt="header home image" />
       </div>
       <div className='content-page-content-1'>

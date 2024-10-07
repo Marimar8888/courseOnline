@@ -7,7 +7,7 @@
     min-height: 42px;
     &:active,
     &:hover {
-        border: 1px solid transparent; // Evitar el borde visible
+        border: 1px solid transparent; 
     }
     &:not(:disabled) {
         @include base-btn();
@@ -26,13 +26,13 @@
     color: white;
     min-width: 100px;
     &:focus {
-        outline: none; // Evitar el borde predeterminado de enfoque
-        border: 1px solid transparent; // Restablecer borde a transparente
+        outline: none; 
+        border: 1px solid transparent; 
     }
 
     &:active {
-        outline: none; // Evitar el borde predeterminado de activación
-        border: 1px solid transparent; // Restablecer borde a transparente
+        outline: none; 
+        border: 1px solid transparent; 
     }
 
     &:hover {
