@@ -295,9 +295,11 @@ class StoreContainer extends Component {
 
         return (
             <div className="course-content-page-wrapper">
-                {this.state.categoryName && (
-                    <h1>Cursos de {this.state.categoryName}</h1>
-                )}
+                <div className="category-title">
+                    {this.state.categoryName && (
+                        <h1>Cursos de {this.state.categoryName}</h1>
+                    )}
+                </div>
 
                 {this.state.courses.map(course => {
                     const isCourseInCart = cartCourses.some(cartCourse => cartCourse.courses_id === course.courses_id);

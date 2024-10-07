@@ -5,10 +5,10 @@
     background-color: $mediumgrey;
     cursor: not-allowed;
     min-height: 42px;
+    &:active,
     &:hover {
-        background-color: $grey;
+        border: 1px solid transparent; // Evitar el borde visible
     }
-
     &:not(:disabled) {
         @include base-btn();
         cursor: pointer;
@@ -20,14 +20,19 @@
     height: 42px;
     font-size: 1em;
     font-weight: 500;
-    border: 1px solid transparent;
-    transition: all 0.5 ease-in-out;
+    border: 1px solid transparent; 
+    transition: all 0.5s ease-in-out;
     background-color: $blue;
     color: white;
     min-width: 100px;
-    &:active,
     &:focus {
-        outline: none;
+        outline: none; // Evitar el borde predeterminado de enfoque
+        border: 1px solid transparent; // Restablecer borde a transparente
+    }
+
+    &:active {
+        outline: none; // Evitar el borde predeterminado de activación
+        border: 1px solid transparent; // Restablecer borde a transparente
     }
 
     &:hover {
