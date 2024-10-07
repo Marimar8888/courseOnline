@@ -66,3 +66,122 @@
       }
    }
 }
+
+/*----------- Responsive ------------------------*/
+@media (max-width: 1024px) {
+   .content-page-wrapper {
+     min-height: auto;
+   }
+ 
+   .contact-form-container {
+     width: 80%;
+     padding: 20px;
+     margin: 15px auto;
+     box-shadow: 0 20px 15px rgba(0, 0, 0, 0.1); /* Reduce la sombra */
+   }
+ 
+   .contact-form h2 {
+     font-size: 1.8em;
+     text-align: center;
+   }
+ 
+   .contact-form .form-group label {
+     font-size: 16px;
+   }
+ 
+   .contact-form input,
+   .contact-form textarea {
+     font-size: 15px;
+     padding: 10px;
+   }
+ 
+   .contact-form textarea {
+     height: 90px;
+   }
+ 
+   .contact-form .submit-btn {
+     width: 100%;
+     padding: 12px;
+     font-size: 15px;
+   }
+ 
+   .contact-form .message {
+     font-size: 1.1em;
+   }
+ }
+ @media (max-width: 768px) {
+   .content-page-wrapper {
+     min-height: auto;
+   }
+ 
+   .contact-form-container {
+     width: 90%;
+     padding: 15px;
+     margin: 10px auto;
+     box-shadow: none;
+   }
+ 
+   .contact-form h2 {
+     font-size: 1.5em;
+     text-align: center;
+   }
+ 
+   .contact-form .form-group label {
+     font-size: 14px;
+   }
+ 
+   .contact-form input,
+   .contact-form textarea {
+     font-size: 14px;
+     padding: 8px;
+   }
+ 
+   .contact-form textarea {
+     height: 80px;
+   }
+ 
+   .contact-form .submit-btn {
+     width: 100%;
+     padding: 10px;
+     font-size: 14px;
+   }
+ 
+   .contact-form .message {
+     font-size: 1em;
+   }
+ }
+ 
+ @media (max-width: 480px) {
+   .contact-form-container {
+     width: 100%;
+     padding: 10px;
+   }
+ 
+   .contact-form h2 {
+     font-size: 1.2em;
+   }
+ 
+   .contact-form .form-group label {
+     font-size: 12px;
+   }
+ 
+   .contact-form input,
+   .contact-form textarea {
+     font-size: 12px;
+     padding: 6px;
+   }
+ 
+   .contact-form textarea {
+     height: 70px;
+   }
+ 
+   .contact-form .submit-btn {
+     padding: 8px;
+     font-size: 12px;
+   }
+ 
+   .contact-form .message {
+     font-size: 0.9em;
+   }
+ }
+ 
