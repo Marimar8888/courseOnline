@@ -1,126 +1,248 @@
+.dashboard-dates {
+    margin: 0 auto;
+    width: 80%;
+    @include input-element();
+    @include base-grid();
 
-    .dashboard-dates {
-        margin: 0 auto;
-        width: 80%;
-        @include input-element();
-        @include base-grid();
+    h3 {
+        margin: 0;
+    }
 
-        h3 {
+    .dashboard-dates-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 10px 0;
+
+        h2 {
             margin: 0;
         }
 
-        .dashboard-dates-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 10px 0;
+        .btn-save {
+            @include btn-save;
+        }
 
-            h2 {
-                margin: 0;
+        .dashboard-dates-header-button {
+
+            button {
+                margin-right: 5px;
             }
-
-            .btn-save {
-                @include btn-save;
-            }
-
-            .dashboard-dates-header-button {
-                  
-                button {
-                    margin-right: 5px;
-                }
-            }
-        }
-
-        .dashboard-dates-title h3 {
-            margin: 0;
-        }
-
-        .dashboard-form-group-name {
-            @include form-group-name(3);
-        }
-
-        .dashboard-form-group-name-center {
-            @include form-group-name(2);
-        }
-
-        .dashboard-form-group-address {
-            @include form-group-address();
-        }
-
-        .dashboard-form-group-card {
-            @include form-group-card();
         }
     }
 
-    .dashboard-courses {
-        display: grid;
+    .dashboard-dates-title h3 {
+        margin: 0;
+    }
 
-        .dashboard-dates-title h3 {
-            display: flex;
-            width: 100%;
-            justify-content: left;
-            margin: 0;
+    .dashboard-form-group-name {
+        @include form-group-name(3);
+    }
+
+    .dashboard-form-group-name-center {
+        @include form-group-name(2);
+    }
+
+    .dashboard-form-group-address {
+        @include form-group-address();
+    }
+
+    .dashboard-form-group-card {
+        @include form-group-card();
+    }
+}
+
+.dashboard-courses {
+    display: grid;
+
+    .dashboard-dates-title h3 {
+        display: flex;
+        width: 100%;
+        justify-content: left;
+        margin: 0;
+    }
+
+    .dashboard-courses-content {
+        @include dashboard-courses-content();
+        width: 100%;
+        height: 200px;
+
+        .dashboard-course-process,
+        .dashboard-course-favorites,
+        .dashboard-course-completed,
+        .dashboard-course-all {
+            @include dashboard-process();
+            cursor: pointer;
+
+            .dashboard-course-title {
+                padding-left: 20px;
+                font-weight: 700;
+                font-size: 1.5em;
+            }
+
+            .dashboard-course-number {
+                font-weight: 700;
+                font-size: 1.5em;
+                text-align: center;
+            }
         }
 
-        .dashboard-courses-content {
-            @include dashboard-courses-content();
-            width: 100%;
-            height: 200px;
+        .dashboard-course-completed {
+            @include dashboard-completed();
+            cursor: pointer;
+        }
 
-            .dashboard-course-process, .dashboard-course-favorites, .dashboard-course-completed, .dashboard-course-all{
-                @include dashboard-process();
-                cursor: pointer;
-               
-                .dashboard-course-title {
-                    padding-left: 20px;
-                    font-weight: 700;
-                    font-size: 1.5em;
+        .dashboard-course-favorites {
+            @include dashboard-favorites();
+            cursor: pointer;
+        }
+
+        .dashboard-course-all {
+            @include dashboard-favorites();
+            cursor: pointer;
+        }
+    }
+
+}
+
+.dashboard-centers {
+
+    .dashboard-dates-title h3 {
+        margin: 0;
+    }
+
+}
+
+.dashboard-professors {
+
+    .dashboard-dates-title h3 {
+        margin: 0;
+    }
+
+}
+
+.dashboard-bills {
+
+    .dashboard-dates-title h3 {
+        margin: 0;
+    }
+
+}
+
+/*---------------- Responsive ---------------- */
+@media (max-width: 1024px) {
+    .dashboard-dates {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+
+        .dashboard-form-group-name,
+        .dashboard-form-group-address,
+        .dashboard-form-group-card {
+            display: flex;
+            flex-direction: column;
+
+            .form-group {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-dates {
+        width: 90%;
+
+        .dashboard-form-group-name,
+        .dashboard-form-group-address,
+        .dashboard-form-group-card {
+            display: flex;
+            flex-direction: column;
+
+            .form-group {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        .dashboard-courses {
+
+            .dashboard-courses-content {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                width: 90%;
+
+                .dashboard-course-process,
+                .dashboard-course-favorites,
+                .dashboard-course-completed,
+                .dashboard-course-all {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    margin-bottom: 10px;
                 }
+
+                .dashboard-course-title,
                 .dashboard-course-number {
                     font-weight: 700;
                     font-size: 1.5em;
-                    text-align: center;
+                }
+
+                .dashboard-course-number {
+                    text-align: right;
                 }
             }
+        }
+    }
+}
 
-            .dashboard-course-completed {
-                @include dashboard-completed();
-                cursor: pointer;
+@media (max-width: 480px) {
+    .dashboard-dates {
+        width: 90%;
+
+        .dashboard-form-group-name,
+        .dashboard-form-group-address,
+        .dashboard-form-group-card {
+            display: flex;
+            flex-direction: column;
+
+            .form-group {
+                width: 100%;
+                margin-bottom: 10px;
             }
+        }
 
-            .dashboard-course-favorites {
-                @include dashboard-favorites();
-                cursor: pointer;
+        .dashboard-courses {
+
+            .dashboard-courses-content {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                width: 90%;
+
+                .dashboard-course-process,
+                .dashboard-course-favorites,
+                .dashboard-course-completed,
+                .dashboard-course-all {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    margin-bottom: 10px;
+                }
+
+                .dashboard-course-title,
+                .dashboard-course-number {
+                    font-weight: 700;
+                    font-size: 1.5em;
+                }
+
+                .dashboard-course-number {
+                    text-align: right;
+                }
             }
-
-            .dashboard-course-all {
-                @include dashboard-favorites();
-                cursor: pointer;
-            }
         }
-
     }
-
-    .dashboard-centers {
-
-        .dashboard-dates-title h3 {
-            margin: 0;
-        }
-
-    }
-
-    .dashboard-professors {
-
-        .dashboard-dates-title h3 {
-            margin: 0;
-        }
-
-    }
-
-    .dashboard-bills {
-
-        .dashboard-dates-title h3 {
-            margin: 0;
-        }
-
-    }
+}

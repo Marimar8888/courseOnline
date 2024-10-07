@@ -6,8 +6,8 @@ const CentersTable = ({ centersData, handleEditCenter, handleChangeStatusCenter 
       <thead>
         <tr>
           <th>Nombre</th>
-          <th>Email</th>
-          <th>Ciudad</th>
+          <th className="email">Email</th>
+          <th className="city">Ciudad</th>
           <th>Editar</th>
           <th>Activar</th>
         </tr>

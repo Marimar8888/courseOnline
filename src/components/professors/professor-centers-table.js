@@ -19,9 +19,9 @@ import React from 'react';
         ) : (
           centers.map((center) => (
             <tr key={center.studyCenters_id}>
-              <td data-label="Nombre" className="dashboard-center-name">{center.studyCenters_name}</td>
-              <td data-label="Email" className="dashboard-center-email">{center.studyCenters_email}</td>
-              <td data-label="Ciudad" className="dashboard-center-city">{center.studyCenters_city}</td>
+              <td data-label="Nombre" className="dashboard-professor-center-name">{center.studyCenters_name}</td>
+              <td data-label="Email" className="dashboard-professor-center-email">{center.studyCenters_email}</td>
+              <td data-label="Ciudad" className="dashboard-professor-center-city">{center.studyCenters_city}</td>
              </tr>
           ))
         )}
