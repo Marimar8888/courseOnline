@@ -12,9 +12,11 @@
         gap: 20px;
         margin-bottom: 20px;
         .course-content-image {
+            min-width: 300px;
+            min-height: 200px;
             img {
                 max-width: 100%;
-                min-width: 200px;
+                min-width: 300px;
                 height: auto;
             }
         }
