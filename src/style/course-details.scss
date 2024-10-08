@@ -7,8 +7,9 @@
 
     .course-details-image {
         display: flex;
-        margin: 0 auto;
+        justify-content: center;
         top: 50px;
+
         img {
             margin: 15px 0px;
             max-width: 80%;
@@ -16,19 +17,20 @@
             border-radius: 5px;
             object-fit: cover;
         }
-
     }
 
     .course-details-text {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;    
-        .course-details-text-header{
+        justify-content: space-between;
+
+        .course-details-text-header {
             h1.title-with-click {
                 cursor: pointer;
             }
         }
-        .course-details-text-price{
+
+        .course-details-text-price {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -42,22 +44,20 @@
                 font-size: 1.5em;
             }
 
-            .course-content-price-through{
+            .course-content-price-through {
                 color: gray;
                 text-decoration: line-through;
                 font-weight: 700;
-                
             }
-            .course-content-discounted-price{
+
+            .course-content-discounted-price {
                 justify-content: center;
                 text-align: center;
                 color: red;
                 font-weight: 700;
                 font-size: 1.5em;
-
             }
         }
-
     }
 }
 
@@ -66,19 +66,21 @@
 @media (max-width: 1024px) {
     .course-details-wrapper {
         padding: 10px;
-        width: 70%; // Ajusta el ancho para pantallas de 1024px
+        width: 70%;
         margin: 0 auto;
 
         .course-details-text {
             .course-details-text-header {
                 h1.title-with-click {
-                    font-size: 1.4em; // Ajusta el tamaño de la fuente para 1024px
+                    font-size: 1.4em;
                 }
             }
+
             .course-details-text-price {
+
                 .course-content-price,
                 .course-content-discounted-price {
-                    font-size: 1.3em; // Ajusta el tamaño de la fuente para precios
+                    font-size: 1.3em;
                 }
             }
         }
@@ -97,7 +99,9 @@
                     font-size: 1.2em; // Ajusta el tamaño de la fuente para 768px
                 }
             }
+
             .course-details-text-price {
+
                 .course-content-price,
                 .course-content-discounted-price {
                     font-size: 1.1em; // Ajusta el tamaño de la fuente para precios
@@ -119,7 +123,9 @@
                     font-size: 0.8em; // Ajusta el tamaño de la fuente para 480px
                 }
             }
+
             .course-details-text-price {
+
                 .course-content-price,
                 .course-content-discounted-price {
                     font-size: 0.8em; // Ajusta el tamaño de la fuente para precios
