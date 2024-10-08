@@ -11,11 +11,18 @@ $light-orange-start: #f6d365;
 $light-orange-end: #fda085; 
 $green: #17ad0a;
 $dark-green: #127209;
-$greenDegraded: rgba(0,128,0, 0.3);
 $light-green-start: #a8e6cf; 
 $light-green-end: #dcedc1;
-$blueDegraded: rgba(0, 0, 255, 0.6);
+
 $blue-start: #449ce9; 
 $blue-end: #00c6ff; 
+
+/*--Degraded*/
+$greenDegraded: rgba(0,128,0, 0.3);
+$blueDegraded: rgba(0, 0, 255, 0.6);
+
+/*--Shadows--*/
+$greyShadow: 0px 4px 12px rgba(0, 0, 0, 0.1); 
+
 
 
