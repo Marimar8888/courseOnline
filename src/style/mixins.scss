@@ -194,28 +194,53 @@
 
 /*-------------- dashborar styles -----------------*/
 
+@mixin dashboard-button-elevated {
+    box-shadow: $buttonElevated; 
+    transform: translateY(-2px); 
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+    
+    &:hover {
+      transform: translateY(-4px); 
+      box-shadow: $buttonElevantedHover; 
+    }
+  }
+  
+  @mixin dashboard-button-pressed {
+    &:active {
+      transform: translateY(2px); 
+      box-shadow: $buttonPressed; 
+    }
+  }
+
 @mixin dashboard-courses-content {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 21px;
+   
 }
 
 @mixin dashboard-process {
     width: 100%;
     background: linear-gradient(135deg, $light-orange-start, $light-orange-end);
     border-radius: 5%;
+    @include dashboard-button-elevated;
+    @include dashboard-button-pressed;
 }
 
 @mixin dashboard-completed {
     width: 100%;
     background: linear-gradient(135deg, $light-green-start, $light-green-end);
     border-radius: 5%;
+    @include dashboard-button-elevated;
+    @include dashboard-button-pressed;
 }
 
 @mixin dashboard-favorites {
     width: 100%;
     background: linear-gradient(135deg, $blue-start, $blue-end);
     border-radius: 5%;
+    @include dashboard-button-elevated;
+    @include dashboard-button-pressed;
 }
 
 /* ----------------------- ICONS STYLES --------------------------*/
