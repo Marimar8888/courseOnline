@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom';
 import music from "./../../../static/assets/images/categories/music.png";
 import persolacrow from "./../../../static/assets/images/categories/personalcrow.png";
 import program from "./../../../static/assets/images/categories/program.png";
+import section from "./../../../static/assets/images/home/retrato-cuerpo-entero-hombre-feliz-confiado.png";
+
 
 
 class HomeContainer extends Component {
@@ -23,21 +25,12 @@ class HomeContainer extends Component {
                 </div>
 
                 <div className='home-section-course-wrapper'>
-                    <div className='home-section-course-text'>
-                        <h2>Amplia selección de cursos</h2>
-                        <div className='home-section-course-selector'>
-                            <p>Programación</p>
-                            <p>Dibujo</p>
-                            <p>Marketing</p>
-                            <p>Fotografía</p>
-                            <p>Liderazgo</p>
-                            <p>Crecimiento Personal</p>
-                            <p>Música</p>
-                            <p>Finanzas</p>
-                        </div>
+                    <div className='home-section-course-message'>
+                        <h1>Encuentra la formación que mejor se adapta a ti</h1>
+                        <span>Consulta nuestra oferta de formaciones y desarrolla tu carrera profesional</span>
                     </div>
-                    <div className='home-section-course-carrousel'>
-
+                    <div className='home-section-course-image'>
+                        <img className="home-section-course-image-people" src={section} alt="section home image" />  
                     </div>
                 </div>
 
