@@ -3,6 +3,8 @@ import axios from "axios";
 import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
+import CenterFormFields from '../forms/center-form-fields';
+
 class CenterEditCreateContainer extends Component {
   constructor(props) {
     super(props);
@@ -130,118 +132,14 @@ class CenterEditCreateContainer extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="dashboard-dates">
-        <div className="dashboard-dates-header">
-          <h2>Datos</h2>
-          <div className='dashboard-dates-header-button'>
-          <button
-            className={`btn-save ${this.state.isButtonEnabled ? 'btn' : ''}`}
-            disabled={!this.state.isButtonEnabled}
-          >
-            GUARDAR
-          </button>
-          <button  type="button"  onClick={this.props.handleBack} className="btn-back" >
-            VOLVER
-          </button>
-          </div>
-        </div>
-        <div>
-          <h3>Nombre, apellidos y dni</h3>
-        </div>
-        <div className='dashboard-form-group-name'>
-          <div className="form-group">
-            <input
-              type="text"
-              name="studyCenters_name"
-              placeholder="Nombre del centro"
-              value={this.state.studyCenters_name || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="studyCenters_cif"
-              placeholder="CIF"
-              value={this.state.studyCenters_cif || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
-        <div>
-          <h3>Domicilio</h3>
-        </div>
-        <div className='dashboard-form-group-address'>
-          <div className="form-group">
-            <input
-              type="text"
-              name="studyCenters_address"
-              placeholder="Dirección"
-              value={this.state.studyCenters_address || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="studyCenters_city"
-              placeholder="Ciudad"
-              value={this.state.studyCenters_city || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="studyCenters_postal"
-              placeholder="Código Postal"
-              value={this.state.studyCenters_postal || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="email"
-              name="studyCenters_email"
-              placeholder="Email"
-              value={this.state.studyCenters_email || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
-        <div>
-          <h3>Datos de pago</h3>
-        </div>
-        <div className='dashboard-form-group-card'>
-          <div className="form-group">
-            <input
-              type="text"
-              name="studyCenters_number_card"
-              placeholder="Número de tarjeta"
-              value={this.state.studyCenters_number_card || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="studyCenters_exp_date"
-              placeholder="Fecha de caducidad (MM/AA)"
-              value={this.state.studyCenters_exp_date || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="studyCenters_cvc"
-              placeholder="CVC"
-              value={this.state.studyCenters_cvc || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
-      </form>
+      <div className="dashboard-content-all-dates">
+        <CenterFormFields
+          handleSubmit={this.handleSubmit}
+          state={this.state}
+          handleBack={this.props.handleBack}
+          handleChange={this.handleChange}
+        />
+      </div>
     );
   }
 }
