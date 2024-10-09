@@ -2,57 +2,58 @@
     width: 100%;
     margin: 0 auto;
 
-    .dashboard-content-entity-form{
+    .dashboard-content-entity-form {
         width: 100%;
         margin: 0 auto;
+
         .dashboard-dates {
             margin: 0 auto;
             width: 80%;
             @include input-element();
             @include base-grid();
-        
+
             h3 {
                 margin: 0;
             }
-        
+
             .dashboard-dates-header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 margin: 10px 0;
-        
+
                 h2 {
                     margin: 0;
                 }
-        
+
                 .btn-save {
                     @include btn-save;
                 }
-        
+
                 .dashboard-dates-header-button {
-        
+
                     button {
                         margin-right: 5px;
                     }
                 }
             }
-        
+
             .dashboard-dates-title h3 {
                 margin: 0;
             }
-        
+
             .dashboard-form-group-name {
                 @include form-group-name(3);
             }
-        
+
             .dashboard-form-group-name-center {
                 @include form-group-name(2);
             }
-        
+
             .dashboard-form-group-address {
                 @include form-group-address();
             }
-        
+
             .dashboard-form-group-card {
                 @include form-group-card();
             }
@@ -60,65 +61,69 @@
 
     }
 
-    
     .dashboard-content-entity-resum {
-        display: grid;
-        width: 80%;
-        margin: 0 auto;
-    
-        .dashboard-dates-title h3 {
-            display: flex;
-            width: 100%;
-            justify-content: left;
-            margin: 0;
-        }
-    
-        .dashboard-courses-content {
-            @include dashboard-courses-content();
-            width: 100%;
-            height: 200px;
-    
-            .dashboard-course-process,
-            .dashboard-course-favorites,
-            .dashboard-course-completed,
-            .dashboard-course-all {
-                @include dashboard-process();
-                cursor: pointer;
-    
-                .dashboard-course-title {
-                    padding-left: 20px;
-                    font-weight: 700;
-                    font-size: 1.5em;
+        .dashboard-courses {
+            display: grid;
+            width: 80%;
+            margin: 0 auto;
+
+            .dashboard-dates-title h3 {
+                display: flex;
+                width: 100%;
+                justify-content: left;
+                margin: 0;
+            }
+
+            .dashboard-courses-content {
+                @include dashboard-courses-content();
+                width: 100%;
+                height: auto;
+                padding: 10px;
+
+                .dashboard-course-process,
+                .dashboard-course-favorites,
+                .dashboard-course-completed,
+                .dashboard-course-all {
+                    @include dashboard-process();
+                    cursor: pointer;
+
+                    .dashboard-course-title {
+                        padding-left: 20px;
+                        font-weight: 700;
+                        font-size: 1.5em;
+                    }
+
+                    .dashboard-course-number {
+                        font-weight: 700;
+                        font-size: 1.5em;
+                        text-align: center;
+                        padding-bottom: 20px;
+                    }
                 }
-    
-                .dashboard-course-number {
-                    font-weight: 700;
-                    font-size: 1.5em;
-                    text-align: center;
+
+                .dashboard-course-completed {
+                    @include dashboard-completed();
+                    cursor: pointer;
+                }
+
+                .dashboard-course-favorites {
+                    @include dashboard-favorites();
+                    cursor: pointer;
+                }
+
+                .dashboard-course-all {
+                    @include dashboard-favorites();
+                    cursor: pointer;
                 }
             }
-    
-            .dashboard-course-completed {
-                @include dashboard-completed();
-                cursor: pointer;
-            }
-    
-            .dashboard-course-favorites {
-                @include dashboard-favorites();
-                cursor: pointer;
-            }
-    
-            .dashboard-course-all {
-                @include dashboard-favorites();
-                cursor: pointer;
-            }
         }
-    
     }
+
     .dashboard-entity-tables-wrapper {
         width: 80%;
         margin: 0 auto;
-        .dashboard-dates-title h3 {
+
+        .dashboard-table-dates-title h3 {
             margin: 0;
         }
 
@@ -128,68 +133,154 @@
 
 /*---------------- Responsive ---------------- */
 @media (max-width: 1024px) {
-    .dashboard-dates {
-        display: flex;
-        flex-direction: column;
-        width: 80%;
+    .dashboard-content-all-dates {
+        width: 90%; 
+        margin: 0 auto;
 
-        .dashboard-form-group-name,
-        .dashboard-form-group-address,
-        .dashboard-form-group-card {
-            display: flex;
-            flex-direction: column;
+        .dashboard-content-entity-form {
+            width: 90%; 
+            margin: 0 auto;
 
-            .form-group {
-                width: 100%;
-                margin-bottom: 10px;
+            .dashboard-dates {
+                width: 75%; 
+                margin: 0 auto;
+
+                h3 {
+                    margin: 5px 0; 
+                    font-size: 1.2em; 
+                }
+
+                .dashboard-dates-header {
+                    margin: 5px 0; 
+
+                    h2 {
+                        font-size: 1.3em; 
+                    }
+
+                    .btn-save {
+                        padding: 8px 12px; 
+                    }
+
+                    .dashboard-dates-header-button {
+                        button {
+                            margin-right: 3px; 
+                        }
+                    }
+                }
+            }
+        }
+
+        .dashboard-content-entity-resum {
+            .dashboard-courses {
+                width: 85%; 
+                margin: 0 auto;
+
+                .dashboard-dates-title h3 {
+                    font-size: 1.2em; 
+                    margin: 5px 0;
+                }
+
+                .dashboard-courses-content {
+                    height: auto; 
+
+                    .dashboard-course-process,
+                    .dashboard-course-favorites,
+                    .dashboard-course-completed,
+                    .dashboard-course-all {
+                        padding: 5px; 
+                        margin-bottom: 8px; 
+                        height: auto; 
+
+                        .dashboard-course-title {
+                            font-size: 1.2em;
+                        }
+                        .dashboard-course-number{
+                            font-size: 1.2em;
+                        }
+                    }
+                }
+            }
+        }
+
+        .dashboard-entity-tables-wrapper {
+            width: 85%; 
+            margin: 0 auto;
+
+            .dashboard-table-dates-title h3 {
+                font-size: 1.2em; 
+                margin: 5px 0; 
             }
         }
     }
 }
 
+
 @media (max-width: 768px) {
-    .dashboard-dates {
-        width: 90%;
+    .dashboard-content-all-dates {
 
-        .dashboard-form-group-name,
-        .dashboard-form-group-address,
-        .dashboard-form-group-card {
-            display: flex;
-            flex-direction: column;
+        .dashboard-content-entity-form {
 
-            .form-group {
-                width: 100%;
-                margin-bottom: 10px;
+            .dashboard-dates {
+                display: flex;
+                flex-direction: column;
+                width: 80%;
+
+                .dashboard-form-group-name,
+                .dashboard-form-group-address,
+                .dashboard-form-group-card {
+                    display: flex;
+                    flex-direction: column;
+
+                    .form-group {
+                        width: 100%;
+                        margin-bottom: 10px;
+                    }
+                }
             }
         }
 
-        .dashboard-courses {
 
-            .dashboard-courses-content {
-                display: flex;
+        .dashboard-content-entity-resum {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+
+            .dashboard-courses {
+                display: flex ;
                 flex-direction: column;
-                height: auto;
                 width: 90%;
 
-                .dashboard-course-process,
-                .dashboard-course-favorites,
-                .dashboard-course-completed,
-                .dashboard-course-all {
+                .dashboard-course-title {}
+
+                .dashboard-courses-content {
                     display: flex;
-                    justify-content: space-between;
-                    padding: 10px;
-                    border: 1px solid #ccc;
-                    margin-bottom: 10px;
-                }
+                    flex-direction: column;
+                    height: 100%;
+                    align-items: center;
 
-                .dashboard-course-title,
-                .dashboard-course-number {
-                    font-weight: 700;
-                    font-size: 1.5em;
-                }
 
-                .dashboard-course-number {
-                    text-align: right;
+                    .dashboard-course-process,
+                    .dashboard-course-favorites,
+                    .dashboard-course-completed,
+                    .dashboard-course-all {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        margin-bottom: 10px;
+                        width: 70%;
+                        height: 100%;
+                    }
+
+                    .dashboard-course-title,
+                    .dashboard-course-number {
+                        font-weight: 700;
+                        font-size: 1.5em;
+                    }
+
+                    .dashboard-course-number {
+                        text-align: right;
+                    }
                 }
             }
         }
@@ -197,48 +288,71 @@
 }
 
 @media (max-width: 480px) {
-    .dashboard-dates {
-        width: 90%;
+    .dashboard-content-all-dates {
 
-        .dashboard-form-group-name,
-        .dashboard-form-group-address,
-        .dashboard-form-group-card {
-            display: flex;
-            flex-direction: column;
+        .dashboard-content-entity-form {
 
-            .form-group {
-                width: 100%;
-                margin-bottom: 10px;
+            .dashboard-dates {
+                display: flex;
+                flex-direction: column;
+                width: 80%;
+
+                .dashboard-form-group-name,
+                .dashboard-form-group-address,
+                .dashboard-form-group-card {
+                    display: flex;
+                    flex-direction: column;
+
+                    .form-group {
+                        width: 100%;
+                        margin-bottom: 10px;
+                    }
+                }
             }
         }
 
-        .dashboard-courses {
 
-            .dashboard-courses-content {
-                display: flex;
+        .dashboard-content-entity-resum {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+
+            .dashboard-courses {
+                display: flex ;
                 flex-direction: column;
-                height: auto;
                 width: 90%;
 
-                .dashboard-course-process,
-                .dashboard-course-favorites,
-                .dashboard-course-completed,
-                .dashboard-course-all {
+                .dashboard-course-title {}
+
+                .dashboard-courses-content {
                     display: flex;
-                    justify-content: space-between;
-                    padding: 10px;
-                    border: 1px solid #ccc;
-                    margin-bottom: 10px;
-                }
+                    flex-direction: column;
+                    height: 100%;
+                    align-items: center;
 
-                .dashboard-course-title,
-                .dashboard-course-number {
-                    font-weight: 700;
-                    font-size: 1.5em;
-                }
+                    .dashboard-course-process,
+                    .dashboard-course-favorites,
+                    .dashboard-course-completed,
+                    .dashboard-course-all {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        margin-bottom: 10px;
+                        width: 80%;
+                        height: 100%;
+                        margin: 0 autos;
+                    }
 
-                .dashboard-course-number {
-                    text-align: right;
+                    .dashboard-course-title,
+                    .dashboard-course-number {
+                        font-weight: 700;
+                        font-size: 1.5em;
+                    }
+
+                    .dashboard-course-number {
+                        text-align: right;
+                    }
                 }
             }
         }
