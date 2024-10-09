@@ -66,7 +66,7 @@ class CentersContainer extends Component {
     }
 
     return (
-      <div className="dashboard-dates" >
+      <div className="dashboard-dates-centers" >
         <div className="dashboard-headers">
           <h3>Centers</h3>
           <CentersTable 

@@ -1,66 +1,72 @@
-.centers-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  font-family: Arial, sans-serif;
-
-  thead {
-    background-color: #f6f6f6;
-
-    th {
-      padding: 10px;
-      text-align: center;
-      font-weight: bold;
-      color: #333;
-      border-bottom: 2px solid #ddd;
-    }
-    th.professor-centers-table-headers {
-      text-align: left;
-    }
-  }
-
-  tbody {
-    tr {
-      &:nth-child(even) {
-        background-color: #f9f9f9;
-      }
-
-      &:hover {
-        background-color: #f1f1f1;
-      }
-
-      td {
+.dashboard-dates-centers {
+  width: 80%;
+  margin: 0 auto;
+  
+  .centers-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+  
+    thead {
+      background-color: #f6f6f6;
+  
+      th {
         padding: 10px;
-        border-bottom: 1px solid #ddd;
-
-        .dashboard-center-name,
-        .dashboard-center-email,
-        .dashboard-center-city {
-          text-align: center;
+        text-align: center;
+        font-weight: bold;
+        color: #333;
+        border-bottom: 2px solid #ddd;
+      }
+      th.professor-centers-table-headers {
+        text-align: left;
+      }
+    }
+  
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #f9f9f9;
         }
-        
-        .dashboard-professor-center-name,
-        .dashboard-professor-center-email,
-        .dashboard-professor-center-city {
-          text-align: center;
+  
+        &:hover {
+          background-color: #f1f1f1;
         }
-
-        button {
-          padding: 5px 10px;
-          border: none;
-          color: white;
-          min-width: 100px;
-          cursor: pointer;
-
-          &:hover {
-            background-color: #0056b3;
+  
+        td {
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+  
+          .dashboard-center-name,
+          .dashboard-center-email,
+          .dashboard-center-city {
+            text-align: center;
+          }
+          
+          .dashboard-professor-center-name,
+          .dashboard-professor-center-email,
+          .dashboard-professor-center-city {
+            text-align: center;
+          }
+  
+          button {
+            padding: 5px 10px;
+            border: none;
+            color: white;
+            min-width: 100px;
+            cursor: pointer;
+  
+            &:hover {
+              background-color: #0056b3;
+            }
           }
         }
       }
     }
+  
   }
-
 }
+
 
 /*------------- Responsive -----------------*/
 @media (max-width: 1024px) {
