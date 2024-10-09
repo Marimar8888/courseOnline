@@ -30,6 +30,7 @@ const DashboardCenter = ({
         updateCenterData={updateCenterData}
         handleEditCenter={handleEditCenter}
         handleChangeStatusCenter={handleChangeStatusCenter}
+        showCenterContainer={showCenterContainer}
       />
     </div>
   );

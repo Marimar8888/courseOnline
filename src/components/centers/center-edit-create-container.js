@@ -12,7 +12,7 @@ class CenterEditCreateContainer extends Component {
       studyCenters_id: "",
       studyCenters_name: "",
       studyCenters_email: "",
-      studyCenters_user_id: this.props.userId || "",
+      studyCenters_user_id: "",
       studyCenters_cif: "",
       studyCenters_address: "",
       studyCenters_city: "",

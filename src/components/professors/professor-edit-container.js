@@ -9,6 +9,7 @@ import { ActiveStudents, InactiveStudents } from "../services/student";
 import ProfessorCentersTable from './professor-centers-table';
 import ProfessorFormFields from '../forms/professor-form-fields';
 import DashboardDatesProfessorForm from '../forms/dashboard-dates-professor-form';
+import CenterEditCreateContainer from '../centers/center-edit-create-container';
 
 class ProfessorEditContainer extends Component {
   constructor(props) {
@@ -216,8 +217,8 @@ class ProfessorEditContainer extends Component {
   }
 
   render() {
-    const { professorData } = this.props;
-
+    const { professorData, showCenterContainer } = this.props;
+    
     if (!professorData) {
       return <p>Cargando datos del profesor...</p>
     }
@@ -229,7 +230,16 @@ class ProfessorEditContainer extends Component {
     const inactiveStudentsNumber = this.state.inactiveStudents ? this.state.inactiveStudents.length : 0;
     const totalStudents = activeStudentsNumber + inactiveStudentsNumber || 0;
 
-    return (
+  
+    return showCenterContainer ? (
+      <CenterEditCreateContainer
+        handleCenterCreated={this.props.handleCenterCreated}
+        handleEditCenter={this.props.handleEditCenter}
+        centerToEdit={this.props.centerToEdit}
+        handleBack={this.props.handleBack}
+      />
+    ) : (
+    
       <div className="dashboard-content-all-dates">
         <ProfessorFormFields
           handleChange={this.handleChange}
