@@ -35,7 +35,7 @@ const EmailRecovery = ({ toggleEmailRecovery }) => {
     }
 
     return (
-        <div>
+        <div className="login-modal-wrapper">
             <div className='title-login'>
                 <h2>¿Has olvidado la contraseña?</h2>
             </div>

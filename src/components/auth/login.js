@@ -119,7 +119,7 @@ export default class Login extends Component {
       return <EmailRecovery toggleEmailRecovery={this.toggleEmailRecovery}/>
     }
     return (
-      <div>
+      <div className="login-modal-wrapper">
         <div className='title-login'>
           <h2>INICIA SESIÓN EN STUDY ONLINE</h2>
         </div>

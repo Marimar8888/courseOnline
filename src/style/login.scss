@@ -1,55 +1,61 @@
-.title-login {
-    text-align: center
-}
+.login-modal-wrapper {
 
-.auth-form-wrapper {
-    @include input-element;
-    @include base-grid;
-    gap: 21px;
-    padding: 42px;
-    overflow: hidden;
-    width: 90%;
-    max-width: 400px;
-
-    .form-group {
-        display: flex;
-
-        svg {
-            font-size: 2em;
-            color: $blue;
-            margin-right: 15px;
-        }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .title-login {
+        text-align: center
     }
 
-    .links-login-modal-wrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    .auth-form-wrapper {
+        @include input-element;
+        @include base-grid;
+        gap: 21px;
+        padding: 20px;
+        overflow: hidden;
+        width: 90%;
+        max-width: 400px;
 
-        .link-forgot-pass {
-            color: $blue;
-            font-weight: 700;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: 0.5 ease-in-out;
+        .form-group {
+            display: flex;
 
-            &:hover {
-                color: $dark-blue;
+            svg {
+                font-size: 2em;
+                color: $blue;
+                margin-right: 15px;
             }
         }
 
-        .link-register {
-            .register-link {
+        .links-login-modal-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .link-forgot-pass {
                 color: $blue;
                 font-weight: 700;
                 font-size: 1.2em;
-                padding-left: 10px;
                 cursor: pointer;
                 transition: 0.5 ease-in-out;
 
                 &:hover {
                     color: $dark-blue;
+                }
+            }
+
+            .link-register {
+                .register-link {
+                    color: $blue;
+                    font-weight: 700;
+                    font-size: 1.2em;
+                    padding-left: 10px;
+                    cursor: pointer;
+                    transition: 0.5 ease-in-out;
+
+                    &:hover {
+                        color: $dark-blue;
+                    }
                 }
             }
         }
