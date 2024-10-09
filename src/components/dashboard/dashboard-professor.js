@@ -10,7 +10,7 @@ const DashboardProfessor = ({ professorData, updateProfessorData, userId, showPr
   }
   
   return professorData && professorData.professor ? (
-    <ProfessorEditContainer professorData={professorData} updateDashboarProfessorData={updateDashboarProfessorData}  />
+    <ProfessorEditContainer userId={userId} professorData={professorData} updateDashboarProfessorData={updateDashboarProfessorData}  />
   ) : (
     <ProfessorCreateContainer userId={userId} showProfessorContainer={showProfessorContainer} handleProfessorCreated={handleProfessorCreated}/>
   );

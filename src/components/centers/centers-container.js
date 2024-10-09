@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
 import CentersTable from './centers-table';
@@ -66,17 +64,14 @@ class CentersContainer extends Component {
     }
 
     return (
-      <div className="dashboard-dates" >
-        <div className="dashboard-headers">
-          <h3>Centers</h3>
+      <div className="dashboard-content-entity-form" >
           <CentersTable 
             centersData={this.props.centersData}
             handleEditCenter={this.props.handleEditCenter} 
             updateStudentData={this.props.updateStudentData}
             handleChangeStatusCenter={this.props.handleChangeStatusCenter}
             />
-        </div>
-       </div>
+      </div>
     );
   }
 }

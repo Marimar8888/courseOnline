@@ -288,8 +288,10 @@ class DashboardContainer extends Component {
         if (response.status === 200) {
           this.setState({
             userId: response.data.users_id
-          })
-          this.getUserRols(this.state.userId);
+          }, () => {
+            this.getUserRols(this.state.userId);
+          });
+          
         } else {
           console.log("No Authorization");
         }
@@ -304,12 +306,13 @@ class DashboardContainer extends Component {
   }
 
   render() {
-    const { userRols, studentData, professorData, centersData, userId, centerToEdit } = this.state;
+    const { userRols, studentData, professorData, centersData, userId, centerToEdit, showCenterContainer } = this.state;
     const rolesIds = userRols.map(role => role.rols_id);
 
     const hasRole2 = rolesIds.includes(2); // Estudiante
     const hasRole3 = rolesIds.includes(3); // Profesor
     const hasRole4 = rolesIds.includes(4); // Centro de estudios
+    console.log("rolesIds", rolesIds);
 
     return (
       <div id="dashboard-container" className="dashboard-container">
@@ -355,6 +358,7 @@ class DashboardContainer extends Component {
             {hasRole3 && (
               <Route path="/dashboard/professor" exact render={() => (
                 <DashboardProfessor
+                  userId={userId}
                   professorData={professorData}
                   updateProfessorData={this.updateProfessorData} />
               )} />
@@ -367,6 +371,7 @@ class DashboardContainer extends Component {
                   handleProfessorCreated={this.handleProfessorCreated} />
               )} />
             )}
+            
             {hasRole4 && !this.state.showCenterContainer && (
               <Route path="/dashboard/center" exact render={() => (
                 <DashboardCenter
@@ -378,10 +383,10 @@ class DashboardContainer extends Component {
               )} />
             )}
             {this.state.showCenterContainer && (
-              <Route path="/dashboard" exact render={() => (
+              <Route path="/dashboard/professor" exact render={() => (
                 <DashboardCenter
                   userId={userId}
-                  showCenterContainer={this.state.showCenterContainer}
+                  showCenterContainer={showCenterContainer}
                   handleCenterCreated={this.handleCenterCreated}
                   updateCenterData={this.updateCenterData}
                   handleEditCenter={this.handleEditCenter}
@@ -390,11 +395,12 @@ class DashboardContainer extends Component {
                   handleBack={this.handleBack} />
               )} />
             )}
+  
             {this.state.showCenterContainer && (
               <Route path="/dashboard/center" exact render={() => (
                 <DashboardCenter
                   userId={userId}
-                  showCenterContainer={this.state.showCenterContainer}
+                  showCenterContainer={showCenterContainer}
                   handleCenterCreated={this.handleCenterCreated}
                   updateCenterData={this.updateCenterData}
                   handleEditCenter={this.handleEditCenter}
@@ -403,19 +409,7 @@ class DashboardContainer extends Component {
                   handleBack={this.handleBack} />
               )} />
             )}
-            {this.state.showCenterContainer && (
-              <Route path="/dashboard/professor" exact render={() => (
-                <DashboardCenter
-                  userId={userId}
-                  showCenterContainer={this.state.showCenterContainer}
-                  handleCenterCreated={this.handleCenterCreated}
-                  updateCenterData={this.updateCenterData}
-                  handleEditCenter={this.handleEditCenter}
-                  centersData={centersData}
-                  centerToEdit={centerToEdit}
-                  handleBack={this.handleBack} />
-              )} />
-            )}
+           
             {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && !this.state.showCenterContainer && (
               <Route path="*" render={() => (
                 <div className="no-roles-message">

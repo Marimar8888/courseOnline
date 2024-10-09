@@ -99,7 +99,7 @@ class ProfessorCreateContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div className="dashboard-content-all-dates">
         <ProfessorFormFields
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}

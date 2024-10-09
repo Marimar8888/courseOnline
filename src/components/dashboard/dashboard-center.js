@@ -14,8 +14,9 @@ const DashboardCenter = ({
   handleBack,
   handleChangeStatusCenter
 }) => {
-
+  console.log("DashboardCenter", showCenterContainer);
   return showCenterContainer ? (
+
     <CenterEditCreateContainer
       userId={userId}
       handleCenterCreated={handleCenterCreated}
@@ -23,12 +24,14 @@ const DashboardCenter = ({
       centerToEdit={centerToEdit}
       handleBack={handleBack} />
   ) : (
-    <CentersContainer
-      centersData={centersData}
-      updateCenterData={updateCenterData}
-      handleEditCenter={handleEditCenter}
-      handleChangeStatusCenter={handleChangeStatusCenter}
-    />
+    <div className="dashboard-content-all-dates">
+      <CentersContainer
+        centersData={centersData}
+        updateCenterData={updateCenterData}
+        handleEditCenter={handleEditCenter}
+        handleChangeStatusCenter={handleChangeStatusCenter}
+      />
+    </div>
   );
 };
 

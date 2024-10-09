@@ -79,11 +79,15 @@ export const getEnrollmentsByProfessorId = (professorId, token) => {
     .then(response => {
         if(response.status === 200){
             return response.data;
-        }
+        }   
     })
     .catch(error => {
-        console.log("error getEnrollmentsByProfessorId:", error.response ? error.response.data : error.message);
-        throw error;
+        if (error.response && error.response.status === 404) {
+            return []; 
+        } else {
+            console.log("error getEnrollmentsByProfessorId:", error.response ? error.response.data : error.message);
+            throw error;
+        }
     });
 };
 
