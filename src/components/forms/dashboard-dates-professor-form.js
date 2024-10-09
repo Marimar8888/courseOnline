@@ -1,10 +1,10 @@
 import React from 'react';
 
-const DashboardDatesProfessor = ({
+const DashboardDatesProfessorForm = ({
     handleCoursesClick, handleStudentsClick, coursesActive, coursesInactive, totalCourses, activeStudentsNumber, inactiveStudentsNumber, totalStudents
 }) => {
     return (
-        <div>
+        <div className="dashboard-content-entity-resum">
             <div className="dashboard-courses">
                 <div className="dashboard-dates-title">
                     <h3>Cursos</h3>
@@ -46,4 +46,4 @@ const DashboardDatesProfessor = ({
         </div>
     )
 }
-export default DashboardDatesProfessor;
+export default DashboardDatesProfessorForm;

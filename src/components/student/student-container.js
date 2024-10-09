@@ -30,7 +30,6 @@ class StudentContainer extends Component {
             getStudentsByStatusAndByProfessorId(professorId, token, typeId, currentPage, limit)
                 .then(data => {
                     const newStudents = Array.isArray(data.students) ? data.students : [];
-                    console.log("getStudentsByStatusAndByProfessorId", data);
                     this.setState(prevState => ({
                         studentsData:newStudents,
                         currentPage: prevState.currentPage + 1,
@@ -50,14 +49,11 @@ class StudentContainer extends Component {
     }
 
     render() {
-        console.log("StudentContainer props:", this.props);
         const { typeId, studentsData, isLoading, totalCount  } = this.state;
 
         if (isLoading) {
             return <div>Cargando...</div>;
         }   
-        console.log("studentsData render:", studentsData);
-        console.log("typeId render:", typeId);
         if (studentsData.length === 0) {
             return <div className='student-nobody-container'>No hay datos para mostrar.</div>;
         }

@@ -4,6 +4,8 @@ import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
 import DashboardBills from '../dashboard/dashboard-bills';
+import StudentFormFields from '../forms/student-form-fields';
+import DashboardDatesStudentForm from '../forms/dahsboard-dates-student-form';
 import { getEnrollmentsByStudentId } from '../services/enrollment';
 import { getFavoritesByUserId, getCoursesFavoritesByUserId } from '../services/favorites';
 
@@ -205,145 +207,26 @@ class StudentEditContainer extends Component {
         const totalFavorites = favorites ? favorites.length : 0;
 
         return (
-            <form onSubmit={this.handleSubmit} className="dashboard-dates">
-                <div className="dashboard-dates-header">
-                    <h2>Datos</h2>
-                    <button
-                        className={`btn-save ${this.state.isButtonEnabled ? 'btn' : ''}`}
-                        disabled={!this.state.isButtonEnabled}
-                    >
-                        GUARDAR
-                    </button>
-                </div>
-                <div>
-                    <h3>Nombre, apellidos y dni</h3>
-                </div>
-                <div className='dashboard-form-group-name'>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            name="students_first_name"
-                            placeholder="Nombre"
-                            value={this.state.students_first_name || ""}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            name="students_last_name"
-                            placeholder="Apellidos"
-                            value={this.state.students_last_name || ""}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            name="students_dni"
-                            placeholder="DNI"
-                            value={this.state.students_dni || ""}
-                            onChange={this.handleChange}
-                        />
+            <div className="dashboard-content-all-dates">
+                    <StudentFormFields
+                        handleSubmit={this.handleSubmit}
+                        handleChange = {this.handleChange}
+                        state = {this.state}
+                    />
+                    <DashboardDatesStudentForm
+                        handleCoursesClick={this.handleCoursesClick}
+                        unfinishedCourses = {unfinishedCourses}
+                        coursesFinalized = {coursesFinalized}
+                        totalFavorites = {totalFavorites}
+                    />
+               
+                <div className="dashboard-entity-tables-wrapper">
+                    <div className="dashboard-table-dates-title">
+                        <h3>Facturas</h3>
+                        <DashboardBills enrollments={this.state.enrollments} />
                     </div>
                 </div>
-                <div>
-                    <h3>Domicilio</h3>
-                </div>
-                <div className='dashboard-form-group-address'>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            name="students_address"
-                            placeholder="Dirección"
-                            value={this.state.students_address || ""}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            name="students_city"
-                            placeholder="Ciudad"
-                            value={this.state.students_city || ""}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="number"
-                            name="students_postal"
-                            placeholder="Cod Postal"
-                            value={this.state.students_postal || ""}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="email"
-                            name="students_email"
-                            placeholder="Email"
-                            value={this.state.students_email || ""}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <h3>Datos bancarios</h3>
-                </div>
-                <div className='dashboard-form-group-card'>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            name="students_number_card"
-                            placeholder="Nº tarjeta"
-                            value={this.state.students_number_card || ""}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            name="students_exp_date"
-                            placeholder="Vencimiento"
-                            value={this.state.students_exp_date || ""}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="number"
-                            name="students_cvc"
-                            placeholder="CVC"
-                            value={this.state.students_cvc || ""}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                </div>
-                <div className="dashboard-courses">
-                    <div className="dashboard-dates-title">
-                        <h3>Cursos</h3>
-                    </div>
-                    <div className="dashboard-courses-content">
-                        <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(1)}>
-                            <p className='dashboard-course-title'>En curso...</p>
-                            <p className='dashboard-course-number'>({unfinishedCourses})</p>
-                        </div>
-                        <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(2)} >
-                            <p className='dashboard-course-title'>Finalizados</p>
-                            <p className='dashboard-course-number'>({coursesFinalized})</p>
-                        </div>
-                        <div className='dashboard-course-favorites' onClick={() => this.handleCoursesClick(4)}>
-                            <p className='dashboard-course-title'>Favoritos</p>
-                            <p className='dashboard-course-number'>({totalFavorites})</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="dashboard-bills">
-                    <h3>Facturas</h3>
-                    <DashboardBills enrollments={this.state.enrollments} />
-                </div>
-            </form>
+            </div>
         );
     }
 }

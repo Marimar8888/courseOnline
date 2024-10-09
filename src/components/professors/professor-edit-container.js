@@ -8,7 +8,7 @@ import { getEnrollmentsByProfessorId } from "../services/enrollment";
 import { ActiveStudents, InactiveStudents } from "../services/student";
 import ProfessorCentersTable from './professor-centers-table';
 import ProfessorFormFields from '../forms/professor-form-fields';
-import DashboardDatesProfessor from '../forms/dashboard-dates-professor';
+import DashboardDatesProfessorForm from '../forms/dashboard-dates-professor-form';
 
 class ProfessorEditContainer extends Component {
   constructor(props) {
@@ -225,32 +225,28 @@ class ProfessorEditContainer extends Component {
     const totalStudents = activeStudentsNumber + inactiveStudentsNumber || 0;
 
     return (
-      <div className="dashboard-content-professor">
+      <div className="dashboard-content-all-dates">
         <ProfessorFormFields
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
           state={this.state}
         />
-        <div className="dashboard-dates">
-          <div>
-           <DashboardDatesProfessor
-            handleCoursesClick={this.handleCoursesClick}
-            handleStudentsClick={this.handleStudentsClick}
-            coursesActive = {coursesActive}
-            coursesInactive = {coursesInactive}
-            totalCourses = {totalCourses}
-            activeStudentsNumber = {activeStudentsNumber}
-            inactiveStudentsNumber = {inactiveStudentsNumber}
-            totalStudents = {totalStudents}
-           />
+        <DashboardDatesProfessorForm
+          handleCoursesClick={this.handleCoursesClick}
+          handleStudentsClick={this.handleStudentsClick}
+          coursesActive={coursesActive}
+          coursesInactive={coursesInactive}
+          totalCourses={totalCourses}
+          activeStudentsNumber={activeStudentsNumber}
+          inactiveStudentsNumber={inactiveStudentsNumber}
+          totalStudents={totalStudents}
+        />
+        <div className="dashboard-entity-tables-wrapper">
+          <div className="dashboard-table-dates-title">
+            <h3>Centros de trabajo</h3>
           </div>
-          <div className="dashboard-courses">
-            <div className="dashboard-dates-title">
-              <h3>Centros de trabajo</h3>
-            </div>
-            <ProfessorCentersTable centers={this.state.centers} />
-          </div>
-          <div className="dashboard-bills">
+          <ProfessorCentersTable centers={this.state.centers} />
+          <div className="dashboard-table-dates-title">
             <h3>Facturas</h3>
             <DashboardBills enrollments={this.state.enrollments} />
           </div>

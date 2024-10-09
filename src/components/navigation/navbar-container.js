@@ -8,7 +8,6 @@ const NavBarContainer = (props) => {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { cartCourses, removeFromCart, isMenuOpen, toggleMenu } = props;
-  console.log("isMenuOpen in NavBar:", isMenuOpen);
   if (typeof props.openModal !== 'function') {
     console.error('openModal is not defined or not a function');
     return null;

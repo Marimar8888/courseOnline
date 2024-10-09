@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProfessorFormFields = ({handleSubmit, handleChange, state}) => {
   return (
-    <div className="dashboard-content-professor-form">
+    <div className="dashboard-content-entity-form">
       <form onSubmit={handleSubmit} className="dashboard-dates">
         <div className="dashboard-dates-header">
           <h2>Datos</h2>
