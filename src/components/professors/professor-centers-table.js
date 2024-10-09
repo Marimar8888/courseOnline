@@ -1,7 +1,6 @@
 import React from 'react';
 
-// const CentersTable = ({ centersData, handleEdit, handleActivate }) => {
-  const ProfessorCentersTable = ({ centers }) => {
+const ProfessorCentersTable = ({ centers }) => {
   return (
     <table className="centers-table">
       <thead>
