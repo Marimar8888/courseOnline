@@ -5,8 +5,10 @@ import { withRouter } from 'react-router-dom';
 
 import DashboardBills from '../dashboard/dashboard-bills';
 import { getEnrollmentsByProfessorId } from "../services/enrollment";
-import { ActiveStudents, InactiveStudents } from "../services/student"; 
+import { ActiveStudents, InactiveStudents } from "../services/student";
 import ProfessorCentersTable from './professor-centers-table';
+import ProfessorFormFields from '../forms/professor-form-fields';
+import DashboardDatesProfessor from '../forms/dashboard-dates-professor';
 
 class ProfessorEditContainer extends Component {
   constructor(props) {
@@ -54,15 +56,15 @@ class ProfessorEditContainer extends Component {
         isButtonEnabled: false,
       });
 
-      if(professorData.professor.professors_id) {
+      if (professorData.professor.professors_id) {
         getEnrollmentsByProfessorId(professorData.professor.professors_id, token)
-          .then (enrollments => {
-              this.setState({ enrollments });
+          .then(enrollments => {
+            this.setState({ enrollments });
 
-              const activeStudents = ActiveStudents(enrollments);
-              const inactiveStudents = InactiveStudents(enrollments);
-             
-              this.setState({ activeStudents, inactiveStudents });
+            const activeStudents = ActiveStudents(enrollments);
+            const inactiveStudents = InactiveStudents(enrollments);
+
+            this.setState({ activeStudents, inactiveStudents });
           })
           .catch(error => {
             console.log("error getEnrollmentsByCourseId", error);
@@ -111,13 +113,13 @@ class ProfessorEditContainer extends Component {
       default:
         filteredCourses = [];
         break;
-    }   
+    }
 
     this.setState({ courses: filteredCourses }, () => {
       this.props.history.push({
         pathname: `/courses/p/${type}`,
-        state: { 
-          courses: this.state.courses,  
+        state: {
+          courses: this.state.courses,
           professor: this.state.professors_id
         }
       });
@@ -210,183 +212,50 @@ class ProfessorEditContainer extends Component {
 
   render() {
     const { professorData } = this.props;
-    
+
     if (!professorData) {
       return <p>Cargando datos del profesor...</p>
     }
-    const coursesList = professorData.courses.items || []; 
+    const coursesList = professorData.courses.items || [];
     const totalCourses = professorData.courses.total;
     const coursesInactive = coursesList.filter(course => course.courses_active === false).length;
-    const coursesActive = totalCourses - coursesInactive; 
+    const coursesActive = totalCourses - coursesInactive;
     const activeStudentsNumber = this.state.activeStudents ? this.state.activeStudents.length : 0;
     const inactiveStudentsNumber = this.state.inactiveStudents ? this.state.inactiveStudents.length : 0;
     const totalStudents = activeStudentsNumber + inactiveStudentsNumber || 0;
 
     return (
-      <form onSubmit={this.handleSubmit} className="dashboard-dates">
-        <div className="dashboard-dates-header">
-          <h2>Datos</h2>
-          <button
-            className={`btn-save ${this.state.isButtonEnabled ? 'btn' : ''}`}
-            disabled={!this.state.isButtonEnabled}
-          >
-            GUARDAR
-          </button>
-        </div>
-        <div>
-          <h3>Nombre, apellidos y dni</h3>
-        </div>
-        <div className='dashboard-form-group-name'>
-          <div className="form-group">
-            <input
-              type="text"
-              name="professors_first_name"
-              placeholder="Nombre"
-              value={this.state.professors_first_name || ""}
-              onChange={this.handleChange}
-            />
+      <div className="dashboard-content-professor">
+        <ProfessorFormFields
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          state={this.state}
+        />
+        <div className="dashboard-dates">
+          <div>
+           <DashboardDatesProfessor
+            handleCoursesClick={this.handleCoursesClick}
+            handleStudentsClick={this.handleStudentsClick}
+            coursesActive = {coursesActive}
+            coursesInactive = {coursesInactive}
+            totalCourses = {totalCourses}
+            activeStudentsNumber = {activeStudentsNumber}
+            inactiveStudentsNumber = {inactiveStudentsNumber}
+            totalStudents = {totalStudents}
+           />
           </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="professors_last_name"
-              placeholder="Apellidos"
-              value={this.state.professors_last_name || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="professors_dni"
-              placeholder="DNI"
-              value={this.state.professors_dni || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
-        <div>
-          <h3>Domicilio</h3>
-        </div>
-        <div className='dashboard-form-group-address'>
-          <div className="form-group">
-            <input
-              type="text"
-              name="professors_address"
-              placeholder="Dirección"
-              value={this.state.professors_address || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="professors_city"
-              placeholder="Ciudad"
-              value={this.state.professors_city || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="professors_postal"
-              placeholder="Código Postal"
-              value={this.state.professors_postal || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="email"
-              name="professors_email"
-              placeholder="Email"
-              value={this.state.professors_email || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
-        <div>
-          <h3>Datos de pago</h3>
-        </div>
-        <div className='dashboard-form-group-card'>
-          <div className="form-group">
-          <input
-              type="text"
-              name="professors_number_card"
-              placeholder="Número de tarjeta"
-              value={this.state.professors_number_card || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="professors_exp_date"
-              placeholder="Fecha de caducidad (MM/AA)"
-              value={this.state.professors_exp_date || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="professors_cvc"
-              placeholder="CVC"
-              value={this.state.professors_cvc || ""}
-              onChange={this.handleChange}
-            />
-          </div>
-        </div>
-        <div className="dashboard-courses">
-          <div className="dashboard-dates-title">
-            <h3>Cursos</h3>
-          </div>
-          <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleCoursesClick(5)}>
-              <p className='dashboard-course-title'>Activos</p>
-              <p className='dashboard-course-number'>({coursesActive})</p>
+          <div className="dashboard-courses">
+            <div className="dashboard-dates-title">
+              <h3>Centros de trabajo</h3>
             </div>
-            <div className='dashboard-course-completed' onClick={() => this.handleCoursesClick(6)}>
-              <p className='dashboard-course-title'>Inactivos</p>
-              <p className='dashboard-course-number'>({coursesInactive})</p>
-            </div>
-            <div className='dashboard-course-all' onClick={() => this.handleCoursesClick(3)}>
-              <p className='dashboard-course-title'>Nº Total</p>
-              <p className='dashboard-course-number'>({totalCourses})</p>
-            </div>
+            <ProfessorCentersTable centers={this.state.centers} />
+          </div>
+          <div className="dashboard-bills">
+            <h3>Facturas</h3>
+            <DashboardBills enrollments={this.state.enrollments} />
           </div>
         </div>
-        <div className="dashboard-courses">
-          <div className="dashboard-dates-title">
-            <h3>Estudiantes</h3>
-          </div>
-          <div className="dashboard-courses-content">
-            <div className='dashboard-course-process' onClick={() => this.handleStudentsClick(1)}>
-            <p className='dashboard-course-title'>Activos</p>
-            <p className='dashboard-course-number'>({activeStudentsNumber})</p>
-            </div>
-            <div className='dashboard-course-completed' onClick={() => this.handleStudentsClick(2)}>
-              <p className='dashboard-course-title'>Baja</p>
-              <p className='dashboard-course-number'>({inactiveStudentsNumber})</p>
-              </div>
-            <div className='dashboard-course-favorites' onClick={() => this.handleStudentsClick(3)}>
-              <p className='dashboard-course-title'>Total</p>
-              <p className='dashboard-course-number'>({totalStudents})</p>
-              </div>
-          </div>
-        </div>
-        <div className="dashboard-courses">
-          <div className="dashboard-dates-title">
-            <h3>Centros de trabajo</h3>
-          </div>
-          <ProfessorCentersTable centers={this.state.centers}/>
-        </div>
-        <div className="dashboard-bills">
-          <h3>Facturas</h3>
-          <DashboardBills  enrollments={this.state.enrollments}/>
-        </div>
-      </form>
+      </div>
     );
   }
 }
