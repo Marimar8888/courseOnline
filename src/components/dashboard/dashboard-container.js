@@ -6,7 +6,6 @@ import { API_URL } from '../utils/constant';
 import DashboardStudent from './dashboard-student';
 import DashboardProfessor from './dashboard-professor';
 import DashboardCenter from './dashboard-center';
-import CentersContainer from '../centers/centers-container';
 
 class DashboardContainer extends Component {
   constructor() {
@@ -27,14 +26,14 @@ class DashboardContainer extends Component {
       totalPages: 0,
       limit: 10
     };
-
+    
     this.getUserId = this.getUserId.bind(this);
     this.getUserRols = this.getUserRols.bind(this);
     this.updateProfessorData = this.updateProfessorData.bind(this);
     this.updateStudentData = this.updateStudentData.bind(this);
     this.handleCreateProfessor = this.handleCreateProfessor.bind(this);
     this.handleProfessorCreated = this.handleProfessorCreated.bind(this);
-    this.updateCentersData = this.updateCentersData.bind(this);
+    this.updateCenterData = this.updateCenterData.bind(this);
     this.handleCreateCenter = this.handleCreateCenter.bind(this);
     this.handleCenterCreated = this.handleCenterCreated.bind(this);
     this.handleEditCenter = this.handleEditCenter.bind(this);
@@ -93,8 +92,9 @@ class DashboardContainer extends Component {
     })
   }
 
-  updateCentersData(centerId) {
-    this.fechCenterData(centerId);
+  updateCenterData(userId) {
+    this.getCenters(userId);
+    this.setState({showCenterContainer: false});
   }
 
   handleCenterCreated = () => {
@@ -129,6 +129,27 @@ class DashboardContainer extends Component {
 
   updateStudentData(studentId) {
     this.fechStudentData(studentId);
+  }
+
+  fetchCenterData(centerId) {
+    const token = localStorage.getItem("token");
+    axios
+      .get(
+        `${API_URL}/c/courses/${studentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      .then(response => {
+        this.setState({
+          centersData: response.data
+        });
+
+      })
+      .catch(error => {
+        console.log("error fechStudentData", error)
+      })
   }
 
   fechStudentData(studentId) {
@@ -211,7 +232,6 @@ class DashboardContainer extends Component {
         console.log("error getProfessorId", error)
       })
   }
-
 
   getStudentId(userId) {
     const token = localStorage.getItem("token");
@@ -362,6 +382,19 @@ class DashboardContainer extends Component {
                   handleProfessorCreated={this.handleProfessorCreated} />
               )} />
             )}
+            {hasRole3 && showCenterContainer && !showProfessorContainer && (
+              <Route path="/dashboard" exact render={() => (
+                <DashboardCenter
+                  userId={userId}
+                  showCenterContainer={showCenterContainer}
+                  handleCenterCreated={this.handleCenterCreated}
+                  updateCenterData={this.updateCenterData}
+                  handleEditCenter={this.handleEditCenter}
+                  centersData={centersData}
+                  centerToEdit={centerToEdit}
+                  handleBack={this.handleBack} />
+              )} />
+            )}
             {hasRole3 && !showProfessorContainer &&(
               <Route path="/dashboard/professor" exact render={() => (
                 <DashboardProfessor
@@ -370,14 +403,34 @@ class DashboardContainer extends Component {
                   handleCenterCreated={this.handleCenterCreated}
                   showCenterContainer={showCenterContainer}
                   updateProfessorData={this.updateProfessorData} 
-                  handleEditCenter={this.handleEditCenterr}
+                  handleEditCenter={this.handleEditCenter}
                   centerToEdit={centerToEdit}
                   handleBack={this.handleBack}
                   />
               )} />
             )}
-            {hasRole3 && showCenterContainer && (
+            {hasRole3 && showCenterContainer && !centerToEdit &&(
               <Route path="/dashboard/professor" exact render={() => (
+                <DashboardCenter
+                  userId={userId}
+                  showCenterContainer={showCenterContainer}
+                  handleCenterCreated={this.handleCenterCreated}
+                  handleBack={this.handleBack} />
+              )} />
+            )}
+
+            {hasRole4 && !showCenterContainer && centersData && (
+              <Route path="/dashboard/center" exact render={() => (
+                <DashboardCenter
+                  centersData={centersData}
+                  updateCenterData={this.updateCenterData}
+                  handleEditCenter={this.handleEditCenter}
+                  handleChangeStatusCenter={this.handleChangeStatusCenter}
+                />
+              )} />
+            )}
+            {showCenterContainer && centerToEdit && (
+              <Route path="/dashboard/center" exact render={() => (
                 <DashboardCenter
                   userId={userId}
                   showCenterContainer={showCenterContainer}
@@ -390,29 +443,15 @@ class DashboardContainer extends Component {
               )} />
             )}
 
-            {hasRole4 && !showCenterContainer && (
-              <Route path="/dashboard/center" exact render={() => (
-                <DashboardCenter
-                  centersData={centersData}
-                  updateCenterData={this.updateCenterData}
-                  handleEditCenter={this.handleEditCenter}
-                  handleChangeStatusCenter={this.handleChangeStatusCenter}
-                />
-              )} />
-            )}
-            {showCenterContainer && (
+            {showCenterContainer && !centerToEdit && (
               <Route path="/dashboard/center" exact render={() => (
                 <DashboardCenter
                   userId={userId}
                   showCenterContainer={showCenterContainer}
                   handleCenterCreated={this.handleCenterCreated}
-                  updateCenterData={this.updateCenterData}
-                  handleEditCenter={this.handleEditCenter}
-                  centersData={centersData}
-                  centerToEdit={centerToEdit}
                   handleBack={this.handleBack} />
               )} />
-            )}
+            )}  
 
             {!hasRole2 && !hasRole3 && !hasRole4 && !this.state.showProfessorContainer && !this.state.showCenterContainer && (
               <Route path="*" render={() => (
