@@ -14,7 +14,8 @@ const DashboardCenter = ({
   handleBack,
   handleChangeStatusCenter
 }) => {
-  if (showCenterContainer && !centerToEdit) {
+  const isCreatingCenter = !centerToEdit && showCenterContainer;
+  if (isCreatingCenter) {
     return (
       <CenterEditCreateContainer
         userId={userId}
@@ -22,7 +23,7 @@ const DashboardCenter = ({
         handleBack={handleBack}
       />
     );
-  } else if (showCenterContainer && centerToEdit) {
+  } else if (centerToEdit) {
     return (
       <CenterEditCreateContainer
         userId={userId}
