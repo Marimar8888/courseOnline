@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 
-import { API_URL } from '../utils/constant';
 import EmailRecovery from './email-recovery';
 import LoginFormFields from '../forms/login-form-fields';
+import { login } from '../services/user';
 
 export default class Login extends Component {
   constructor(props) {
@@ -49,14 +48,7 @@ export default class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    axios
-      .post(
-        `${API_URL}/login`,
-        {
-            users_email: this.state.email,
-            users_password: this.state.password
-        }
-      )
+    login(this.state.email, this.state.password, this.setState, this.props.handleUnsuccessfulAuth)
       .then(response => {
         if (response.status === 200) {
           if (this.isMountedComponent) {
@@ -72,45 +64,7 @@ export default class Login extends Component {
             this.props.handleUnsuccessfulAuth();
           }
         }
-      })
-      .catch(error => {
-        if (this.isMountedComponent) {
-          if (error.response) {
-            switch (error.response.status) {
-              case 400:
-                this.setState({
-                  errorText: error.response.data.error 
-                });
-                break;
-              case 404:
-                this.setState({
-                  errorText: "User Not Found"
-                });
-                break;
-              case 401:
-                this.setState({
-                  errorText: "Incorrect password"
-                });
-                break;
-              default:
-                this.setState({
-                  errorText: "Unexpected error. Please try again."
-                });
-            }
-          } else if (error.request) {
-
-            this.setState({
-              errorText: "Unexpected error. Check your internet connection."
-            });
-          } else {
-
-            this.setState({
-              errorText: "Error processing the request. Please try again."
-            });
-          }
-          this.props.handleUnsuccessfulAuth();
-        }
-      });
+      }); 
   }
 
   render() {
