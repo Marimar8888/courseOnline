@@ -64,13 +64,7 @@ class CentersContainer extends Component {
     }
 
     return (
-<<<<<<< HEAD
-      <div className="dashboard-dates-centers" >
-        <div className="dashboard-headers">
-          <h3>Centers</h3>
-=======
       <div className="dashboard-content-entity-form" >
->>>>>>> modularizar
           <CentersTable 
             centersData={this.props.centersData}
             handleEditCenter={this.props.handleEditCenter} 

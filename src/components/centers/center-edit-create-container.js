@@ -3,11 +3,7 @@ import axios from "axios";
 import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
-<<<<<<< HEAD
-import CenterFormFields from '../forms/center-form-fields';
-=======
 import CenterFormFields from '../forms/center-form.fields';
->>>>>>> modularizar
 
 class CenterEditCreateContainer extends Component {
   constructor(props) {
@@ -135,15 +131,9 @@ class CenterEditCreateContainer extends Component {
       <div className="dashboard-content-all-dates">
         <CenterFormFields
           handleSubmit={this.handleSubmit}
-<<<<<<< HEAD
-          state={this.state}
-          handleBack={this.props.handleBack}
-          handleChange={this.handleChange}
-=======
           handleBack={this.props.handleBack}
           handleChange={this.handleChange}
           state={this.state}
->>>>>>> modularizar
         />
       </div>
     );
