@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios';
-import { API_URL } from '../utils/constant';
+
 import RegisterFormFields from '../forms/register-form-fields';
+import { addUser } from '../services/user';
 
 
 export default class Register extends Component {
@@ -30,59 +30,11 @@ export default class Register extends Component {
             });
             return;
         }
-        axios
-            .post(
-                `${API_URL}/user`,
-                {
-                    users_name: this.state.name,
-                    users_email: this.state.email,
-                    users_password: this.state.password
-                }
-            )
+        addUser(this.state.name, this.state.email, this.state.password, this.state.setState, this.isMountedComponent)
             .then(response => {
                 if (response.status === 201) {
                     if (this.isMountedComponent) {
                         this.props.handleSuccessfulReg();
-                    }
-                }
-            })
-            .catch(error => {
-                if (this.isMountedComponent) {
-                    if (error.response) {
-                        switch (error.response.status) {
-                            case 400:
-                                this.setState({
-                                    errorText: error.response.data.error
-                                });
-                                break;
-                            case 404:
-                                this.setState({
-                                    errorText: "A required resource could not be found on the server."
-                                });
-                                break;
-                            case 500:
-                                this.setState({
-                                    errorText: "Server error. Please try again later."
-                                });
-                                break;
-                            default:
-                                this.setState({
-                                    errorText: "Unexpected error. Please try again."
-                                });                                
-                            
-                        }
-                    }else if (error.request) {
-                        if (this.isMountedComponent) {
-                            this.setState({
-                                errorText: "A response could not be obtained from the server. Check your internet connection."
-                            });
-                        }
-                    }else {
-                        if (this.isMountedComponent) {
-                            this.setState({
-                                errorText: "An error occurred while processing the request. Please try again."
-                            });
-                        }
                     }
                 }
             });

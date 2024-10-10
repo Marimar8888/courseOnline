@@ -159,6 +159,62 @@ export const login = (email, password, setState, handleUnsuccessfulAuth) => {
 };
 
 
+export const addUser = (name, email, password, setState, isMountedComponent) => {
+    return axios.post(`${API_URL}/user`,
+        {
+            users_name: name,
+            users_email: email,
+            users_password: password
+        }
+    )
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            if (isMountedComponent) {
+                if (error.response) {
+                    switch (error.response.status) {
+                        case 400:
+                            setState({
+                                errorText: error.response.data.error
+                            });
+                            break;
+                        case 404:
+                            setState({
+                                errorText: "A required resource could not be found on the server."
+                            });
+                            break;
+                        case 500:
+                            setState({
+                                errorText: "Server error. Please try again later."
+                            });
+                            break;
+                        default:
+                            setState({
+                                errorText: "Unexpected error. Please try again."
+                            });                                
+                        
+                    }
+                }else if (error.request) {
+                    if (isMountedComponent) {
+                        setState({
+                            errorText: "A response could not be obtained from the server. Check your internet connection."
+                        });
+                    }
+                }else {
+                    if (isMountedComponent) {
+                        setState({
+                            errorText: "An error occurred while processing the request. Please try again."
+                        });
+                    }
+                }
+            }
+        });
+};
+
+
+
+
 
 
 
