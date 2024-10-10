@@ -63,4 +63,39 @@ export const getUserRolsFromAPI = (userId, token) => {
 };
 
 
+export const updatePassword = (userId, resetToken, password, setErrorText, setMessage ) => {
+    return axios.patch(`${API_URL}/user/${userId}`, 
+        {
+            users_password: password,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${resetToken}`
+            }
+        }
+    )
+    .then(response => {
+       return response;
+    })
+    .catch(error => {
+        if (error.response) {
+            if (error.response.status === 401) {
+                if (error.response.data.error === 'Token has expired') {
+                    setErrorText("El token ha expirado. Solicite un nuevo enlace de restablecimiento.");
+                } else {
+                    setErrorText("Error de autorización. Verifique su token.");
+                }
+            } else {
+                setErrorText("Error al cambiar la contraseña");
+            }
+        } else {
+            setErrorText("Error al cambiar la contraseña");
+        }
+        setMessage("");
+    });
+};
+
+
+
+
 

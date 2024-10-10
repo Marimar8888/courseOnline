@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useHistory,useLocation } from 'react-router-dom';
 
-import { API_URL } from '../utils/constant';
 import ChangePasswordFormFields from '../forms/change-password-form-fields';
+import { getUserIdFromAPI, updatePassword } from '../services/user';
 
 const ChangePassword = () => {
 
@@ -37,20 +36,11 @@ const ChangePassword = () => {
 
     useEffect(() => {
         if (resetToken) {
-            console.log("resetToken", resetToken);
-            axios
-                .get(
-                    `${API_URL}/get_user_id`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${resetToken}`
-                        }
-                    })
-                .then(response => {
-                    setUserId(response.data.users_id);
-                })
-                .catch(error => {
-                    setErrorText("Token inválido o ha expirado");
+            getUserIdFromAPI(resetToken)
+                .then(id => {
+                    if (id) {
+                        setUserId(id);
+                    }
                 });
         }
     }, [resetToken]);
@@ -68,40 +58,15 @@ const ChangePassword = () => {
             setErrorText("Las contraseñas no coinciden");
             return;
         }
-        axios({
-            method: 'patch',
-            url: `${API_URL}/user/${userId}`,
-            data: {
-                users_password: password
-            },
-            headers: {
-                'Authorization': `Bearer ${resetToken}`,
-            }
-        })
+
+        updatePassword(userId, resetToken, password, setErrorText, setMessage)
             .then(response => {
                 setErrorText("");
                 setPassword("");
                 setConfirmPassword("");
                 setMessage(`Contraseña modificada exitosamente`);
                 history.push('/');
-
             })
-            .catch(error => {
-                if (error.response) {
-                    if (error.response.status === 401) {
-                        if (error.response.data.error === 'Token has expired') {
-                            setErrorText("El token ha expirado. Solicite un nuevo enlace de restablecimiento.");
-                        } else {
-                            setErrorText("Error de autorización. Verifique su token.");
-                        }
-                    } else {
-                        setErrorText("Error al cambiar la contraseña");
-                    }
-                } else {
-                    setErrorText("Error al cambiar la contraseña");
-                }
-                setMessage("");
-            });
     }
 
     return (
