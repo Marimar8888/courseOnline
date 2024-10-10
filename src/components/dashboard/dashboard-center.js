@@ -14,22 +14,37 @@ const DashboardCenter = ({
   handleBack,
   handleChangeStatusCenter
 }) => {
-
-  return showCenterContainer ? (
-    <CenterEditCreateContainer
-      userId={userId}
-      handleCenterCreated={handleCenterCreated}
-      handleEditCenter={handleEditCenter}
-      centerToEdit={centerToEdit}
-      handleBack={handleBack} />
-  ) : (
-    <CentersContainer
-      centersData={centersData}
-      updateCenterData={updateCenterData}
-      handleEditCenter={handleEditCenter}
-      handleChangeStatusCenter={handleChangeStatusCenter}
-    />
-  );
+  const isCreatingCenter = !centerToEdit && showCenterContainer;
+  if (isCreatingCenter) {
+    return (
+      <CenterEditCreateContainer
+        userId={userId}
+        handleCenterCreated={handleCenterCreated}
+        handleBack={handleBack}
+      />
+    );
+  } else if (centerToEdit) {
+    return (
+      <CenterEditCreateContainer
+        userId={userId}
+        handleEditCenter={handleEditCenter}
+        centerToEdit={centerToEdit}
+        handleBack={handleBack}
+        updateCenterData = {updateCenterData}
+      />
+    );
+  } else {
+    return (
+      <div className="dashboard-content-all-dates">
+        <CentersContainer
+          centersData={centersData}
+          updateCenterData={updateCenterData}
+          handleEditCenter={handleEditCenter}
+          handleChangeStatusCenter={handleChangeStatusCenter}
+        />
+      </div>
+    );
+  }
 };
 
 export default DashboardCenter;

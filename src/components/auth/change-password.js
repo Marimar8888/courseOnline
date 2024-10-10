@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory,useLocation } from 'react-router-dom';
 
 import { API_URL } from '../utils/constant';
+import ChangePasswordFormFields from '../forms/change-password-form-fields';
 
 const ChangePassword = () => {
 
@@ -13,19 +13,25 @@ const ChangePassword = () => {
     const [message, setMessage] = useState('');
     const [userId, setUserId] = useState(null);
 
+    const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const resetToken = queryParams.get('token');
     const history = useHistory();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        console.log(name, value);
+
         if (name === 'password') {
             setPassword(value);
+            if (value.length < 8) {
+                setErrorText("La contraseña debe tener al menos 8 caracteres.");
+            } else {
+                setErrorText("");
+            }
         } else if (name === 'confirmPassword') {
             setConfirmPassword(value);
         }
-        setErrorText("");
+
         setMessage("");
     };
 
@@ -51,6 +57,13 @@ const ChangePassword = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        const passwordComplexity = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordComplexity.test(password)) {
+            setErrorText("La contraseña debe tener letras, números y al menos un símbolo.");
+            return;
+        }
+     
         if (password !== confirmPassword) {
             setErrorText("Las contraseñas no coinciden");
             return;
@@ -70,7 +83,7 @@ const ChangePassword = () => {
                 setPassword("");
                 setConfirmPassword("");
                 setMessage(`Contraseña modificada exitosamente`);
-                history.push('/login');
+                history.push('/');
 
             })
             .catch(error => {
@@ -92,43 +105,15 @@ const ChangePassword = () => {
     }
 
     return (
-        <div className='change-password-wrapper'>
-            <div className='change-password-container'>
-                <div className='title-login'>
-                    <h3>Introduzca su nueva contraseña</h3>
-                </div>
-                <form onSubmit={handleSubmit} className="auth-form-wrapper">
-                    <div className="form-group">
-                        <FontAwesomeIcon icon="lock" />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Your password"
-                            value={password}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <FontAwesomeIcon icon="lock" />
-                        <input
-                            type="password"
-                            name="confirmPassword"
-                            placeholder="Confirm your password"
-                            value={confirmPassword}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    {errorText && <div className="errorText">{errorText}</div>}
-                    {message && <div className="successText">{message}</div>}
-
-                    <div className="links-login-modal-wrapper">
-                        <p className="link-register">
-                            <button type="submit" className="btn-save">Guardar</button>
-                        </p>
-                    </div>
-                </form>
-            </div>
+        <div>
+            <ChangePasswordFormFields
+                handleSubmit = {handleSubmit}
+                handleChange = {handleChange}
+                password = {password}
+                confirmPassword = {confirmPassword}
+                errorText = {errorText}
+                message = {message}
+            />
         </div>
     )
 }

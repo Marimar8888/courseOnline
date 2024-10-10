@@ -93,13 +93,13 @@ class ProfessorCreateContainer extends Component {
     fields.forEach(field => {
       professorFormData.append(field, this.state[field]);
     });
-
+    console.log([...professorFormData]);
     return professorFormData;
   }
 
   render() {
     return (
-      <div>
+      <div className="dashboard-content-all-dates">
         <ProfessorFormFields
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}

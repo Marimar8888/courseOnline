@@ -9,13 +9,14 @@ import { ActiveStudents, InactiveStudents } from "../services/student";
 import ProfessorCentersTable from './professor-centers-table';
 import ProfessorFormFields from '../forms/professor-form-fields';
 import DashboardDatesProfessorForm from '../forms/dashboard-dates-professor-form';
+import CenterEditCreateContainer from '../centers/center-edit-create-container';
 
 class ProfessorEditContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       professors_id: "",
-      professors_user_id: "",
+      professors_user_id: this.props.userId || "",
       professors_first_name: "",
       professors_last_name: "",
       professors_email: "",
@@ -60,15 +61,20 @@ class ProfessorEditContainer extends Component {
         getEnrollmentsByProfessorId(professorData.professor.professors_id, token)
           .then(enrollments => {
             this.setState({ enrollments });
-
-            const activeStudents = ActiveStudents(enrollments);
-            const inactiveStudents = InactiveStudents(enrollments);
-
-            this.setState({ activeStudents, inactiveStudents });
+            
+            if (enrollments.length > 0) {
+              const activeStudents = ActiveStudents(enrollments);
+              const inactiveStudents = InactiveStudents(enrollments);
+              this.setState({ activeStudents, inactiveStudents });
+            } 
           })
           .catch(error => {
-            console.log("error getEnrollmentsByCourseId", error);
-          })
+            if (error.response && error.response.status === 404) {
+              console.log('No enrollments found for this professor.');
+            } else {
+              console.log("error getEnrollmentsByCourseId", error);
+            }
+          });
       }
     }
   }
@@ -211,8 +217,8 @@ class ProfessorEditContainer extends Component {
   }
 
   render() {
-    const { professorData } = this.props;
-
+    const { professorData, showCenterContainer } = this.props;
+    
     if (!professorData) {
       return <p>Cargando datos del profesor...</p>
     }
@@ -224,7 +230,16 @@ class ProfessorEditContainer extends Component {
     const inactiveStudentsNumber = this.state.inactiveStudents ? this.state.inactiveStudents.length : 0;
     const totalStudents = activeStudentsNumber + inactiveStudentsNumber || 0;
 
-    return (
+  
+    return showCenterContainer ? (
+      <CenterEditCreateContainer
+        handleCenterCreated={this.props.handleCenterCreated}
+        handleEditCenter={this.props.handleEditCenter}
+        centerToEdit={this.props.centerToEdit}
+        handleBack={this.props.handleBack}
+      />
+    ) : (
+    
       <div className="dashboard-content-all-dates">
         <ProfessorFormFields
           handleChange={this.handleChange}

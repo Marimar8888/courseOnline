@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { API_URL } from '../utils/constant';
+import RegisterFormFields from '../forms/register-form-fields';
 
 
 export default class Register extends Component {
@@ -111,64 +111,13 @@ export default class Register extends Component {
 
     render() {
         return (
-            <div>
-                <div className='title-login'>
-                    <h2>REGISTRATE Y EMPIEZA A APRENDER</h2>
-                </div>
-
-                <form onSubmit={this.handleSubmit} className="auth-form-wrapper">
-                    <div className="form-group">
-                        <FontAwesomeIcon icon="user" />
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Your user name"
-                            value={this.state.name}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <FontAwesomeIcon icon="envelope" />
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Your email"
-                            value={this.state.email}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <FontAwesomeIcon icon="lock" />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Your password"
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <FontAwesomeIcon icon="lock" />
-                        <input
-                            type="password"
-                            name="confirmPassword"
-                            placeholder="Confirm your password"
-                            value={this.state.confirmPassword}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-
-                    <div className="errorText">{this.state.errorText}</div>
-
-                    <button className="btn" type="submit">Regístrate</button>
-
-                    <div className="links-login-modal-wrapper">
-
-                        <p className="link-register">¿Ya tienes cuenta?
-                            <span className="register-link" onClick={this.handleLoginClick}> Inicio Sesión</span>
-                        </p>
-                    </div>
-                </form>
+            <div >
+                <RegisterFormFields
+                  handleSubmit = {this.handleSubmit}
+                  handleChange = {this.handleChange}
+                  handleLoginClick = {this.handleLoginClick}
+                  state = {this.state}
+                />
             </div>
         )
     }
