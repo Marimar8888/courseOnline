@@ -96,6 +96,19 @@ export const updatePassword = (userId, resetToken, password, setErrorText, setMe
 };
 
 
+export const sendEmailChangePassword = (email) => {
+    return axios.post(`${API_URL}/forgot-password`, 
+        { users_email: email }
+    )
+    .then(response => {
+       return response;
+    })
+    .catch(error => {
+       console.log("error sendEmailChangePassword:", error);
+    });
+};
+
+
 
 
 

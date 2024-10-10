@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
-import { API_URL } from '../utils/constant';
 import EmailRecoveryFormFields from '../forms/email-recovery-form-fields';
+import { sendEmailChangePassword } from '../services/user';
 
 const EmailRecovery = ({ toggleEmailRecovery }) => {
 
@@ -22,15 +21,12 @@ const EmailRecovery = ({ toggleEmailRecovery }) => {
             setErrorText("Por favor, introduce un correo electrónico válido");
             return;
         }
-        axios.post(`${API_URL}/forgot-password`, { users_email: email })
+        sendEmailChangePassword(email)
             .then(response => {
                 setErrorText("");
                 setMessage(`Email enviado a: ${email}`);
                 setEmail("");
                 setUserId(response.userId);
-            })
-            .catch(error => {
-             
             });
     }
 
