@@ -93,7 +93,7 @@ class ProfessorCreateContainer extends Component {
     fields.forEach(field => {
       professorFormData.append(field, this.state[field]);
     });
-
+    console.log([...professorFormData]);
     return professorFormData;
   }
 
