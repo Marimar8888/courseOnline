@@ -56,6 +56,27 @@ export const updateCreateCenter = ({ methodAPI, urlAPI,  token, state, studyCent
         })
 };
 
+export const studyCentersByUserId = (userId, token) => {
+    const url = `${API_URL}/studycenter/user_id/${userId}`;
+    return axios
+        ({
+            method: "get",
+            url: url,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => {
+            console.log("error studyCentersNamesFromAPI:", error);
+        });
+
+};
+
+/*----------- BuilderForm ----------- */
+
 export const buildForm = ({ state, studyCenterUserId}) => {
     let centerFormData = new FormData();
 

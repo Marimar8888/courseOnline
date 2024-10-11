@@ -10,6 +10,7 @@ import DashboardCenter from './dashboard-center';
 import { fechStudentDataFromAPI } from '../services/student';
 import { fechProfessorDataFromApi } from '../services/professor';
 import { getUserIdFromAPI, getUserRolsFromAPI } from '../services/user';
+import { studyCentersByUserId } from '../services/center';
 
 class DashboardContainer extends Component {
   constructor() {
@@ -156,6 +157,16 @@ class DashboardContainer extends Component {
       .then(response => {
         this.setState({
           professorData: response.data
+        });
+      })
+  }
+
+  getCenters(userId) {
+    const token = localStorage.getItem("token");
+    studyCentersByUserId(userId, token)
+      .then(response => {
+        this.setState({
+          centersData: response
         });
       })
   }
