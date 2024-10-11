@@ -198,29 +198,10 @@ class DashboardContainer extends Component {
             })
     }
 
-  // getStudentId(userId) {
-  //   axios
-  //     .get(
-  //       `${API_URL}/student/user_id/${userId}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`
-  //         }
-  //       })
-  //     .then(response => {
-  //       const studentId = response.data.students_id;
-  //       this.fechStudentData(studentId);
-
-  //     })
-  //     .catch(error => {
-  //       console.log("error getStudentId", error)
-  //     })
-  // }
-
   getUserRols(userId) {
     const token = localStorage.getItem("token");
   
-    getUserRolsFromAPI(userId, token)
+  getUserRolsFromAPI(userId, token)
       .then(({ rols }) => {
         this.setState({ userRols: rols }, () => {
           this.handleUserRols(rols, userId);
