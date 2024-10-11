@@ -8,6 +8,7 @@ import LoginNotification from '../modals/login-notification';
 import { getFavoritesByUserId, deleteFavorite, createFavorite } from '../services/favorites';
 import { getUserIdFromAPI } from '../services/user';
 import { getAllCoursesWithPage } from '../services/course';
+import { getCategory } from '../services/category';
 
 class StoreContainer extends Component {
     constructor(props) {
@@ -141,7 +142,7 @@ class StoreContainer extends Component {
 
     loadCourses = () => {
         if (this.state.categoryId) {
-            this.getCategoryItem();
+            this.getCategoryItems(this.state.categoryId);
         } else {
             this.getAllCourses();
         }
@@ -170,36 +171,9 @@ class StoreContainer extends Component {
                 console.error("Error fetching courses:", error);
             });
     }
-      
 
-    //     axios
-    //         .get(
-    //             `${API_URL}/courses?page=${this.state.currentPage}&limit=${this.state.limit}`
-    //         )
-    //         .then(response => {
-    //             if (!this.hasUnmounted) {
-    //                 this.setState({
-    //                     courses: this.state.courses.concat(response.data.courses),
-    //                     totalCount: response.data.total,
-    //                     totalPages: response.data.pages,
-    //                     currentPage: response.data.page + 1,
-    //                     isLoading: false
-    //                 });
-    //             }
-    //         })
-    //         .catch(error => {
-    //             if (!this.hasUnmounted) {
-    //                 console.log("getAllCourses error", error);
-    //                 this.setState({ isLoading: false });
-    //             }
-    //         });
-    // }
-
-    getCategoryItem() {
-        axios
-            .get(
-                `${API_URL}/category/${this.state.categoryId}`
-            )
+    getCategoryItems() {
+        getCategory(this.state.categoryId)
             .then(response => {
                 if (!this.hasUnmounted) {
                     this.setState({
@@ -214,9 +188,33 @@ class StoreContainer extends Component {
                 }
             })
             .catch(error => {
-                console.log("getCategoryItem error", error);
+                console.log("getCategoryItems error", error);
             });
     }
+      
+    // getCategoryItems() {
+    //     axios
+    //         .get(
+    //             `${API_URL}/category/${this.state.categoryId}`
+    //         )
+    //         .then(response => {
+    //             console.log("getCategoryItem: ", response)
+    //             if (!this.hasUnmounted) {
+    //                 this.setState({
+    //                     categoryId: response.data.categories_id,
+    //                     categoryName: response.data.categories_name,
+    //                     courses: [],
+    //                     currentPage: 1,
+    //                     totalPages: 0
+    //                 }, () => {
+    //                     this.getCourseByCategory();
+    //                 });
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.log("getCategoryItem error", error);
+    //         });
+    // }
 
     getCourseByCategory() {
         this.setState({
