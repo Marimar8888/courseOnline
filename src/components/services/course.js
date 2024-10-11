@@ -9,17 +9,17 @@ export const getCoursesByStudentId = (StudentId, token) => {
             Authorization: `Bearer ${token}`,
         },
     })
-    .then(response => {
-        if(response.status === 200){
-            return response.data;
-        }
-       
-    })
-    .catch(error => {
-        console.error("Error getEnrollmentsByStudentId:", error.response ? error.response.data : error.message);
-        throw error; 
-    
-    });
+        .then(response => {
+            if (response.status === 200) {
+                return response.data;
+            }
+
+        })
+        .catch(error => {
+            console.error("Error getEnrollmentsByStudentId:", error.response ? error.response.data : error.message);
+            throw error;
+
+        });
 };
 
 /* -----------DASHBOARD courses-container.js -----------*/
@@ -33,11 +33,11 @@ export const getCoursesByProfessorIdPagined = (token, professorId, typeId, curre
             }
         })
         .then(response => {
-            return response.data; 
+            return response.data;
         })
         .catch(error => {
             console.log("Error getCoursesByStudentIdPagined courses", error);
-            throw error; 
+            throw error;
         });
 };
 
@@ -51,50 +51,51 @@ export const getCoursesByStudentIdPagined = (token, studentId, typeId, currentPa
             }
         })
         .then(response => {
-            return response.data; 
+            return response.data;
         })
         .catch(error => {
             console.log("Error getCoursesByStudentIdPagined courses", error);
-            throw error; 
+            throw error;
         });
 };
 
 /*---------------Course-form.js------------------- */
-export const addOrUpdateCourse = (apiUrl, apiAction, formData, token) => {
+export const addOrUpdateCourse = (apiUrl, apiAction, token, state, previousState) => {
+    const courseFormData = buildForm(state, previousState);
     return axios
         ({
             method: apiAction,
             url: apiUrl,
-            data: formData,
+            data: courseFormData,
             headers: {
                 'Authorization': `Bearer ${token}`
-            } 
+            }
         })
         .then(response => {
             return response.data;
         })
         .catch(error => {
-            console.log("error addOrUpdateCourse:", error);      
+            console.log("error addOrUpdateCourse:", error);
         });
 };
 
 export const delete_course_image = (courseId, token) => {
     const url = `${API_URL}/course/${courseId}/delete-image`;
-    return axios 
-    ({
-        method: "delete",
-        url: `${url}`,
-        headers: {
-            'Authorization': `Bearer ${token}`
-        } 
-    })
-    .then(response => {
-        console.log("deleteImage:", response)
-        return response;
-    })
-    .catch(error => {
-        console.log("error deleteImage:", error);
-    });
+    return axios
+        ({
+            method: "delete",
+            url: `${url}`,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            console.log("deleteImage:", response)
+            return response;
+        })
+        .catch(error => {
+            console.log("error deleteImage:", error);
+        });
 };
 
 /*------------ Course-Details-------------*/
@@ -105,15 +106,15 @@ export const getCourseByIdFromAPI = (id, token) => {
         method: "get",
         url: `${url}`,
         headers: {
-             'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     })
-    .then(response => {
-        return response.data;
-    })
-    .catch(error => {
-        console.log("error getCourseById", error);
-    })
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => {
+            console.log("error getCourseById", error);
+        })
 
 };
 
@@ -123,14 +124,48 @@ export const deleteCourse = (id, token) => {
         method: "delete",
         url: `${url}`,
         headers: {
-             'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
-    }) 
-    .then(response => { 
-        return response;
     })
-    .catch(error => {
-        console.log("error deleteCourse", error);
-    })
-}; 
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            console.log("error deleteCourse", error);
+        })
+};
+/*------------- Builform -----------------*/
 
+export const buildForm = (currentState, previousState) => {
+    let formData = new FormData();
+
+    if (currentState.title !== previousState.title) {
+        formData.append("courses_title", currentState.title);
+    }
+    if (currentState.active !== previousState.active) {
+        formData.append("courses_active", currentState.active === true ? 'true' : 'false');
+    }
+    if (currentState.content !== previousState.content) {
+        formData.append("courses_content", currentState.content);
+    }
+    if (currentState.price !== previousState.price) {
+        formData.append("courses_price", currentState.price);
+    }
+    if (currentState.discounted_price !== previousState.discounted_price) {
+        formData.append("courses_discounted_price", currentState.discounted_price);
+    }
+    if (currentState.professor_id !== previousState.professor_id) {
+        formData.append("courses_professor_id", currentState.professor_id);
+    }
+    if (currentState.studycenter_id !== previousState.studycenter_id) {
+        formData.append("courses_studycenter_id", currentState.studycenter_id);
+    }
+    if (currentState.category_id !== previousState.category_id) {
+        formData.append("courses_category_id", currentState.category_id);
+    }
+    if (currentState.image !== previousState.image && currentState.image instanceof File) {
+        formData.append("file", currentState.image);
+    }
+
+    return formData;
+}

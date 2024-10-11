@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import axios from "axios";
-import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
 import DashboardBills from '../dashboard/dashboard-bills';
@@ -10,6 +8,7 @@ import ProfessorCentersTable from './professor-centers-table';
 import ProfessorFormFields from '../forms/professor-form-fields';
 import DashboardDatesProfessorForm from '../forms/dashboard-dates-professor-form';
 import CenterEditCreateContainer from '../centers/center-edit-create-container';
+import { updateProfessor } from '../services/professor';
 
 class ProfessorEditContainer extends Component {
   constructor(props) {
@@ -60,14 +59,14 @@ class ProfessorEditContainer extends Component {
       if (professorData.professor.professors_id) {
         getEnrollmentsByProfessorId(professorData.professor.professors_id, token)
           .then(enrollments => {
-            if(enrollments){
+            if (enrollments) {
               this.setState({ enrollments });
             }
             if (enrollments.length > 0) {
               const activeStudents = ActiveStudents(enrollments);
               const inactiveStudents = InactiveStudents(enrollments);
               this.setState({ activeStudents, inactiveStudents });
-            } 
+            }
           })
           .catch(error => {
             if (error.response && error.response.status === 404) {
@@ -151,37 +150,39 @@ class ProfessorEditContainer extends Component {
     event.preventDefault();
     const token = localStorage.getItem("token");
     const professorId = this.state.professors_id;
-    const formData = this.buildForm();
 
     if (!professorId) {
       console.error('Professor ID is missing');
       return;
     }
 
-    axios
-      ({
-        method: "patch",
-        url: `${API_URL}/professor/${professorId}`,
-        data: formData,
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      })
+    const professorData = {
+      professors_id: this.state.professors_id,
+      professors_user_id: this.state.professors_user_id,
+      professors_first_name: this.state.professors_first_name,
+      professors_last_name: this.state.professors_last_name,
+      professors_email: this.state.professors_email,
+      professors_dni: this.state.professors_dni,
+      professors_address: this.state.professors_address,
+      professors_city: this.state.professors_city,
+      professors_postal: this.state.professors_postal,
+      professors_number_card: this.state.professors_number_card,
+      professors_exp_date: this.state.professors_exp_date,
+      professors_cvc: this.state.professors_cvc,
+    };
+
+    updateProfessor(professorData, this.initialState, token)
       .then(response => {
         this.setState({
           ...response.data,
           isButtonEnabled: false,
         });
-
         this.initialState = { ...this.state };
 
         if (this.props.updateDashboarProfessorData) {
           this.props.updateDashboarProfessorData(this.state.professors_id);
         }
-      })
-      .catch(error => {
-        console.log("error handleSubmit", error);
-      })
+      });
   }
 
   handleChange = (event) => {
@@ -192,34 +193,9 @@ class ProfessorEditContainer extends Component {
     });
   };
 
-  buildForm() {
-    let professorFormData = new FormData();
-
-    const fields = [
-      "professors_first_name",
-      "professors_last_name",
-      "professors_email",
-      "professors_dni",
-      "professors_address",
-      "professors_city",
-      "professors_postal",
-      "professors_number_card",
-      "professors_exp_date",
-      "professors_cvc"
-    ];
-
-    fields.forEach(field => {
-      if (this.state[field] !== this.initialState[field]) {
-        professorFormData.append(field, this.state[field]);
-      }
-    });
-
-    return professorFormData;
-  }
-
   render() {
     const { professorData, showCenterContainer } = this.props;
-    
+
     if (!professorData) {
       return <p>Cargando datos del profesor...</p>
     }
@@ -231,7 +207,7 @@ class ProfessorEditContainer extends Component {
     const inactiveStudentsNumber = this.state.inactiveStudents ? this.state.inactiveStudents.length : 0;
     const totalStudents = activeStudentsNumber + inactiveStudentsNumber || 0;
 
-  
+
     return showCenterContainer ? (
       <CenterEditCreateContainer
         handleCenterCreated={this.props.handleCenterCreated}
@@ -240,7 +216,7 @@ class ProfessorEditContainer extends Component {
         handleBack={this.props.handleBack}
       />
     ) : (
-    
+
       <div className="dashboard-content-all-dates">
         <ProfessorFormFields
           handleChange={this.handleChange}

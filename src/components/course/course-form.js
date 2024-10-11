@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import RichTextEditor from "../forms/rich-text-editor";
 import CourseFormFields from "../forms/course-form-fields";
 import { addOrUpdateCourse, delete_course_image } from "../services/course";
-import { getProfessorByProfessorIdFromAPI, getProfessorIdByUserIdFromAPI } from "../services/professor";
+import { getProfessorByProfessorIdFromAPI } from "../services/professor";
 import { categoryNamesFromAPI } from '../services/category';
 import { studyCentersNamesFromAPI } from '../services/center';
 import { getUserIdFromAPI } from "../services/user";
@@ -125,10 +125,7 @@ class CourseForm extends Component {
                     this.setState({ studycenter_names: response });
                 }
             })
-
-
     }
-
 
     componentConfig() {
         return {
@@ -192,7 +189,7 @@ class CourseForm extends Component {
         const token = localStorage.getItem("token");
         if (token) {
             this.setState({ isSubmitting: true });
-            addOrUpdateCourse(this.state.apiUrl, this.state.apiAction, this.buildForm(), token)
+            addOrUpdateCourse(this.state.apiUrl, this.state.apiAction, token, this.state, this.state.previousState)
                 .then(data => {
                     const courseId = this.state.id;
                     if (this.state.image && this.imageRef.current && this.imageRef.current.dropzone) {
@@ -227,42 +224,6 @@ class CourseForm extends Component {
                     console.log("Error al agregar el curso:", error);
                 });
         }
-    }
-
-    buildForm() {
-
-        let formData = new FormData();
-
-        if (this.state.title !== this.state.previousState.title) {
-            formData.append("courses_title", this.state.title);
-        }
-        if (this.state.active !== this.state.previousState.active) {
-            formData.append("courses_active", this.state.active === true ? 'true' : 'false');
-        }
-        if (this.state.content !== this.state.previousState.content) {
-            formData.append("courses_content", this.state.content);
-        }
-        if (this.state.price !== this.state.previousState.price) {
-            formData.append("courses_price", this.state.price);
-        }
-        if (this.state.discounted_price !== this.state.previousState.discounted_price) {
-            formData.append("courses_discounted_price", this.state.discounted_price);
-        }
-        if (this.state.professor_id !== this.state.previousState.professor_id) {
-            formData.append("courses_professor_id", this.state.professor_id);
-        }
-        if (this.state.studycenter_id !== this.state.previousState.studycenter_id) {
-            formData.append("courses_studycenter_id", this.state.studycenter_id);
-        }
-        if (this.state.category_id !== this.state.previousState.category_id) {
-            formData.append("courses_category_id", this.state.category_id);
-        }
-
-        if (this.state.image !== this.state.previousState.image && this.state.image instanceof File) {
-            formData.append("file", this.state.image);
-        }
-
-        return formData;
     }
 
     render() {

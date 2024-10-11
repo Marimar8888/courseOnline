@@ -7,89 +7,89 @@ import { API_URL } from '../utils/constant';
 const fechStudentData = (studentId) => {
     const token = localStorage.getItem("token");
     axios
-      .get(
-        `${API_URL}/courses/student/${studentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+        .get(
+            `${API_URL}/courses/student/${studentId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+        .then(response => {
+            console.log("fechStudentData dashboard-container", response.data);
+            return response.data
+
         })
-      .then(response => {
-        console.log("fechStudentData dashboard-container", response.data);
-        return response.data
-
-      })
-      .catch(error => {
-        console.log("error fechStudentData", error)
-      })
-  };
-  
-/* ------------ DASHBOARD professor-edit-container.js------------------------------*/
-
-export const ActiveStudents =(enrollments) => {
-  const activeStudents = [];
-
-  enrollments.forEach(enrollment => {
-      if (!enrollment.enrollments_finalized) {
-          if (!activeStudents.includes(enrollment.enrollments_student_id)) {
-              activeStudents.push(enrollment.enrollments_student_id);
-          }
-      }
-  });
-  return activeStudents;
+        .catch(error => {
+            console.log("error fechStudentData", error)
+        })
 };
 
-export const InactiveStudents =(enrollments) => {
-  const InactiveStudents = [];
+/* ------------ DASHBOARD professor-edit-container.js------------------------------*/
 
-  enrollments.forEach(enrollment => {
-      if (enrollment.enrollments_finalized) {
-          if (!InactiveStudents.includes(enrollment.enrollments_student_id)) {
-              InactiveStudents.push(enrollment.enrollments_student_id);
-          }
-      }
-  });
-  return InactiveStudents;
+export const ActiveStudents = (enrollments) => {
+    const activeStudents = [];
+
+    enrollments.forEach(enrollment => {
+        if (!enrollment.enrollments_finalized) {
+            if (!activeStudents.includes(enrollment.enrollments_student_id)) {
+                activeStudents.push(enrollment.enrollments_student_id);
+            }
+        }
+    });
+    return activeStudents;
+};
+
+export const InactiveStudents = (enrollments) => {
+    const InactiveStudents = [];
+
+    enrollments.forEach(enrollment => {
+        if (enrollment.enrollments_finalized) {
+            if (!InactiveStudents.includes(enrollment.enrollments_student_id)) {
+                InactiveStudents.push(enrollment.enrollments_student_id);
+            }
+        }
+    });
+    return InactiveStudents;
 };
 
 /*---------- student-container.js ---------------------*/
 
 export const getStudentsByStatusAndByProfessorId = (professorId, token, typeId, currentPage, limit) => {
-  const url = `${API_URL}//students/status/professor/${professorId}/type/${typeId}?page=${currentPage}&limit=${limit}`;
-  return axios
-      .get(`${url}`, {
-          headers: {
-              Authorization: `Bearer ${token}`
-          }
-      })
-      .then(response => {
-          return response.data; 
-      })
-      .catch(error => {
-          console.log("Error getStudentsByStatusAndByProfessorId students", error);
-          throw error; 
-      });
+    const url = `${API_URL}/students/status/professor/${professorId}/type/${typeId}?page=${currentPage}&limit=${limit}`;
+    return axios
+        .get(`${url}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => {
+            console.log("Error getStudentsByStatusAndByProfessorId students", error);
+            throw error;
+        });
 };
 
 /* -----------DASHBOARD courses-container.js -----------*/
 export const getStudentIdByUserIdFromAPI = (userId, token) => {
-return axios.get(`${API_URL}/student/user_id/${userId}`, {
-    headers: {
-        Authorization: `Bearer ${token}`
-    }
-})
-.then(response => {
-    if (response.status === 200) {
-        return response.data;
-    } else {
-        console.log("Professor not found");
-        return null;
-    }
-})
-.catch(error => {
-    console.log("Error getProfessorById:", error);
-    return null;
-});
+    return axios.get(`${API_URL}/student/user_id/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            if (response.status === 200) {
+                return response.data;
+            } else {
+                console.log("Professor not found");
+                return null;
+            }
+        })
+        .catch(error => {
+            console.log("Error getProfessorById:", error);
+            return null;
+        });
 };
 
 
@@ -135,6 +135,30 @@ export const addStudent = (userId, studentData, token) => {
 
 };
 
+/*---------Student-edit-container.js---------- */
+export const updateStudent = (studentData, initialState, token) => {
+    const studentId = studentData.students_id
+    const studentFormData = buildForm(studentData, initialState);
+    return axios
+        ({
+            method: "patch",
+            url: `${API_URL}/student/${studentId}`,
+            data: studentFormData,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            console.log("error update Student", error);
+            throw error;
+        })
+};
+
+/*------- BuildForm -----------*/
+
 export const buildFormStudent = (userId, studentData) => {
     let studentFormData = new FormData();
     studentFormData.append("students_user_id", userId);
@@ -152,5 +176,29 @@ export const buildFormStudent = (userId, studentData) => {
     console.log("Form Data Student:", studentFormData.get("students_number_card"));
 
     return studentFormData;
-
 }
+
+
+export const buildForm = (studentData, initialState) => {
+    let studentFormData = new FormData();
+
+    const fields = [
+        "students_first_name",
+        "students_last_name",
+        "students_email",
+        "students_dni",
+        "students_address",
+        "students_city",
+        "students_postal",
+        "students_number_card",
+        "students_exp_date",
+        "students_cvc",
+        "students_user_id"
+    ];
+    fields.forEach(field => {
+        if (studentData[field] !== initialState[field]) {
+            studentFormData.append(field, studentData[field]);
+        }
+    });
+    return studentFormData;
+};

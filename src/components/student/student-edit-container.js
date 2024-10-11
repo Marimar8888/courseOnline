@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import axios from "axios";
-import { API_URL } from '../utils/constant';
+
 import { withRouter } from 'react-router-dom';
 
 import DashboardBills from '../dashboard/dashboard-bills';
@@ -8,6 +7,7 @@ import StudentFormFields from '../forms/student-form-fields';
 import DashboardDatesStudentForm from '../forms/dahsboard-dates-student-form';
 import { getEnrollmentsByStudentId } from '../services/enrollment';
 import { getFavoritesByUserId, getCoursesFavoritesByUserId } from '../services/favorites';
+import { updateStudent } from '../services/student';
 
 class StudentEditContainer extends Component {
 
@@ -131,21 +131,27 @@ class StudentEditContainer extends Component {
         event.preventDefault();
         const token = localStorage.getItem("token");
         const studentId = this.state.students_id;
-        const formData = this.buildForm();
 
         if (!studentId) {
             console.error('Student ID is missing');
             return;
         }
-        axios
-            ({
-                method: "patch",
-                url: `${API_URL}/student/${studentId}`,
-                data: formData,
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+        const studentData = {
+            students_id: this.state.students_id,
+            students_user_id: this.state.students_user_id,
+            students_first_name: this.state.students_first_name,
+            students_last_name: this.state.students_last_name,
+            students_dni: this.state.students_dni,
+            students_address: this.state.students_address,
+            students_city: this.state.students_city,
+            students_postal: this.state.students_postal,
+            students_email: this.state.students_email,
+            students_number_card: this.state.students_number_card,
+            students_exp_date: this.state.students_exp_date,
+            students_cvc: this.state.students_cvc,
+        };
+
+        updateStudent(studentData, this.initialState, token)
             .then(response => {
                 this.setState({
                     ...response.data,
@@ -156,12 +162,10 @@ class StudentEditContainer extends Component {
                 if (this.props.updateDashboarStudentData) {
                     this.props.updateDashboarStudentData(this.state.students_id);
                 }
-            })
-            .catch(error => {
-                console.log("error handleSubmit", error);
-            })
-    }
+            });
 
+    }
+    
     handleChange = (event) => {
         const { name, value } = event.target;
         this.setState({
@@ -169,30 +173,6 @@ class StudentEditContainer extends Component {
             isButtonEnabled: true,
         });
     };
-
-    buildForm() {
-        let studentFormData = new FormData();
-
-        const fields = [
-            "students_first_name",
-            "students_last_name",
-            "students_email",
-            "students_dni",
-            "students_address",
-            "students_city",
-            "students_postal",
-            "students_number_card",
-            "students_exp_date",
-            "students_cvc",
-            "students_user_id"
-        ];
-        fields.forEach(field => {
-            if (this.state[field] !== this.initialState[field]) {
-                studentFormData.append(field, this.state[field]);
-            }
-        });
-        return studentFormData;
-    }
 
     render() {
         const { studentData } = this.props;
