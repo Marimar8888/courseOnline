@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, NavLink, Route } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
 import DashboardStudent from './dashboard-student';
@@ -10,7 +8,7 @@ import DashboardCenter from './dashboard-center';
 import { fechStudentDataFromAPI, getStudentIdByUserIdFromAPI } from '../services/student';
 import { fechProfessorDataFromApi, getProfessorIdByUserIdFromAPI } from '../services/professor';
 import { getUserIdFromAPI, getUserRolsFromAPI } from '../services/user';
-import { studyCentersByUserIdFromAPI } from '../services/center';
+import { studyCentersByUserIdFromAPI, handleChangeStatusCenterFromApi } from '../services/center';
 
 class DashboardContainer extends Component {
   constructor() {
@@ -53,19 +51,9 @@ class DashboardContainer extends Component {
   }
 
   handleChangeStatusCenter(center) {
-    const statusCenter = center.studyCenters_active ? false : true;
-
     const token = localStorage.getItem("token");
-    axios({
-      method: 'patch',
-      url: `${API_URL}/studycenter/status/${center.studyCenters_id}`,
-      data: {
-        studyCenters_active: statusCenter
-      },
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      }
-    })
+    const statusCenter = center.studyCenters_active ? false : true;
+    handleChangeStatusCenterFromApi(center, token, statusCenter)
       .then(response => {
         if (response.status === 200) {
           this.setState(prevState => ({
@@ -78,9 +66,6 @@ class DashboardContainer extends Component {
         } else {
           console.log(`Unexpected status code: ${response.status}`);
         }
-      })
-      .catch(error => {
-        console.log("error handleChangeStatusCenter", error)
       })
   }
 

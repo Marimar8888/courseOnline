@@ -75,6 +75,26 @@ export const studyCentersByUserIdFromAPI = (userId, token) => {
 
 };
 
+export const handleChangeStatusCenterFromApi=(center, token, statusCenter)=> {
+    
+    return axios({
+      method: 'patch',
+      url: `${API_URL}/studycenter/status/${center.studyCenters_id}`,
+      data: {
+        studyCenters_active: statusCenter
+      },
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => {
+        return response
+      })
+      .catch(error => {
+        console.log("error handleChangeStatusCenter", error)
+      })
+  };
+
 /*----------- BuilderForm ----------- */
 
 export const buildForm = ({ state, studyCenterUserId}) => {
