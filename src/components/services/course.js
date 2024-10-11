@@ -134,6 +134,22 @@ export const deleteCourse = (id, token) => {
             console.log("error deleteCourse", error);
         })
 };
+
+/*------------ store-container.js ----------*/
+
+export const getAllCoursesWithPage = (state, hasUnmounted) => {
+    return axios.get(`${API_URL}/courses?page=${state.currentPage}&limit=${state.limit}`)
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            if (!hasUnmounted) {
+                console.log("getAllCourses error", error);
+                state.setState({ isLoading: false });
+            }
+        });
+};
+
 /*------------- Builform -----------------*/
 
 export const buildForm = (currentState, previousState) => {

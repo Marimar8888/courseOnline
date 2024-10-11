@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import CourseItemStore from '../course/course-item-store';
 import LoginNotification from '../modals/login-notification';
+import { getFavoritesByUserId, deleteFavorite, createFavorite } from '../services/favorites';
+import { getUserIdFromAPI } from '../services/user';
+import { getAllCoursesWithPage } from '../services/course';
 
 class StoreContainer extends Component {
     constructor(props) {
@@ -37,7 +40,6 @@ class StoreContainer extends Component {
         if (token) {
             this.getUserId(token);
         }
-
     }
 
     componentDidUpdate(prevProps) {
@@ -66,106 +68,31 @@ class StoreContainer extends Component {
         });
     }
 
-    getAllFavorites(userId) {
-        const token = localStorage.getItem("token");
-
-        if (userId) {
-            axios
-                .get(
-                    `${API_URL}/favorites/${userId}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    })
-                .then(response => {
-                    const favoriteIds = response.data.map(favorite => favorite.favorites_course_id);
-                    this.setState({
-                        favorites: favoriteIds
-                    });
-                    if (response.status === 404) {
-                        console.log("User doesn´t have favorites");
-                    }
-                })
-        }
-    }
-
     getUserId(token) {
         if (token) {
-            axios
-                .get(
-                    `${API_URL}/get_user_id`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    })
+            getUserIdFromAPI(token)
                 .then(response => {
-                    if (response.status === 200) {
-                        const userId = response.data.users_id;
-                        this.setState({ userId }, () => {
-                            this.getAllFavorites(userId);
-                        });
-                    } else {
-                        console.log("No Authorization");
-                    }
+                    const userId = response;
+                    this.setState({ userId }, () => {
+                        getFavoritesByUserId(userId, token)
+                            .then(response => {
+                                const favoriteIds = response.map(favorite => favorite.favorites_course_id);
+                                this.setState({
+                                    favorites: favoriteIds
+                                });
+                                if (response.status === 404) {
+                                    console.log("User doesn´t have favorites");
+                                }
+                            })
+                    });
+
                 })
-                .catch(error => {
-                    if (error.response) {
-                        console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
-                    } else {
-                        console.log("Network or other error:", error.message);
-                    }
-                })
+
         }
-    }
-
-    deleteFavorite(courseId, token) {
-        const userId = this.state.userId;
-
-        axios
-            .delete(
-                `${API_URL}/favorite/${userId}/${courseId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-            .then(response => {
-                this.setState(prevState => ({
-                    favorites: prevState.favorites.filter(favId => favId !== courseId)
-                }));
-            })
-            .catch(error => {
-                console.log("error handleFavoriteClick", error);
-            })
-    }
-
-    createFavorite(courseId, token) {
-        const userId = this.state.userId;
-        axios
-            .post(
-                `${API_URL}/favorite`,
-                {
-                    favorites_user_id: userId,
-                    favorites_course_id: courseId
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-            .then(response => {
-                this.setState(prevState => ({
-                    favorites: [...prevState.favorites, courseId]
-                }));
-            })
-            .catch(error => {
-                console.log("error handleFavoriteClick", error);
-            })
     }
 
     handleFavoriteClick = (courseId) => {
+        const userId = this.state.userId;
         const token = localStorage.getItem("token");
 
         if (!token) {
@@ -177,11 +104,20 @@ class StoreContainer extends Component {
         }
 
         const favorite = this.state.favorites.includes(courseId);
-
         if (!favorite) {
-            this.createFavorite(courseId, token);
+            createFavorite(courseId, userId, token)
+                .then(response => {
+                    this.setState(prevState => ({
+                        favorites: [...prevState.favorites, courseId]
+                    }));
+                })
         } else {
-            this.deleteFavorite(courseId, token);
+            deleteFavorite(courseId, userId, token)
+                .then(response => {
+                    this.setState(prevState => ({
+                        favorites: prevState.favorites.filter(favId => favId !== courseId)
+                    }));
+                })
         }
     }
 
@@ -213,12 +149,9 @@ class StoreContainer extends Component {
 
     getAllCourses() {
         this.setState({
-            isLoading: true,
+            isLoading: true
         });
-        axios
-            .get(
-                `${API_URL}/courses?page=${this.state.currentPage}&limit=${this.state.limit}`
-            )
+        getAllCoursesWithPage(this.state, this.hasUnmounted)
             .then(response => {
                 if (!this.hasUnmounted) {
                     this.setState({
@@ -232,11 +165,35 @@ class StoreContainer extends Component {
             })
             .catch(error => {
                 if (!this.hasUnmounted) {
-                    console.log("getAllCourses error", error);
                     this.setState({ isLoading: false });
                 }
+                console.error("Error fetching courses:", error);
             });
     }
+      
+
+    //     axios
+    //         .get(
+    //             `${API_URL}/courses?page=${this.state.currentPage}&limit=${this.state.limit}`
+    //         )
+    //         .then(response => {
+    //             if (!this.hasUnmounted) {
+    //                 this.setState({
+    //                     courses: this.state.courses.concat(response.data.courses),
+    //                     totalCount: response.data.total,
+    //                     totalPages: response.data.pages,
+    //                     currentPage: response.data.page + 1,
+    //                     isLoading: false
+    //                 });
+    //             }
+    //         })
+    //         .catch(error => {
+    //             if (!this.hasUnmounted) {
+    //                 console.log("getAllCourses error", error);
+    //                 this.setState({ isLoading: false });
+    //             }
+    //         });
+    // }
 
     getCategoryItem() {
         axios

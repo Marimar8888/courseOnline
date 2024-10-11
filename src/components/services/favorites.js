@@ -37,3 +37,42 @@ export const getCoursesFavoritesByUserId = (UserId, token) => {
         throw error; 
     });
 };
+
+export const deleteFavorite = (courseId, userId, token) => {
+    return  axios.delete(`${API_URL}/favorite/${userId}/${courseId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    .then(response => {
+        return response.data;
+    })
+    .catch(error => {
+        console.log("error handleFavoriteClick", error);
+        throw error; 
+    })
+
+};
+
+export const createFavorite = (courseId, userId, token) => {
+   
+    return axios
+        .post(
+            `${API_URL}/favorite`,
+            {
+                favorites_user_id: userId,
+                favorites_course_id: courseId
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+        .then(response => {
+           return response;
+        })
+        .catch(error => {
+            console.log("error handleFavoriteClick", error);
+        })
+};
