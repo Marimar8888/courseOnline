@@ -150,6 +150,21 @@ export const getAllCoursesWithPage = (state, hasUnmounted) => {
         });
 };
 
+export const  getCoursesByCategoryId = (state) => {
+
+    return axios
+        .get(
+            `${API_URL}/store/courses/${state.categoryId}?page=${state.currentPage}&limit=${state.limit}`
+        )
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            console.log("getCoursesByCategoryId error", error);
+            state.setState({ isLoading: false });
+        })
+};
+
 /*------------- Builform -----------------*/
 
 export const buildForm = (currentState, previousState) => {
