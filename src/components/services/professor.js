@@ -123,6 +123,26 @@ export const addProfessor = (state, professorData, token) => {
         })
 };
 
+/*------------Dashboard-container--------------- */
+
+export const fechProfessorDataFromApi = (currentPage, limit, professorId, token) => {
+    return axios
+        .get(
+            `${API_URL}/professor/all_dates/${professorId}?page=${currentPage}&limit=${limit}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            console.log("error fechProfessorDataFromApi", error)
+        })
+
+}
+
 /*-----------BuildForm ----------- */
 
 export const buildForm = (professorData, initialState) => {

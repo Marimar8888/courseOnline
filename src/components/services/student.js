@@ -4,20 +4,16 @@ import { API_URL } from '../utils/constant';
 
 /*------------------dashboard-container------------------ */
 
-const fechStudentData = (studentId) => {
-    const token = localStorage.getItem("token");
-    axios
-        .get(
-            `${API_URL}/courses/student/${studentId}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+export const fechStudentDataFromAPI = (studentId, token) => {
+    
+    return axios.get(`${API_URL}/student/courses/${studentId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         .then(response => {
-            console.log("fechStudentData dashboard-container", response.data);
-            return response.data
-
+            return response;
         })
         .catch(error => {
             console.log("error fechStudentData", error)

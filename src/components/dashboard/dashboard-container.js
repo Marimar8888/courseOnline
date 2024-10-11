@@ -7,6 +7,9 @@ import { withRouter } from 'react-router-dom';
 import DashboardStudent from './dashboard-student';
 import DashboardProfessor from './dashboard-professor';
 import DashboardCenter from './dashboard-center';
+import { fechStudentDataFromAPI } from '../services/student';
+import { fechProfessorDataFromApi } from '../services/professor';
+import { getUserIdFromAPI, getUserRolsFromAPI } from '../services/user';
 
 class DashboardContainer extends Component {
   constructor() {
@@ -40,6 +43,7 @@ class DashboardContainer extends Component {
     this.handleEditCenter = this.handleEditCenter.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleChangeStatusCenter = this.handleChangeStatusCenter.bind(this);
+    this.handleUserRols = this.handleUserRols.bind(this);
 
   }
 
@@ -109,7 +113,7 @@ class DashboardContainer extends Component {
   handleCreateCenter() {
     this.setState((prevState) => ({ showCenterContainer: !prevState.showCenterContainer }));
     const currentPath = this.props.location.pathname;
-    if(currentPath === "/dashboard" || currentPath === "/dashboard/student" || currentPath === "/dashboard/professor"){
+    if (currentPath === "/dashboard" || currentPath === "/dashboard/student" || currentPath === "/dashboard/professor") {
       this.props.history.push("/dashboard/center");
     }
   }
@@ -138,44 +142,22 @@ class DashboardContainer extends Component {
 
   fechStudentData(studentId) {
     const token = localStorage.getItem("token");
-    axios
-      .get(
-        `${API_URL}/student/courses/${studentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+    fechStudentDataFromAPI(studentId, token)
       .then(response => {
         this.setState({
           studentData: response.data
         });
-
-      })
-      .catch(error => {
-        console.log("error fechStudentData", error)
       })
   }
 
   fechProfessorData(professorId) {
     const token = localStorage.getItem("token");
-    axios
-      .get(
-        `${API_URL}/professor/all_dates/${professorId}?page=${this.state.currentPage}&limit=${this.state.limit}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+    fechProfessorDataFromApi(this.state.currentPage, this.state.limit, professorId, token)
       .then(response => {
         this.setState({
           professorData: response.data
         });
       })
-      .catch(error => {
-        console.log("error fechProfessorData", error)
-      })
-
   }
 
   getCenters(userId) {
@@ -239,86 +221,63 @@ class DashboardContainer extends Component {
 
   getUserRols(userId) {
     const token = localStorage.getItem("token");
-    axios
-      .get(
-        `${API_URL}/user/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-      .then(response => {
-        this.setState({
-          userRols: response.data.rols
-        }, () => {
-          const { userRols } = this.state;
-          if (userRols.length > 1) {
-            userRols.forEach(rol => {
-              switch (rol.rols_id) {
-                case 2:
-                  this.getStudentId(userId);
-                  break;
-                case 3:
-                  this.getProfessorId(userId);
-                  break;
-                case 4:
-                  this.getCenters(userId);
-                  break;
-                default:
-                  break;
-              }
-            });
-          } else {
-            console.log("User has no roles");
-          }
+  
+    getUserRolsFromAPI(userId, token)
+      .then(({ rols }) => {
+        this.setState({ userRols: rols }, () => {
+          this.handleUserRols(rols, userId);
         });
       })
       .catch(error => {
-        console.log("error in getUserRols:", error);
+        console.log("Error in getUserRols:", error);
       });
   }
 
   getUserId() {
     const token = localStorage.getItem("token");
-    axios
-      .get(
-        `${API_URL}/get_user_id`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+    getUserIdFromAPI(token)
       .then(response => {
-        if (response.status === 200) {
-          this.setState({
-            userId: response.data.users_id
-          }, () => {
-            this.getUserRols(this.state.userId);
-          });
-
-        } else {
-          console.log("No Authorization");
-        }
-      })
-      .catch(error => {
-        if (error.response) {
-          console.log(`Error: ${error.response.status} - ${error.response.statusText}`);
-        } else {
-          console.log("Network or other error:", error.message);
-        }
-      })
+        this.setState({
+          userId: response
+        });
+        this.getUserRols(this.state.userId);
+      }) 
   }
 
+  handleUserRols(userRols, userId) {
+    if (userRols.length > 0) {
+      userRols.forEach(rol => {
+        switch (rol.rols_id) {
+          case 2:
+            this.getStudentId(userId);
+            break;
+          case 3:
+            this.getProfessorId(userId);
+            break;
+          case 4:
+            this.getCenters(userId);
+            break;
+          default:
+            console.log("Unknown role");
+            break;
+        }
+      });
+    } else {
+      console.log("User has no roles");
+    }
+  }
+  
+
   render() {
-    const { userRols, studentData, professorData, centersData, userId, centerToEdit, showProfessorContainer, showCenterContainer } = this.state;
-    const rolesIds = userRols.map(role => role.rols_id);
+        const { userRols, studentData, professorData, centersData, userId, centerToEdit, showProfessorContainer, showCenterContainer } = this.state;
+        const rolesIds = userRols.map(role => role.rols_id);
 
-    const hasRole2 = rolesIds.includes(2); // Estudiante
-    const hasRole3 = rolesIds.includes(3); // Profesor
-    const hasRole4 = rolesIds.includes(4); // Centro de estudios
+        const hasRole2 = rolesIds.includes(2); // Estudiante
+        const hasRole3 = rolesIds.includes(3); // Profesor
+        const hasRole4 = rolesIds.includes(4); // Centro de estudios
 
-    return (
-      <div id="dashboard-container" className="dashboard-container">
+        return(
+      <div id = "dashboard-container" className = "dashboard-container" >
         <div className="dashboard-menu">
           {hasRole2 && (
             <NavLink exact to="/dashboard" activeClassName="active-link">Estudiante</NavLink>
@@ -434,4 +393,4 @@ class DashboardContainer extends Component {
   }
 }
 
-export default  withRouter(DashboardContainer);
+export default withRouter(DashboardContainer);
