@@ -8,7 +8,7 @@ import DashboardStudent from './dashboard-student';
 import DashboardProfessor from './dashboard-professor';
 import DashboardCenter from './dashboard-center';
 import { fechStudentDataFromAPI, getStudentIdByUserIdFromAPI } from '../services/student';
-import { fechProfessorDataFromApi } from '../services/professor';
+import { fechProfessorDataFromApi, getProfessorIdByUserIdFromAPI } from '../services/professor';
 import { getUserIdFromAPI, getUserRolsFromAPI } from '../services/user';
 import { studyCentersByUserIdFromAPI } from '../services/center';
 
@@ -173,23 +173,14 @@ class DashboardContainer extends Component {
 
   getProfessorId(userId) {
     const token = localStorage.getItem("token");
-    axios
-      .get(
-        `${API_URL}/professor/user_id/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+    getProfessorIdByUserIdFromAPI(userId, token)
       .then(response => {
-        const professorId = response.data.professors_id;
+        const professorId = response.professors_id;
         this.fechProfessorData(professorId);
       })
-      .catch(error => {
-        console.log("error getProfessorId", error)
-      })
   }
-    getStudentId(userId) {
+  
+  getStudentId(userId) {
       const token =localStorage.getItem("token");
       getStudentIdByUserIdFromAPI(userId, token)
       .then(response => {
