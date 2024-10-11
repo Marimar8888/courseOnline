@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import DashboardStudent from './dashboard-student';
 import DashboardProfessor from './dashboard-professor';
 import DashboardCenter from './dashboard-center';
-import { fechStudentDataFromAPI } from '../services/student';
+import { fechStudentDataFromAPI, getStudentIdByUserIdFromAPI } from '../services/student';
 import { fechProfessorDataFromApi } from '../services/professor';
 import { getUserIdFromAPI, getUserRolsFromAPI } from '../services/user';
 import { studyCentersByUserIdFromAPI } from '../services/center';
@@ -189,26 +189,33 @@ class DashboardContainer extends Component {
         console.log("error getProfessorId", error)
       })
   }
-
-  getStudentId(userId) {
-    const token = localStorage.getItem("token");
-    axios
-      .get(
-        `${API_URL}/student/user_id/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+    getStudentId(userId) {
+      const token =localStorage.getItem("token");
+      getStudentIdByUserIdFromAPI(userId, token)
       .then(response => {
-        const studentId = response.data.students_id;
-        this.fechStudentData(studentId);
+              const studentId = response.students_id;
+              this.fechStudentData(studentId);
+            })
+    }
 
-      })
-      .catch(error => {
-        console.log("error getStudentId", error)
-      })
-  }
+  // getStudentId(userId) {
+  //   axios
+  //     .get(
+  //       `${API_URL}/student/user_id/${userId}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`
+  //         }
+  //       })
+  //     .then(response => {
+  //       const studentId = response.data.students_id;
+  //       this.fechStudentData(studentId);
+
+  //     })
+  //     .catch(error => {
+  //       console.log("error getStudentId", error)
+  //     })
+  // }
 
   getUserRols(userId) {
     const token = localStorage.getItem("token");
