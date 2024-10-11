@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import axios from "axios";
 import { API_URL } from '../utils/constant';
 import { withRouter } from 'react-router-dom';
 
 import CenterFormFields from '../forms/center-form.fields';
+import { updateCreateCenter } from '../services/center';
 
 class CenterEditCreateContainer extends Component {
   constructor(props) {
@@ -53,42 +53,22 @@ class CenterEditCreateContainer extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    const formData = this.buildForm();
-    const studyCenterId = this.state.studyCenters_id
+    const studyCenterId = this.state.studyCenters_id;
+    const { methodAPI, urlAPI, studyCenters_user_id } = this.state;
     if (this.state.editMod) {
       this.setState({
         urlAPI: this.state.urlAPI,
         methodAPI: this.state.methodAPI
       });
     }
-    axios
-      ({
-        method: this.state.methodAPI,
-        url: this.state.urlAPI,
-        data: formData,
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+    updateCreateCenter({
+      methodAPI, 
+      urlAPI, 
+      token,  
+      state: this.state, 
+      studyCenterUserId: studyCenters_user_id
+    })
       .then(response => {
-        console.log("response", response);
-        this.setState({
-          studyCenters_id: "",
-          studyCenters_name: "",
-          studyCenters_email: "",
-          studyCenters_user_id: "",
-          studyCenters_cif: "",
-          studyCenters_address: "",
-          studyCenters_city: "",
-          studyCenters_postal: "",
-          studyCenters_number_card: "",
-          studyCenters_exp_date: "",
-          studyCenters_cvc: "",
-          studyCenters_active: true,
-          methodAPI: "post",
-          urlAPI: `${API_URL}/studycenter`,
-          isButtonEnabled: false,
-        });
         if (this.state.editMod) {
           this.setState({
             editMod: false
@@ -98,33 +78,8 @@ class CenterEditCreateContainer extends Component {
           this.props.handleCenterCreated();
         }
         this.props.history.push('/dashboard/center');
-      })
-      .catch(error => {
-        console.log("error handleSubmit", error);
-      })
-  }
-
-  buildForm() {
-    let centerFormData = new FormData();
-
-    const fields = [
-      "studyCenters_name",
-      "studyCenters_email",
-      "studyCenters_cif",
-      "studyCenters_address",
-      "studyCenters_city",
-      "studyCenters_postal",
-      "studyCenters_number_card",
-      "studyCenters_exp_date",
-      "studyCenters_cvc"
-    ];
-    centerFormData.append("studyCenters_user_id", this.state.studyCenters_user_id);
-
-    fields.forEach(field => {
-      centerFormData.append(field, this.state[field]);
-    });
-    return centerFormData
-  }
+      });
+    }
 
   render() {
     return (
