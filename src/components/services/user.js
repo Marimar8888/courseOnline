@@ -108,7 +108,7 @@ export const sendEmailChangePassword = (email) => {
         });
 };
 
-export const login = (email, password, setState, handleUnsuccessfulAuth) => {
+export const login = (email, password, setErrorText, handleUnsuccessfulAuth) => {
     return axios.post(`${API_URL}/login`,
         {
             users_email: email,
@@ -119,42 +119,26 @@ export const login = (email, password, setState, handleUnsuccessfulAuth) => {
             return response;
         })
         .catch(error => {
-
             if (error.response) {
                 switch (error.response.status) {
                     case 400:
-                        setState({
-                            errorText: error.response.data.error
-                        });
+                        setErrorText(error.response.data.error);
                         break;
                     case 404:
-                        setState({
-                            errorText: "User Not Found"
-                        });
+                        setErrorText("Usuario no encontrado");
                         break;
                     case 401:
-                        setState({
-                            errorText: "Incorrect password"
-                        });
+                        setErrorText("Password incorrecto");
                         break;
                     default:
-                        setState({
-                            errorText: "Unexpected error. Please try again."
-                        });
+                        setErrorText("Error inesperado. Inténtelo de nuevo.");
                 }
             } else if (error.request) {
-
-                setState({
-                    errorText: "Unexpected error. Check your internet connection."
-                });
+                setErrorText("Error inexperado. Revise su conexión.");
             } else {
-
-                setState({
-                    errorText: "Error processing the request. Please try again."
-                });
+                setErrorText("Error al procesar la petición. Inténtelo de nuevo.");
             }
             handleUnsuccessfulAuth();
-
         });
 };
 
@@ -192,16 +176,16 @@ export const addUser = (name, email, password, setState, isMountedComponent) => 
                         default:
                             setState({
                                 errorText: "Unexpected error. Please try again."
-                            });                                
-                        
+                            });
+
                     }
-                }else if (error.request) {
+                } else if (error.request) {
                     if (isMountedComponent) {
                         setState({
                             errorText: "A response could not be obtained from the server. Check your internet connection."
                         });
                     }
-                }else {
+                } else {
                     if (isMountedComponent) {
                         setState({
                             errorText: "An error occurred while processing the request. Please try again."

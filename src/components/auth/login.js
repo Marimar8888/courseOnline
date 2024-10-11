@@ -48,7 +48,9 @@ export default class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    login(this.state.email, this.state.password, this.setState, this.props.handleUnsuccessfulAuth)
+    const { email, password } = this.state;
+    const setErrorText = (errorMessage) => this.setState({ errorText: errorMessage });
+    login(email, password, setErrorText, this.props.handleUnsuccessfulAuth)
       .then(response => {
         if (response.status === 200) {
           if (this.isMountedComponent) {
