@@ -1,9 +1,17 @@
 .nav-wrapper {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 90vw;
-  padding: 20px 50px;
+  padding: 20px 50px 0 50px;
   max-height: calc(100vh-100px);
+
+  .logo  {
+    width: 10%;
+    img {
+      width: 100%;
+    }
+  }
 
   .right-side {
     display: flex;
@@ -40,6 +48,7 @@
 
   .left-side {
     display: flex;
+    align-items: center;
   }
 
   .nav-link-wrapper {

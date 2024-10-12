@@ -13,7 +13,7 @@ const NavBarContainer = (props) => {
     return null;
   }
   const handleMenuLinkClick = () => {
-    toggleMenu(); 
+    toggleMenu();
   };
 
 
@@ -54,11 +54,15 @@ const NavBarContainer = (props) => {
 
   return (
     <div className="nav-wrapper">
+
       <div className="hamburger-menu" onClick={handleHamburgerClick}>
         <FontAwesomeIcon icon="bars" />
       </div>
 
       <div className="left-side">
+        <div className='logo'>
+          <img src='./assets/images/home/logo.jpg' alt='logo' />
+        </div>
         <div className="nav-link-wrapper">
           <NavLink exact to="/" activeClassName="nav-link-active">INICIO</NavLink>
         </div>
