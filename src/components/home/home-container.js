@@ -5,8 +5,15 @@ import { withRouter } from 'react-router-dom';
 import music from "./../../../static/assets/images/categories/music.png";
 import persolacrow from "./../../../static/assets/images/categories/personalcrow.png";
 import program from "./../../../static/assets/images/categories/program.png";
-import section from "./../../../static/assets/images/home/retrato-cuerpo-entero-hombre-feliz-confiado.png";
+import dibujo from "./../../../static/assets/images/categories/dibujo.png";
+import marketing from "./../../../static/assets/images/categories/marketing.png";
+import fotografia from "./../../../static/assets/images/categories/fotografia.png";
+import Liderazgo from "./../../../static/assets/images/categories/liderazgo.png";
+import finanzas from "./../../../static/assets/images/categories/finanzas.png";
 
+
+
+import section from "./../../../static/assets/images/home/retrato-cuerpo-entero-hombre-feliz-confiado.png";
 
 
 class HomeContainer extends Component {
@@ -51,7 +58,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(2)}>
-                                <img src='./../../../static/assets/images/categories/program.png'></img>
+                                <img src={dibujo}></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Dibujo</p>
@@ -60,7 +67,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(3)}>
-                                <img src='./../../../static/assets/images/categories/program.png'></img>
+                                <img src={marketing}></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Marketing</p>
@@ -69,7 +76,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(9)}>
-                                <img src='./../../../static/assets/images/categories/program.png'></img>
+                                <img src={fotografia}></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Fotografía</p>
@@ -78,7 +85,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(5)}>
-                                <img src='./../../../static/assets/images/categories/program.png'></img>
+                                <img src={Liderazgo}></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Liderazgo</p>
@@ -105,7 +112,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(11)}>
-                                <img src='./../../../static/assets/images/categories/program.png'></img>
+                                <img src={finanzas}></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Finanzas</p>

@@ -260,7 +260,28 @@ En esta sección se describen las pruebas realizadas para asegurar el correcto f
 
 Este proyecto está licenciado bajo la Licencia MIT. Para más detalles, consulta el archivo [LICENSE](./LICENSE).
 
+Claro, aquí tienes ejemplos de cómo puedes estructurar las secciones **Licencia** y **Créditos** en tu archivo `README.md` para tu API:
+
+---
+
+## Licencia
+
+Este proyecto está bajo la licencia **MIT**. Puedes ver el texto completo de la licencia en el archivo [LICENSE](./LICENSE).
+
+### Resumen de la Licencia MIT
+
+La licencia MIT permite a cualquier persona utilizar, copiar, modificar, fusionar, publicar, distribuir, sublicenciar y/o vender copias del software, siempre y cuando se incluya la notificación de la licencia y la declaración de copyright en todas las copias o partes sustanciales del software. Esto significa que puedes usar la API en proyectos comerciales y no comerciales, pero debes dar crédito al autor original.
+
+---
+
 ## Créditos
+
+- **Autor del proyecto**: [Maria del Mar Alonso](https://tu-sitio-web-o-perfil.github.io) (si deseas incluir un enlace a tu perfil o sitio web).
+- **Colaboradores**:
+  - [Nombre del colaborador 1](enlace-al-perfil)
+  - [Nombre del colaborador 2](enlace-al-perfil)
+  
+### Recursos utilizados
 
 1. **Recursos y Bibliotecas**:
    - Reconocimiento a las bibliotecas y frameworks utilizados en el proyecto. Por ejemplo:
@@ -268,11 +289,17 @@ Este proyecto está licenciado bajo la Licencia MIT. Para más detalles, consult
      - **Axios**: Para manejar las solicitudes HTTP.
      - **Node.js**: Para la creación del servidor backend.
      - **Swiper**: Para la implementación del carrusel en la interfaz.
-   
+2. **Imagenes gratuitas**:
+
+   - https://es.pinterest.com/
+   - https://www.freepik.es/
+   - https://yandex.com/
+
 ## Documentación
 
 Para una presentación detallada del proyecto, incluidos diagramas y explicaciones, consulta los siguientes documentos:
 
 - [Diagrama de Arquitectura](docs/ARCHITECTURE_DIAGRAM.png)
 - [Diagrama de Flujo del Usuario](docs/USER_FLOW_DIAGRAM.png)
+
 
