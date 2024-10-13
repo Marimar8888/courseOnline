@@ -121,11 +121,17 @@
 
     .dashboard-entity-tables-wrapper {
         width: 80%;
-        margin: 0 auto;
-
-        .dashboard-table-dates-title h3 {
-            margin: 0;
+        margin: 20px auto;
+        .dashboard-table-dates-title{
+            height: 100%;
+            .dashboard-table-dates-title h3 {
+                margin: 0;
+            }
+            .btn{
+                @include base-btn();
+            }
         }
+      
 
     }
 }

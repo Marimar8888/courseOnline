@@ -12,7 +12,8 @@ const DashboardCenter = ({
   handleEditCenter,
   centerToEdit,
   handleBack,
-  handleChangeStatusCenter
+  handleChangeStatusCenter,
+  handleAddCenterWorkClick
 }) => {
   const isCreatingCenter = !centerToEdit && showCenterContainer;
   if (isCreatingCenter) {
@@ -41,6 +42,7 @@ const DashboardCenter = ({
           updateCenterData={updateCenterData}
           handleEditCenter={handleEditCenter}
           handleChangeStatusCenter={handleChangeStatusCenter}
+          handleAddCenterWorkClick={handleAddCenterWorkClick}
         />
       </div>
     );

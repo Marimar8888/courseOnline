@@ -66,14 +66,6 @@ class ProfessorEditContainer extends Component {
             }else {
               this.setState({ enrollments });
             }
-            // if (enrollments) {
-            //   this.setState({ enrollments });
-            // }
-            // if (enrollments.length > 0) {
-            //   const activeStudents = ActiveStudents(enrollments);
-            //   const inactiveStudents = InactiveStudents(enrollments);
-            //   this.setState({ activeStudents, inactiveStudents });
-            // }
           })
           .catch(error => {
             if (error.response && error.response.status === 404) {

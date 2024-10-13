@@ -8,7 +8,7 @@ import DashboardCenter from './dashboard-center';
 import { fechStudentDataFromAPI, getStudentIdByUserIdFromAPI } from '../services/student';
 import { fechProfessorDataFromApi, getProfessorIdByUserIdFromAPI } from '../services/professor';
 import { getUserIdFromAPI, getUserRolsFromAPI } from '../services/user';
-import { studyCentersByUserIdFromAPI, handleChangeStatusCenterFromApi } from '../services/center';
+import { studyCentersByUserIdFromAPI, handleChangeStatusCenterFromApi, AddCenterWorkClicFromApi } from '../services/center';
 
 class DashboardContainer extends Component {
   constructor() {
@@ -40,6 +40,7 @@ class DashboardContainer extends Component {
     this.handleCreateCenter = this.handleCreateCenter.bind(this);
     this.handleCenterCreated = this.handleCenterCreated.bind(this);
     this.handleEditCenter = this.handleEditCenter.bind(this);
+    this.handleAddCenterWorkClick = this.handleAddCenterWorkClick.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleChangeStatusCenter = this.handleChangeStatusCenter.bind(this);
     this.handleUserRols = this.handleUserRols.bind(this);
@@ -48,6 +49,22 @@ class DashboardContainer extends Component {
 
   componentDidMount() {
     this.getUserId();
+  }
+
+  handleAddCenterWorkClick(center) {
+    const token =localStorage.getItem("token");
+    const professorId = this.state.professorData.professor.professors_id;
+    const studycenterId = center.studyCenters_id;
+    AddCenterWorkClicFromApi(professorId, studycenterId, token)
+      .then(response => {
+        if (response.status === 201) {
+          if (this.state.userId) {
+            this.updateProfessorData(professorId)
+          } else {
+            console.log('Error al añadir la relación', response);
+          }
+        }
+      })
   }
 
   handleChangeStatusCenter(center) {
@@ -140,6 +157,7 @@ class DashboardContainer extends Component {
     const token = localStorage.getItem("token");
     fechProfessorDataFromApi(this.state.currentPage, this.state.limit, professorId, token)
       .then(response => {
+        console.log("fechProfessorDataFromApi", response.data);
         this.setState({
           professorData: response.data
         });
@@ -150,6 +168,7 @@ class DashboardContainer extends Component {
     const token = localStorage.getItem("token");
     studyCentersByUserIdFromAPI(userId, token)
       .then(response => {
+        console.log("getCenters by userId:", response)
         this.setState({
           centersData: response
         });
@@ -164,20 +183,20 @@ class DashboardContainer extends Component {
         this.fechProfessorData(professorId);
       })
   }
-  
+
   getStudentId(userId) {
-      const token =localStorage.getItem("token");
-      getStudentIdByUserIdFromAPI(userId, token)
+    const token = localStorage.getItem("token");
+    getStudentIdByUserIdFromAPI(userId, token)
       .then(response => {
-              const studentId = response.students_id;
-              this.fechStudentData(studentId);
-            })
-    }
+        const studentId = response.students_id;
+        this.fechStudentData(studentId);
+      })
+  }
 
   getUserRols(userId) {
     const token = localStorage.getItem("token");
-  
-  getUserRolsFromAPI(userId, token)
+
+    getUserRolsFromAPI(userId, token)
       .then(({ rols }) => {
         this.setState({ userRols: rols }, () => {
           this.handleUserRols(rols, userId);
@@ -196,7 +215,7 @@ class DashboardContainer extends Component {
           userId: response
         });
         this.getUserRols(this.state.userId);
-      }) 
+      })
   }
 
   handleUserRols(userRols, userId) {
@@ -220,18 +239,18 @@ class DashboardContainer extends Component {
       console.log("User has no roles");
     }
   }
-  
+
 
   render() {
-        const { userRols, studentData, professorData, centersData, userId, centerToEdit, showProfessorContainer, showCenterContainer } = this.state;
-        const rolesIds = userRols.map(role => role.rols_id);
+    const { userRols, studentData, professorData, centersData, userId, centerToEdit, showProfessorContainer, showCenterContainer } = this.state;
+    const rolesIds = userRols.map(role => role.rols_id);
 
-        const hasRole2 = rolesIds.includes(2); // Estudiante
-        const hasRole3 = rolesIds.includes(3); // Profesor
-        const hasRole4 = rolesIds.includes(4); // Centro de estudios
+    const hasRole2 = rolesIds.includes(2); // Estudiante
+    const hasRole3 = rolesIds.includes(3); // Profesor
+    const hasRole4 = rolesIds.includes(4); // Centro de estudios
 
-        return(
-      <div id = "dashboard-container" className = "dashboard-container" >
+    return (
+      <div id="dashboard-container" className="dashboard-container" >
         <div className="dashboard-menu">
           {hasRole2 && (
             <NavLink exact to="/dashboard" activeClassName="active-link">Estudiante</NavLink>
@@ -302,6 +321,7 @@ class DashboardContainer extends Component {
                   updateCenterData={this.updateCenterData}
                   handleEditCenter={this.handleEditCenter}
                   handleChangeStatusCenter={this.handleChangeStatusCenter}
+                  handleAddCenterWorkClick={this.handleAddCenterWorkClick}
                 />
               )} />
             )}

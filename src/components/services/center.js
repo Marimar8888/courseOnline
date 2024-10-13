@@ -95,6 +95,39 @@ export const handleChangeStatusCenterFromApi=(center, token, statusCenter)=> {
       })
   };
 
+export const AddCenterWorkClicFromApi = (professorId, studycenterId, token) => {
+    return axios({
+        method: 'post',
+        url: `${API_URL}/professor_studycenter`,
+        data: {
+            professor_id: professorId,
+            studyCenter_id: studycenterId
+        },
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      })
+        .then(response => {
+          return response;
+        })
+        .catch(error => {
+            if (error.response) {
+                if (error.response.status === 404) {
+                  const errorMessage = error.response.data.error;
+                  return Promise.reject(new Error(errorMessage)); 
+                } else if (error.response.status === 400) {
+                  const errorMessage = error.response.data.error;
+                  return Promise.reject(new Error(errorMessage));
+                } else {
+                  return Promise.reject(new Error('An unexpected error occurred'));
+                }
+              } else {
+                return Promise.reject(new Error('Network error or server not reachable'));
+              }
+        });
+};
+
+
 /*----------- BuilderForm ----------- */
 
 export const buildForm = ({ state, studyCenterUserId}) => {

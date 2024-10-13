@@ -70,6 +70,7 @@ class CentersContainer extends Component {
             handleEditCenter={this.props.handleEditCenter} 
             updateCenterData={this.props.updateCenterData}
             handleChangeStatusCenter={this.props.handleChangeStatusCenter}
+            handleAddCenterWorkClick={this.props.handleAddCenterWorkClick}
             />
       </div>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CentersTable = ({ centersData, handleEditCenter, handleChangeStatusCenter }) => {
+const CentersTable = ({ centersData, handleEditCenter, handleChangeStatusCenter, handleAddCenterWorkClick}) => {
   return (
     <div className="dashboard-dates" >
       <div className="dashboard-headers">
@@ -14,6 +14,7 @@ const CentersTable = ({ centersData, handleEditCenter, handleChangeStatusCenter 
             <th className="city">Ciudad</th>
             <th>Editar</th>
             <th>Activar</th>
+            <th>Centro Trabajo</th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +38,9 @@ const CentersTable = ({ centersData, handleEditCenter, handleChangeStatusCenter 
                   >
                     {center.studyCenters_active ? 'Desactivar' : 'Activar'}
                   </button>
+                </td>
+                <td data-label="Editar">
+                  <button onClick={() => handleAddCenterWorkClick(center)} className='btn-edit'>Añadir</button>
                 </td>
               </tr>
             ))
