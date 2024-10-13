@@ -128,11 +128,8 @@ class CourseContainer extends Component {
         this.hasUnmounted = true;
     }
 
-
     onScroll() {
-        if (
-            window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
-        ) {
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100) {
             if (this.state.typeId) {
                 if (this.state.currentPage <= this.state.totalPages && !this.state.isLoading) {
                     const token = localStorage.getItem("token");
