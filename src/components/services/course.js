@@ -36,8 +36,12 @@ export const getCoursesByProfessorIdPagined = (token, professorId, typeId, curre
             return response.data;
         })
         .catch(error => {
-            console.log("Error getCoursesByStudentIdPagined courses", error);
-            throw error;
+            if (error.response && error.response.status === 404) {
+                return { courses: [], total: 0, pages: 0 };
+            } else {
+                console.error("Error getCoursesByStudentIdPagined courses", error);
+                throw error;
+            }
         });
 };
 
