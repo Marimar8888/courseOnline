@@ -213,7 +213,6 @@ class DashboardContainer extends Component {
             this.getCenters(userId);
             break;
           default:
-            console.log("Unknown role");
             break;
         }
       });

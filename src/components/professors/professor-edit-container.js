@@ -59,14 +59,21 @@ class ProfessorEditContainer extends Component {
       if (professorData.professor.professors_id) {
         getEnrollmentsByProfessorId(professorData.professor.professors_id, token)
           .then(enrollments => {
-            if (enrollments) {
-              this.setState({ enrollments });
-            }
-            if (enrollments.length > 0) {
+            if(enrollments.length > 0){
               const activeStudents = ActiveStudents(enrollments);
               const inactiveStudents = InactiveStudents(enrollments);
               this.setState({ activeStudents, inactiveStudents });
+            }else {
+              this.setState({ enrollments });
             }
+            // if (enrollments) {
+            //   this.setState({ enrollments });
+            // }
+            // if (enrollments.length > 0) {
+            //   const activeStudents = ActiveStudents(enrollments);
+            //   const inactiveStudents = InactiveStudents(enrollments);
+            //   this.setState({ activeStudents, inactiveStudents });
+            // }
           })
           .catch(error => {
             if (error.response && error.response.status === 404) {
