@@ -8,7 +8,7 @@ import { getUserIdFromAPI } from '../services/user';
 import { getProfessorIdByUserIdFromAPI } from '../services/professor';
 import { getCoursesByProfessorIdPagined, getCoursesByStudentIdPagined, deleteCourse } from '../services/course';
 import { getStudentIdByUserIdFromAPI } from '../services/student';
-
+import { getEnrollmentsByCoursesId } from '../services/enrollment';
 
 class CourseContainer extends Component {
     constructor(props) {
@@ -179,12 +179,18 @@ class CourseContainer extends Component {
     }
 
     handleDeleteClick(course) {
+        const courseId = course.courses_id;
         const token = localStorage.getItem("token");
-        deleteCourse(course.courses_id, token)
+        getEnrollmentsByCoursesId(courseId, token)
             .then(response => {
-                this.setState(prevState => ({
-                    courses: prevState.courses.filter(c => c.courses_id !== course.courses_id)
-                }));
+                if (Array.isArray(response) && response.length === 0) {
+                    deleteCourse(course.courses_id, token)
+                        .then(response => {
+                            this.setState(prevState => ({
+                                courses: prevState.courses.filter(c => c.courses_id !== course.courses_id)
+                            }));
+                        })
+                }
             })
     }
 

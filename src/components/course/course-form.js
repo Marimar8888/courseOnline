@@ -23,7 +23,7 @@ class CourseForm extends Component {
             image: "",
             price: "",
             discounted_price: "",
-            professor_id: this.props.professorId,
+            professor_id: this.props.professorId || "",
             professor: [],
             studycenter_id: "",
             studycenter_names: [],
@@ -62,6 +62,7 @@ class CourseForm extends Component {
     componentDidMount() {
         const token = localStorage.getItem("token");
         if (this.props.editMode && token) {
+            console.log("componentDidMount courseForm props.course:", this.props.course);
             this.setState({
                 id: this.props.course.courses_id,
                 title: this.props.course.courses_title,
@@ -87,20 +88,11 @@ class CourseForm extends Component {
                     active: this.props.course.courses_active,
                 }
             })
-            console.log("componentDidMount course:",course);
-            this.getProfessorName(this.props.professorId, token);
+            this.getProfessorName(this.props.course.professor, token);
             this.getCategoryNames();
-            this.getStudyCentersNames(this.props.professorId, token);
+            this.getStudyCentersNames(this.props.course.professor, token);
         } else {
-            // getUserIdFromAPI(token)
-            //     .then(response => {
-            //         this.setState({
-            //             professor_id: response
-            //         }, () => {
-            //             this.getProfessorName(this.state.professor_id, token);
-            //             this.getStudyCentersNames(this.state.professor_id, token);
-            //         });
-            //     })
+
             this.getProfessorName(this.props.professorId, token);
             this.getStudyCentersNames(this.props.professorId, token);
             this.getCategoryNames();

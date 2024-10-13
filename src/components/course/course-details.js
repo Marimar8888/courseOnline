@@ -47,6 +47,7 @@ export default class CourseDetails extends Component {
         const token = localStorage.getItem("token");
         getCourseByIdFromAPI(currentId, token)
             .then(course => {
+                console.log("getCourseItem", course);
                 this.setState({
                     courseItem: course
                 });
@@ -59,7 +60,8 @@ export default class CourseDetails extends Component {
             courses_image,
             courses_price,
             courses_discounted_price,
-            courses_content
+            courses_content,
+            professor
         } = this.state.courseItem
         const discounted = courses_discounted_price;
 

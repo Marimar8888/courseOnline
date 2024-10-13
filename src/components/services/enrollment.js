@@ -91,3 +91,25 @@ export const getEnrollmentsByProfessorId = (professorId, token) => {
     });
 };
 
+export const  getEnrollmentsByCoursesId = (courseId, token) => {
+    return axios.get(`${API_URL}/enrollments/course/${courseId}`, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    .then(response => {
+        if(response.status === 200){
+            return response.data;
+        }   
+    })
+    .catch(error => {
+        if (error.response && error.response.status === 404) {
+            return []; 
+        } else {
+            console.log("error getEnrollmentsByCoursesId:", error.response ? error.response.data : error.message);
+            throw error;
+        }
+    });
+};
+
