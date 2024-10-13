@@ -163,7 +163,7 @@ class CourseContainer extends Component {
             courses: [course].concat(this.state.courses),
             courseModalIsOpen: false
         })
-       
+
     }
 
     handleModalClose() {
@@ -191,12 +191,12 @@ class CourseContainer extends Component {
     render() {
         const { courses = [], typeId, editingPermission } = this.state;
         const { loggedInStatus } = this.props;
-    
+
         if (loggedInStatus !== "LOGGED_IN") {
             this.props.history.push(`/`);
             return null;
         }
-    
+
         return (
             <div className="course-content-page-wrapper">
                 <CourseModal
@@ -204,13 +204,22 @@ class CourseContainer extends Component {
                     handleModalClose={this.handleModalClose}
                     handleSuccessNewCourseSubmission={this.handleSuccessNewCourseSubmission}
                 />
-    
+
                 {!this.state.isLoading && courses.length === 0 ? (
-                    <p>No hay cursos disponibles</p>
+                    <div>
+                        <p>No hay cursos disponibles</p>
+                        {(typeId == 3 || typeId == 5) && (
+                            <div className="new-course-link">
+                                <a className="icon-plus-circle" onClick={this.handleNewCourseClick}>
+                                    <FontAwesomeIcon icon="plus-circle" />
+                                </a>
+                            </div>
+                        )}
+                    </div>
                 ) : (
                     courses.map(course => {
                         return (
-                            <div  key={course.courses_id}>
+                            <div key={course.courses_id}>
                                 <CourseItemDashboard
                                     key={course.id}
                                     course={course}

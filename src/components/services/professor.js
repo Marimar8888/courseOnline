@@ -91,6 +91,10 @@ export const updateProfessor = (professorData, initialState, token) => {
 /*--------------Profesor-create-container.js--------*/
 export const addProfessor = (state, professorData, token) => {
     const professorFormData = buildFormProfessor(professorData);
+    console.log("add professorFormData:");
+    professorFormData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+    });
     return axios
         ({
             method: "post",
@@ -192,7 +196,7 @@ export const buildFormProfessor = (professorData) => {
     fields.forEach(field => {
         professorFormData.append(field, professorData[field]);
     });
-    console.log([...professorFormData]);
+    console.log("buildFormProfessor",[...professorFormData]);
     return professorFormData;
 };
 
