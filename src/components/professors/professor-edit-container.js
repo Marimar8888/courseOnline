@@ -217,9 +217,8 @@ class ProfessorEditContainer extends Component {
 
     return showCenterContainer ? (
       <CenterEditCreateContainer
+        userId = {professorData.professors_user_id}
         handleCenterCreated={this.props.handleCenterCreated}
-        handleEditCenter={this.props.handleEditCenter}
-        centerToEdit={this.props.centerToEdit}
         handleBack={this.props.handleBack}
       />
     ) : (

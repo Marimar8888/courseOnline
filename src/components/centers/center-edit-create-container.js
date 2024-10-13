@@ -73,7 +73,7 @@ class CenterEditCreateContainer extends Component {
           this.setState({
             editMod: false
           });
-          this.props.updateCenterData(studyCenterId);
+          this.props.updateCenterData(studyCenters_user_id);
         } else {
           this.props.handleCenterCreated();
         }
