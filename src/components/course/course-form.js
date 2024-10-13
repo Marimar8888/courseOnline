@@ -23,7 +23,7 @@ class CourseForm extends Component {
             image: "",
             price: "",
             discounted_price: "",
-            professor_id: "",
+            professor_id: this.props.professorId,
             professor: [],
             studycenter_id: "",
             studycenter_names: [],
@@ -87,19 +87,22 @@ class CourseForm extends Component {
                     active: this.props.course.courses_active,
                 }
             })
-            this.getProfessorName(this.props.course.professor, token);
+            console.log("componentDidMount course:",course);
+            this.getProfessorName(this.props.professorId, token);
             this.getCategoryNames();
-            this.getStudyCentersNames(this.props.course.professor, token);
+            this.getStudyCentersNames(this.props.professorId, token);
         } else {
-            getUserIdFromAPI(token)
-                .then(response => {
-                    this.setState({
-                        professor_id: response
-                    }, () => {
-                        this.getProfessorName(this.state.professor_id, token);
-                        this.getStudyCentersNames(this.state.professor_id, token);
-                    });
-                })
+            // getUserIdFromAPI(token)
+            //     .then(response => {
+            //         this.setState({
+            //             professor_id: response
+            //         }, () => {
+            //             this.getProfessorName(this.state.professor_id, token);
+            //             this.getStudyCentersNames(this.state.professor_id, token);
+            //         });
+            //     })
+            this.getProfessorName(this.props.professorId, token);
+            this.getStudyCentersNames(this.props.professorId, token);
             this.getCategoryNames();
         }
     }
@@ -203,7 +206,7 @@ class CourseForm extends Component {
                         image: "",
                         price: "",
                         discounted_price: "",
-                        professor_id: "",
+                        professor_id: this.props.professorId || "",
                         studycenter_id: "",
                         category_id: "",
                         isSubmitting: false,

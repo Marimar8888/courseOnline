@@ -189,7 +189,7 @@ class CourseContainer extends Component {
     }
 
     render() {
-        const { courses = [], typeId, editingPermission } = this.state;
+        const { courses = [], typeId, editingPermission, professorId } = this.state;
         const { loggedInStatus } = this.props;
 
         if (loggedInStatus !== "LOGGED_IN") {
@@ -203,6 +203,7 @@ class CourseContainer extends Component {
                     modalIsOpen={this.state.courseModalIsOpen}
                     handleModalClose={this.handleModalClose}
                     handleSuccessNewCourseSubmission={this.handleSuccessNewCourseSubmission}
+                    professorId={professorId}
                 />
 
                 {!this.state.isLoading && courses.length === 0 ? (

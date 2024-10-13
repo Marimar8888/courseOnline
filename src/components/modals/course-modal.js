@@ -38,6 +38,7 @@ export default class CourseModal extends Component {
                 }}>
                 <CourseForm 
                     handleSuccessfullFormSubmission={this.handleSuccessfullFormSubmission}
+                    professorId = {this.props.professorId}
                 />
             </ReactModal>
         );
