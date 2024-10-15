@@ -24,9 +24,9 @@ Este es un proyecto de una tienda online de cursos desarrollada con React.js, SC
 ## Características
 
 - **Tienda de Cursos**: Los usuarios pueden navegar y comprar cursos.
-- **Dashboard de Estudiante**: Acceso a los cursos adquiridos, progreso y calificaciones.
-- **Dashboard de Profesor**: Gestión de cursos, materiales y alumnos.
-- **Dashboard de Centro de Estudios**: Administración de profesores, cursos y estudiantes.
+- **Dashboard de Estudiante**: Acceso a los cursos adquiridos, en proceso y favoritos, así como las facturas de los cursos adquiridos.
+- **Dashboard de Profesor**: Gestión de cursos, creación centros de estudio y control de estudiantes.
+- **Dashboard de Centro de Estudios**: Edición, activación y desactivación de centros así como adhesión del professor al mismo.
 - **Conexión a API en Python**: Gestión de datos y lógica del negocio a través de una API RESTful.
 
 ## Tecnologías Utilizadas
@@ -107,7 +107,7 @@ Asegúrate de tener Node.js y npm instalados en tu máquina. Luego, ejecuta el s
    npm install
    ```
 
-3. **Configurar las variables de entorno:**
+3. **Configurar las variables de entorno para desarrollo:**
 
 Crea un archivo .env en la raíz del proyecto y agrega las siguientes variables de entorno:
 
@@ -167,7 +167,7 @@ Para una representación detallada de la estructura de archivos, consulta el doc
 Los usuarios tienen la capacidad de:
 - **Registro y Autenticación**: Registrarse en la plataforma, iniciar sesión y recuperar su contraseña mediante el envío de un token al correo electrónico asociado.
 - **Compra de Cursos**: Pueden adquirir cursos, lo que generará automáticamente el rol de estudiante en su perfil.
-- **Gestión de Profesores y Centros de Estudios**: Tienen la posibilidad de crear profesores y múltiples centros de estudios.
+- **Gestión de Profesores y Centros de Estudios**: Tienen la posibilidad de crear profesor y múltiples centros de estudios.
 
 ### Estudiantes
 Los estudiantes pueden:
@@ -180,7 +180,7 @@ Los estudiantes pueden:
 
 ### Profesores
 Los profesores tienen las siguientes capacidades:
-- **Creación y Gestión de Cursos**: Pueden crear y administrar cursos, incluyendo la posibilidad de editar contenido y gestionar inscripciones.
+- **Creación y Gestión de Cursos**: Pueden crear y eliminar cursos, incluyendo la posibilidad de editar contenido.
 - **Gestión de Centros de Estudios**: Tienen la capacidad de crear, editar, activar y desactivar centros así como asignarse centros de trabajo.
 
 ### Centros de Estudios
@@ -195,16 +195,6 @@ Los centros de estudios permiten:
 ### Scripts de Construcción
 - **`npm run build`**: Compila la aplicación para producción en la carpeta `build`. Este script optimiza la aplicación para mejorar el rendimiento y reduce el tamaño de los archivos.
 
-### Scripts de Pruebas
-- **`npm test`**: Inicia el corredor de pruebas en modo interactivo. Permite ejecutar las pruebas de la aplicación y ver los resultados en tiempo real.
-
-### Otros Scripts
-- **`npm run lint`**: Ejecuta ESLint para verificar el código en busca de errores de estilo y problemas potenciales. Ayuda a mantener la calidad del código y asegurar buenas prácticas.
-- **`npm run format`**: Formatea el código utilizando Prettier para mantener una consistencia en el estilo de codificación.
-
-### Scripts de Configuración
-- **`npm run prepare`**: Prepara la aplicación para el despliegue, configurando el entorno y asegurando que todas las dependencias estén actualizadas.
-
 ## Despliegue
 
 Este proyecto se puede desplegar en la plataforma **Render** para el frontend y el backend, mientras que la base de datos se alojará en **Hostalia**. A continuación, se describen los pasos para realizar el despliegue.
@@ -216,12 +206,15 @@ Este proyecto se puede desplegar en la plataforma **Render** para el frontend y 
 
 2. **Despliegue del Frontend**:
    - En el panel de control de Render, selecciona la opción para crear un nuevo servicio.
-   - Selecciona **Web Service** para el frontend.
+   - Selecciona **Static Site** para el frontend.
    - Conecta tu repositorio de GitHub donde está alojado el código del frontend.
    - Configura el entorno de producción:
-     - **Build Command**: `npm install && npm run build`
-     - **Start Command**: `npm start`
-     - **Environment**: Elige `Node` o el que corresponda a tu aplicación.
+     - **Build Command**: `npm install && npm run build`.
+     - **Branch**: `main`.
+     - **Repository**: La dirección de tu repositorio.
+     - **Environment**: Elige `NODE_VERSION` con la versión que corresponda.
+     - **Publish directory**: ./dist
+     - ** **: ./dist
    - Define la variable de entorno `REACT_APP_API_URL` con la URL de tu backend en Render.
 
 3. **Despliegue del Backend**:
