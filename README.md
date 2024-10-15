@@ -143,7 +143,7 @@ Este proyecto sigue un enfoque organizado y modular, lo que facilita su comprens
 
 ### Buenas prácticas aplicadas
 
-Esta estructura refleja varias buenas prácticas en el desarrollo de software, incluyendo:
+Esta estructura cumple con las reglas de buenas prácticas en el desarrollo de software, incluyendo:
 
 1. **Separación de responsabilidades**: Cada parte de la aplicación tiene un propósito claro y bien definido, lo que mejora la organización del código.
   
@@ -175,13 +175,13 @@ Los estudiantes pueden:
   - Cursos iniciados
   - Cursos finalizados
   - Cursos favoritos
-- **Facturación**: Revisar y gestionar sus facturas.
+- **Facturación**: Revisar sus facturas.
 - **Datos Personales**: Modificar su información personal según sea necesario.
 
 ### Profesores
 Los profesores tienen las siguientes capacidades:
 - **Creación y Gestión de Cursos**: Pueden crear y administrar cursos, incluyendo la posibilidad de editar contenido y gestionar inscripciones.
-- **Gestión de Centros de Estudios**: Tienen la capacidad de crear, editar y gestionar sus propios centros de estudios.
+- **Gestión de Centros de Estudios**: Tienen la capacidad de crear, editar, activar y desactivar centros así como asignarse centros de trabajo.
 
 ### Centros de Estudios
 Los centros de estudios permiten:
@@ -207,7 +207,7 @@ Los centros de estudios permiten:
 
 ## Despliegue
 
-Este proyecto se puede desplegar en la plataforma **Render** para el frontend y el backend, mientras que la base de datos se alojará en **Nominalia**. A continuación, se describen los pasos para realizar el despliegue.
+Este proyecto se puede desplegar en la plataforma **Render** para el frontend y el backend, mientras que la base de datos se alojará en **Hostalia**. A continuación, se describen los pasos para realizar el despliegue.
 
 ### Despliegue en Render
 
@@ -234,7 +234,7 @@ Este proyecto se puede desplegar en la plataforma **Render** para el frontend y 
 ### Configuración de la Base de Datos en Nominalia
 
 1. **Contratar un servicio de base de datos**:
-   - Regístrate en [Nominalia](https://www.nominalia.com) y selecciona un plan que se ajuste a tus necesidades.
+   - Regístrate en [Hostalia](https://www.hostalia.com) y selecciona un plan que se ajuste a tus necesidades.
   
 2. **Crear la base de datos**:
    - Sigue las instrucciones de Nominalia para crear tu base de datos y anotar los detalles de conexión (nombre, usuario, contraseña, URL).
@@ -260,26 +260,15 @@ En esta sección se describen las pruebas realizadas para asegurar el correcto f
 
 Este proyecto está licenciado bajo la Licencia MIT. Para más detalles, consulta el archivo [LICENSE](./LICENSE).
 
-Claro, aquí tienes ejemplos de cómo puedes estructurar las secciones **Licencia** y **Créditos** en tu archivo `README.md` para tu API:
-
----
-
-## Licencia
-
-Este proyecto está bajo la licencia **MIT**. Puedes ver el texto completo de la licencia en el archivo [LICENSE](./LICENSE).
 
 ### Resumen de la Licencia MIT
 
 La licencia MIT permite a cualquier persona utilizar, copiar, modificar, fusionar, publicar, distribuir, sublicenciar y/o vender copias del software, siempre y cuando se incluya la notificación de la licencia y la declaración de copyright en todas las copias o partes sustanciales del software. Esto significa que puedes usar la API en proyectos comerciales y no comerciales, pero debes dar crédito al autor original.
 
----
 
 ## Créditos
 
-- **Autor del proyecto**: [Maria del Mar Alonso](https://tu-sitio-web-o-perfil.github.io) (si deseas incluir un enlace a tu perfil o sitio web).
-- **Colaboradores**:
-  - [Nombre del colaborador 1](enlace-al-perfil)
-  - [Nombre del colaborador 2](enlace-al-perfil)
+- **Autor del proyecto**: [Maria del Mar Alonso](https://mariadelmar-alonso-portfolio.onrender.com) 
   
 ### Recursos utilizados
 
@@ -299,7 +288,8 @@ La licencia MIT permite a cualquier persona utilizar, copiar, modificar, fusiona
 
 Para una presentación detallada del proyecto, incluidos diagramas y explicaciones, consulta los siguientes documentos:
 
-- [Diagrama de Arquitectura](docs/ARCHITECTURE_DIAGRAM.png)
-- [Diagrama de Flujo del Usuario](docs/USER_FLOW_DIAGRAM.png)
+- [Diagrama de casos de uso](doc/diagrama_casos_usos.png )
+- [Diagrama de actividad](doc/diagrama_de_actividad.png)
+- [Diagrama de secuencia](doc/diagrama_de_secuencia.png)
 
 
