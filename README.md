@@ -218,22 +218,18 @@ Este proyecto se puede desplegar en la plataforma **Render** para el frontend y 
    - Define la variable de entorno `REACT_APP_API_URL` con la URL de tu backend en Render.
 
 3. **Despliegue del Backend**:
-   - Crea otro servicio en Render para el backend siguiendo el mismo proceso.
-   - Configura el entorno de producción:
-     - **Build Command**: `npm install`
-     - **Start Command**: `npm start`
-   - Asegúrate de definir todas las variables de entorno necesarias para tu aplicación.
-
-### Configuración de la Base de Datos en Nominalia
+   - Crea otro servicio en Render para el backend siguiendo el mismo proceso explicado en el README de la API.
+  
+### Configuración de la Base de Datos en Hostalia
 
 1. **Contratar un servicio de base de datos**:
    - Regístrate en [Hostalia](https://www.hostalia.com) y selecciona un plan que se ajuste a tus necesidades.
   
 2. **Crear la base de datos**:
-   - Sigue las instrucciones de Nominalia para crear tu base de datos y anotar los detalles de conexión (nombre, usuario, contraseña, URL).
+   - Sigue las instrucciones de Hostalia para crear tu base de datos y anotar los detalles de conexión (nombre, usuario, contraseña, URL).
 
 3. **Configurar la conexión en el Backend**:
-   - En el backend, define las variables de entorno necesarias para conectarte a la base de datos, utilizando los detalles obtenidos de Nominalia.
+   - En el backend, define las variables de entorno necesarias para conectarte a la base de datos, utilizando los detalles obtenidos de Hostalia.
 
 ### Notas Adicionales
 
@@ -271,8 +267,8 @@ La licencia MIT permite a cualquier persona utilizar, copiar, modificar, fusiona
      - **Axios**: Para manejar las solicitudes HTTP.
      - **Node.js**: Para la creación del servidor backend.
      - **Swiper**: Para la implementación del carrusel en la interfaz.
-2. **Imagenes gratuitas**:
 
+2. **Imagenes gratuitas**:
    - https://es.pinterest.com/
    - https://www.freepik.es/
    - https://yandex.com/
