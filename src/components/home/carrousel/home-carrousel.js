@@ -2,37 +2,30 @@ import React, { Component } from 'react';
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/scss/image-gallery.scss";
 
-import image1 from "./../../../../static/assets/images/carousel-images/image1.jpg";
-import image2 from "./../../../../static/assets/images/carousel-images/image2.jpg";
-import image3 from "./../../../../static/assets/images/carousel-images/image3.jpg";
-import image4 from "./../../../../static/assets/images/carousel-images/image4.jpg";
-import image5 from "./../../../../static/assets/images/carousel-images/image5.jpg";
-import image6 from "./../../../../static/assets/images/carousel-images/image6.jpg";
-
 const images = [
   {
-    original: image1,
-    thumbnail: image1,
+    original: "https://programacionunica.com/images/carousel-images/image1.jpg",
+    thumbnail: "https://programacionunica.com/images/carousel-images/image1.jpg",
   },
   {
-    original: image2,
-    thumbnail: image2,
+    original: "https://programacionunica.com/images/carousel-images/image2.jpg",
+    thumbnail: "https://programacionunica.com/images/carousel-images/image2.jpg",
   },
   {
-    original: image3,
-    thumbnail: image3,
+    original: "https://programacionunica.com/images/carousel-images/image3.jpg",
+    thumbnail: "https://programacionunica.com/images/carousel-images/image3.jpg",
   },
   {
-    original: image4,
-    thumbnail: image4,
+    original: "https://programacionunica.com/images/carousel-images/image4.jpg",
+    thumbnail: "https://programacionunica.com/images/carousel-images/image4.jpg",
   },
   {
-    original: image5,
-    thumbnail: image5,
+    original: "https://programacionunica.com/images/carousel-images/image5.jpg",
+    thumbnail: "https://programacionunica.com/images/carousel-images/image5.jpg",
   },
   {
-    original: image6,
-    thumbnail: image6,
+    original: "https://programacionunica.com/images/carousel-images/image6.jpg",
+    thumbnail: "https://programacionunica.com/images/carousel-images/image6.jpg",
   },
 ];
 

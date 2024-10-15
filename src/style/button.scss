@@ -22,7 +22,7 @@
     @include btn-save();
     background-color: $blue;
     &:hover {
-        background-color: darken($blue, 10%); 
+        background-color: $dark-blue; 
     }
 }
 

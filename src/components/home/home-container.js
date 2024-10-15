@@ -2,20 +2,6 @@ import React, { Component } from 'react';
 import CarouselImages from './carrousel/home-carrousel';
 import { withRouter } from 'react-router-dom';
 
-import music from "./../../../static/assets/images/categories/music.png";
-import persolacrow from "./../../../static/assets/images/categories/personalcrow.png";
-import program from "./../../../static/assets/images/categories/program.png";
-import dibujo from "./../../../static/assets/images/categories/dibujo.png";
-import marketing from "./../../../static/assets/images/categories/marketing.png";
-import fotografia from "./../../../static/assets/images/categories/fotografia.png";
-import Liderazgo from "./../../../static/assets/images/categories/liderazgo.png";
-import finanzas from "./../../../static/assets/images/categories/finanzas.png";
-
-
-
-import section from "./../../../static/assets/images/home/retrato-cuerpo-entero-hombre-feliz-confiado.png";
-
-
 class HomeContainer extends Component {
 
     handleCategoryClick = (categoryId) => {
@@ -37,7 +23,7 @@ class HomeContainer extends Component {
                         <span>Consulta nuestra oferta de formaciones y desarrolla tu carrera profesional</span>
                     </div>
                     <div className='home-section-course-image'>
-                        <img className="home-section-course-image-people" src={section} alt="section home image" />  
+                        <img className="home-section-course-image-people" src="https://programacionunica.com/images/home/retrato-cuerpo-entero-hombre-feliz-confiado.png" alt="section home image" />  
                     </div>
                 </div>
 
@@ -49,7 +35,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(1)}>
-                                <img src={program}></img>
+                                <img src="https://programacionunica.com/images/categories/program.png"></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Programación</p>
@@ -58,7 +44,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(2)}>
-                                <img src={dibujo}></img>
+                                <img src="https://programacionunica.com/images/categories/dibujo.png"></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Dibujo</p>
@@ -67,7 +53,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(3)}>
-                                <img src={marketing}></img>
+                                <img src="https://programacionunica.com/images/categories/marketing.png"></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Marketing</p>
@@ -76,7 +62,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(9)}>
-                                <img src={fotografia}></img>
+                                <img src="https://programacionunica.com/images/categories/fotografia.png"></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Fotografía</p>
@@ -85,7 +71,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(5)}>
-                                <img src={Liderazgo}></img>
+                                <img src="https://programacionunica.com/images/categories/liderazgo.png"></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Liderazgo</p>
@@ -94,7 +80,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(6)}>
-                                <img src={persolacrow}></img>
+                                <img src="https://programacionunica.com/images/categories/personalcrow.png"></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Crecimiento Personal</p>
@@ -103,7 +89,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(7)}>
-                                <img src={music}></img>
+                                <img src="https://programacionunica.com/images/categories/music.png"></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Música</p>
@@ -112,7 +98,7 @@ class HomeContainer extends Component {
                         <div className='home-section-categories-links-image'>
                             <div className='home-section-categories-links-image-button'
                                 onClick={() => this.handleCategoryClick(11)}>
-                                <img src={finanzas}></img>
+                                <img src="https://programacionunica.com/images/categories/finanzas.png"></img>
                             </div>
                             <div className='home-section-categories-links-image-text'>
                                 <p>Finanzas</p>
