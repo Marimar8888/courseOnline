@@ -61,7 +61,7 @@ const NavBarContainer = (props) => {
 
       <div className="left-side">
         <div className='logo'>
-          <img src='./assets/images/home/logo.png' alt='logo' />
+          <img src="https://programacionunica.com/images/home/logo.png" alt='logo' />
         </div>
         <div className="nav-link-wrapper">
           <NavLink exact to="/" activeClassName="nav-link-active">INICIO</NavLink>
